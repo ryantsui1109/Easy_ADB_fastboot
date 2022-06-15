@@ -1,0 +1,4 @@
+*node_modules/*
+*platform-tools/*
+*out/*
+*easy_adb_fastboot-win32-x64/*
