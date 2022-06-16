@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
+const isPackaged = require('electron-is-packaged').isPackaged;
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 600,
@@ -9,12 +10,13 @@ const createWindow = () => {
             // allowRunningInsecureContent: true
             nodeIntegration: true,
             contextIsolation: false,
-            devTools: false,
+            devTools: !isPackaged,
             icon: __dirname + './favicon_256.ico'
 
         }
     })
-    win.setMenu(null)
+    if (isPackaged) { win.setMenu(null) }
+
     win.webContents.openDevTools()
     win.loadFile('index.html')
 }

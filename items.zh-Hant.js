@@ -1,4 +1,4 @@
-let oprs = [{
+let oprs_zh_hant = [{
         "navbar": "Fastboot",
         "content": [{
                 "title": "重啟到",
@@ -131,3 +131,4 @@ let oprs = [{
     }
 
 ]
+let startActionBtn_zh_hant = '開始'
