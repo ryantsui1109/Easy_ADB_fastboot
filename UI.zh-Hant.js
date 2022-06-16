@@ -58,16 +58,28 @@ let oprs_zh_hant = [{
                     ["br", ""],
                 ]
             }, {
-                "title": "Fastboot flashing/oem",
+                "title": "Fastboot flashing",
                 "name": "flashing-menu",
                 "content": [
                     ["radio", "flashing_unlock", "checked"],
                     ["radio", "flashing_lock"],
                     ["radio", "flashing_unlock-critical"],
                     ["radio", "flashing_lock-critical"],
+                    ["radio", "flashing_get-unlock-ability"],
                     ["radio", "flashing_other"],
                     ["input", "flashing_input", "自訂指令"],
-                    ["check", "use_oem", "使用fastboot oem"],
+                    ["br", ""]
+                ]
+            }, {
+                "title": "Fastboot oem",
+                "name": "oem-menu",
+                "content": [
+                    ["radio", "oem_unlock", "checked"],
+                    ["radio", "oem_lock"],
+                    ["radio", "oem_unlock-critical"],
+                    ["radio", "oem_lock-critical"],
+                    ["radio", "oem_other"],
+                    ["input", "oem_input", "自訂OEM指令"],
                     ["br", ""]
                 ]
             },

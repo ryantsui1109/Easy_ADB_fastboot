@@ -1,4 +1,6 @@
-let oprs_en = [{
+let oprs_en = [
+
+    {
         "navbar": "Fastboot",
         "content": [{
                 "title": "Reboot to",
@@ -65,9 +67,21 @@ let oprs_en = [{
                     ["radio", "flashing_lock"],
                     ["radio", "flashing_unlock-critical"],
                     ["radio", "flashing_lock-critical"],
+                    ["radio", "flashing_get-unlock-ability"],
                     ["radio", "flashing_other"],
                     ["input", "flashing_input", "Custom command"],
-                    ["check", "use_oem", "Use oem instead of flashing"],
+                    ["br", ""]
+                ]
+            }, {
+                "title": "Fastboot oem",
+                "name": "oem-menu",
+                "content": [
+                    ["radio", "oem_unlock", "checked"],
+                    ["radio", "oem_lock"],
+                    ["radio", "oem_unlock-critical"],
+                    ["radio", "oem_lock-critical"],
+                    ["radio", "oem_other"],
+                    ["input", "oem_input", "Custom command"],
                     ["br", ""]
                 ]
             },
@@ -81,7 +95,9 @@ let oprs_en = [{
                 ]
             }
         ]
-    }, {
+    },
+
+    {
         "navbar": "Recovery",
         "content": [{
             "title": "Sideload flashable zip",
@@ -93,7 +109,9 @@ let oprs_en = [{
                 ["br", ""]
             ]
         }]
-    }, {
+    },
+
+    {
         "navbar": "System",
         "content": [{
             "title": "Push file to /sdcard",

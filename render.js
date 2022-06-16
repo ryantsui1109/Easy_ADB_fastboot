@@ -41,7 +41,6 @@ function startAction(optmode, opt) {
     let param = opt.split('-')[0]
     let params = []
 
-
     if (optmode != 'fastboot') { optmode = 'adb' }
     if (param == 'power' || param == 'system') { param = 'reboot' }
     if (param == 'active') { param = 'set_active' }
@@ -53,10 +52,6 @@ function startAction(optmode, opt) {
 
     if (param == 'erase' && document.getElementById('use_format').checked) {
         param = 'format'
-    }
-
-    if (param == 'flashing' && document.getElementById('use_oem').checked) {
-        param = 'oem'
     }
 
     params.push(param);
@@ -73,7 +68,7 @@ function startAction(optmode, opt) {
             }
 
             if (checkedRadio.split('_')[1] == 'system' && (param == 'reboot')) { optTarget = '' }
-
+            if (checkedRadio.split('_')[1] == 'get-unlock-ability') { optTarget = 'get_unlock_ability' }
             if (optTarget) { params.push(optTarget) }
         }
     }
