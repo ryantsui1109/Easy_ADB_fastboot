@@ -1,2 +1,6 @@
-notifaction
+notifaction auto close
 select devices
+split flashing and oem commands
+multi-language support
+adb network
+adb pull

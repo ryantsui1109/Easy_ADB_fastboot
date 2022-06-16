@@ -1,3 +1,14 @@
+console.log(navigator.language)
+let oprs = []
+let startActionBtn = ''
+if (navigator.language.includes('zh')) {
+    oprs = oprs_zh_hant
+    startActionBtn = startActionBtn_zh_hant
+} else {
+    oprs = oprs_en
+    startActionBtn = startActionBtn_en
+}
+
 const child = require('child_process');
 const adbPath = '.\\platform-tools\\adb.exe'
 const fastbootPath = '.\\platform-tools\\fastboot.exe'
@@ -237,7 +248,7 @@ jQuery(function() {
                 processOpt(card.content)
 
                 $('body').find(`#${card.name}`).append(`
-                <button type="button" class="btn btn-primary" id="${card.name}-btn" onclick="startAction('${currentOpr.toLowerCase()}','${card.name}')">Start action</button>`)
+                <button type="button" class="btn btn-primary" id="${card.name}-btn" onclick="startAction('${currentOpr.toLowerCase()}','${card.name}')">${startActionBtn}</button>`)
 
             }
         }

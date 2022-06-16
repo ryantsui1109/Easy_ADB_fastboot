@@ -1,4 +1,4 @@
-let oprs = [{
+let oprs_en = [{
         "navbar": "Fastboot",
         "content": [{
                 "title": "Reboot to",
@@ -131,3 +131,4 @@ let oprs = [{
     }
 
 ]
+let startActionBtn_en = 'Start Action'
