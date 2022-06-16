@@ -7,3 +7,4 @@ adb pull
 fastboot oem device-info
 fastboot flashing get_unlock_ability
 fastboot getvar
+specific file type
