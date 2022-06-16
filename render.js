@@ -1,4 +1,3 @@
-console.log(navigator.language)
 let oprs = []
 let startActionBtn = ''
 if (navigator.language.includes('zh')) {
@@ -14,6 +13,7 @@ const adbPath = '.\\platform-tools\\adb.exe'
 const fastbootPath = '.\\platform-tools\\fastboot.exe'
 
 function displayAlert(msg, typ) {
+    // 產生通知
     alertDiv = document.getElementById('alertDiv')
     var wrapper = document.createElement('div')
     wrapper.innerHTML = `<div class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
@@ -26,12 +26,14 @@ function displayAlert(msg, typ) {
 }
 
 function switchOprMode(oprmode) {
+    // 切換標籤
     $('.container').hide();
     $(`#${oprmode}-operations`).show();
     $('.alerts').show();
 }
 
 function startAction(optmode, opt) {
+    // 生成指令
     let hasRadio = true
     let hasFile = false
     let param = opt.split('-')[0]
@@ -136,6 +138,7 @@ jQuery(function() {
     function renderNavbar(items) {
         for (let x in items) {
             const item = items[x]
+                // 從items參數讀取上方導引欄並推入
             $('#navbar').append(`
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')">${item.navbar}</a>
@@ -149,19 +152,21 @@ jQuery(function() {
     function renderBody(oprs) {
         for (let x in oprs) {
             const item = oprs[x]
-            const template = `
-                <div class="container" id="${item.navbar.toLowerCase()}-operations">
-                </div>
-                `
-            if (item.navbar != "Fastboot") {
+            if (item.navbar == "Fastboot") {
+                // 上方導引欄對應的conatiner，按照id執行
+                // 預設啟動時顯示fastboot的操作
                 $('body').append(
                     `
-                <div class="container" id="${item.navbar.toLowerCase()}-operations" style="display:none;">
+                <div class="container" id="${item.navbar.toLowerCase()}-operations" >
                 </div>
                 `
                 );
             } else {
-                $('body').append(template);
+                // 對於非fastboot的操作，生成後隱藏
+                $('body').append(`
+                <div class="container" id="${item.navbar.toLowerCase()}-operations" style="display:none;">
+                </div>
+                `);
             }
         }
     }
@@ -174,7 +179,9 @@ jQuery(function() {
                 displayText = 'other'
             }
             if (opt[0] == 'radio') {
+                // 讀取items.js，並產生元素，radio為單選按鈕
                 if (opt[2] == 'checked') {
+                    // 第一個選項設為預設，較整齊
                     $('body').find(`#${card.name}`).append(
                         `<div class="${card.name}">
                     <input class="form-check-input" type="radio" name="${card.name}" id="${opt[1]}" checked>
@@ -196,6 +203,7 @@ jQuery(function() {
 
             }
             if (opt[0] == 'input') {
+                // 產生文字輸入框
                 $('body').find(`#${card.name}`).append(
                     `
                     <input type="text" placeholder="${opt[2]}" id="${opt[1]}" style="border: 1px solid rgba(0,0,0,.125);border-radius:.25rem;">
@@ -203,12 +211,13 @@ jQuery(function() {
                 )
             }
             if (opt[0] == 'file') {
+                // 產生檔案選擇器
                 $('body').find(`#${card.name}`).append(
                     `<input type="file" id="${opt[1]}">`
                 )
             }
             if (opt[0] == 'check') {
-
+                // 產生勾選框
                 $('body').find(`#${card.name}`).append(
                     `
                     <div class="form-check">
@@ -221,6 +230,7 @@ jQuery(function() {
                 )
             }
             if (opt[0] == 'br') {
+                // 針對排版產生換行符
                 $('body').find(`#${card.name}`).append(`<br>`)
             }
         }
@@ -233,20 +243,22 @@ jQuery(function() {
             for (let y in opr.content) {
                 card = opr.content[y]
                 currentCard = card.name
-
+                    //產生各式指令的卡片
                 $('body').find(`#${ currentOpr.toLowerCase()}-operations`).append(
                     `<div class="card"style = "margin-bottom: 1rem;" >
                     <div class="card-body" id="${card.name}">
                     <h4 class="card-title">${card.title}</h4></div></div>`
+                    // card.title為卡片的標題
                 )
                 if (card.subtitle != undefined) {
+                    // 若有，則產生副標題
                     $('body').find(`#${card.name}`).append(
                         `<h5 class="card-subtitle mb-2 text-muted">${card.subtitle}</h5>`
                     )
                 }
 
                 processOpt(card.content)
-
+                    // 開始按鈕
                 $('body').find(`#${card.name}`).append(`
                 <button type="button" class="btn btn-primary" id="${card.name}-btn" onclick="startAction('${currentOpr.toLowerCase()}','${card.name}')">${startActionBtn}</button>`)
 
