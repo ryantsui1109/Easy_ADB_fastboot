@@ -1,6 +1,6 @@
 {
     "name": "easy_adb_fastboot",
-    "version": "1.2.0",
+    "version": "1.2.2",
     "description": "A GUI tool for easier using ADB and fastboot",
     "main": "main.js",
     "scripts": {
