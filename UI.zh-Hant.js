@@ -7,7 +7,8 @@ let lang_zh = [{
                 ["input", "reboot_input", "其他模式"],
             ]
         }, {
-            "title": "從鏡像啟動",
+            "title": "從鏡像啟動（免刷入需機器支援）",
+            "name": "boot-menu"
         },
         {
             "title": "將鏡像刷入分區",
@@ -23,13 +24,13 @@ let lang_zh = [{
                 ["check", "use_format", "使用格式化"],
             ]
         }, {
-            "title": "Fastboot flashing",
+            "title": "執行 flashing 指令",
             "name": "flashing-menu",
             "content": [
                 ["input", "flashing_input", "自訂指令"],
             ]
         }, {
-            "title": "Fastboot oem",
+            "title": "執行 OEM 指令",
             "name": "oem-menu",
             "content": [
 
@@ -37,25 +38,25 @@ let lang_zh = [{
             ]
         },
         {
-            "title": "切換A/B分區",
+            "title": "切換 A/B 分區",
             "name": "active-menu",
         }
     ]
 }, {
     "navbar": "Recovery",
     "content": [{
-        "title": "Sideload刷機包",
-        "subtitle": "magisk請在此刷入",
+        "title": "安裝 Recovery 卡刷包",
+        "subtitle": "請在此刷入 magisk",
         "name": "sideload-menu",
     }]
 }, {
     "navbar": "System",
     "content": [{
-        "title": "將檔案push至/sdcard",
+        "title": "將檔案傳送至 /sdcard",
         "name": "push-menu",
     }, {
-        "title": "安裝apk檔案",
-        "subtitle": "用於安裝apk，magisk請移步",
+        "title": "安裝 apk 檔案",
+        "subtitle": "用於安裝 apk，非刷入 magisk",
         "name": "install-menu",
     }, {
         "title": "重啟到",

@@ -238,7 +238,7 @@ jQuery(function() {
                 processOpt(card.content)
                     // 開始按鈕
                 $('body').find(`#${card.name}`).append(`
-                <button type="button" class="btn btn-primary" id="${card.name}-btn" onclick="startAction('${currentOpr.toLowerCase()}','${card.name}')">${startActionBtn}</button>`)
+                <button type="button" class="btn btn-primary startAction-btn" id="${card.name}-btn" onclick="startAction('${currentOpr.toLowerCase()}','${card.name}')">${startActionBtn}</button>`)
             }
         }
     }
@@ -247,6 +247,7 @@ jQuery(function() {
         let lang = []
         if (navigator.language.includes('zh')) {
             lang = lang_zh
+            startActionBtn = startActionBtn_zh_hant
             for (let x of lang_zh) {
                 for (let y of x.content) {
                     $('body').find(`#${y.name}_title`).text(y.title);
@@ -270,8 +271,11 @@ jQuery(function() {
                     }
                 }
             }
+
+            $('body').find('.startAction-btn').text(startActionBtn)
         } else {}
     }
+
     renderNavbar(oprs)
     renderBody(oprs)
     renderCards(oprs)

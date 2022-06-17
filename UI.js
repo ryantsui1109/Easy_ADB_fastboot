@@ -60,7 +60,7 @@ const oprs_en = [
                     ["br", ""],
                 ]
             }, {
-                "title": "Fastboot flashing/oem",
+                "title": "Fastboot flashing",
                 "name": "flashing-menu",
                 "content": [
                     ["radio", "flashing_unlock", "checked"],
@@ -80,6 +80,7 @@ const oprs_en = [
                     ["radio", "oem_lock"],
                     ["radio", "oem_unlock-critical"],
                     ["radio", "oem_lock-critical"],
+                    ["radio", "oem_device-info"],
                     ["radio", "oem_other"],
                     ["input", "oem_input", "Custom command"],
                     ["br", ""]
