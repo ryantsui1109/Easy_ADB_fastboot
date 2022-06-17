@@ -1,4 +1,4 @@
-let oprs_en = [
+const oprs_en = [
 
     {
         "navbar": "Fastboot",

@@ -1,13 +1,16 @@
 let oprs = []
 let startActionBtn = ''
-if (navigator.language.includes('zh')) {
-    oprs = oprs_zh_hant
-    startActionBtn = startActionBtn_zh_hant
-} else {
-    oprs = oprs_en
-    startActionBtn = startActionBtn_en
-}
+    // if (navigator.language.includes('zh')) {
+    //     oprs = oprs_zh_hant
+    //     startActionBtn = startActionBtn_zh_hant
+    // } else {
+    //     oprs = oprs_en
+    //     startActionBtn = startActionBtn_en
+    // }
+oprs = oprs_en
+startActionBtn = startActionBtn_en
 
+const { computeSafeArtifactNameIfNeeded } = require('app-builder-lib/out/platformPackager');
 const child = require('child_process');
 const adbPath = '.\\platform-tools\\adb.exe'
 const fastbootPath = '.\\platform-tools\\fastboot.exe'
@@ -150,6 +153,9 @@ jQuery(function() {
             if (displayText === 'partition') {
                 displayText = 'other'
             }
+            if (displayText == 'get-unlock-ability') {
+                displayText = 'get_unlock_ability'
+            }
             if (opt[0] == 'radio') {
                 // 讀取items.js，並產生元素，radio為單選按鈕
                 if (opt[2] == 'checked') {
@@ -157,7 +163,7 @@ jQuery(function() {
                     $('body').find(`#${card.name}`).append(
                         `<div class="${card.name}">
                     <input class="form-check-input" type="radio" name="${card.name}" id="${opt[1]}" checked>
-                    <label class="form-check-label" for="${card.name}${Number(z)+1}">
+                    <label class="form-check-label" id="${opt[1]}_radio" for="${opt[1]}">
                             ${displayText}
                         </label>
                 </div>`
@@ -166,7 +172,7 @@ jQuery(function() {
                     $('body').find(`#${card.name}`).append(
                         `<div class="${card.name}">
                     <input class="form-check-input" type="radio" name="${card.name}" id="${opt[1]}">
-                    <label class="form-check-label" for="${card.name}${Number(z)+1}">
+                    <label class="form-check-label" id="${opt[1]}_radio" for="${opt[1]}">
                             ${displayText}
                         </label>
                 </div>`
@@ -194,7 +200,7 @@ jQuery(function() {
                     `
                     <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="${opt[1]}">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <label class="form-check-label" id="${opt[1]}_label" for="${opt[1]}">
                         ${opt[2]}
                 </label>
                     `
@@ -218,13 +224,15 @@ jQuery(function() {
                 $('body').find(`#${ currentOpr.toLowerCase()}-operations`).append(
                     `<div class="card"style = "margin-bottom: 1rem;" >
                     <div class="card-body" id="${card.name}">
-                    <h4 class="card-title">${card.title}</h4></div></div>`
+                    <h4 class="card-title" id="${card.name}_title">${card.title}</h4>
+                    </div>
+                    </div>`
                     // card.title為卡片的標題
                 )
                 if (card.subtitle != undefined) {
                     // 若有，則產生副標題
                     $('body').find(`#${card.name}`).append(
-                        `<h5 class="card-subtitle mb-2 text-muted">${card.subtitle}</h5>`
+                        `<h5 class="card-subtitle mb-2 text-muted" id="${card.name}_subtitle">${card.subtitle}</h5>`
                     )
                 }
                 processOpt(card.content)
@@ -234,7 +242,38 @@ jQuery(function() {
             }
         }
     }
+
+    function processLang() {
+        let lang = []
+        if (navigator.language.includes('zh')) {
+            lang = lang_zh
+            for (let x of lang_zh) {
+                for (let y of x.content) {
+                    $('body').find(`#${y.name}_title`).text(y.title);
+                    if (y.subtitle) {
+                        console.log(y.subtitle)
+                        $('body').find(`#${y.name}_subtitle`).text(y.subtitle)
+                    }
+                    for (let z in y.content) {
+                        item = y.content[z]
+                        if (item[0] == 'input') {
+                            $('body').find(`#${item[1]}`).attr('placeholder', item[2]);
+                        }
+                        if (item[0] == 'check') {
+                            $('body').find(`#${item[1]}_label`).text(item[2])
+                        }
+                        if (item[0] == 'radio') {
+                            console.log(item[2])
+                            console.log(`#${item[1]}_radio`)
+                            $('body').find(`#${item[1]}_radio`).text(item[2])
+                        }
+                    }
+                }
+            }
+        } else {}
+    }
     renderNavbar(oprs)
     renderBody(oprs)
     renderCards(oprs)
+    processLang()
 });
