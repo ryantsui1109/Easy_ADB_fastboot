@@ -252,7 +252,6 @@ jQuery(function() {
                 for (let y of x.content) {
                     $('body').find(`#${y.name}_title`).text(y.title);
                     if (y.subtitle) {
-                        console.log(y.subtitle)
                         $('body').find(`#${y.name}_subtitle`).text(y.subtitle)
                     }
                     for (let z in y.content) {
@@ -273,7 +272,7 @@ jQuery(function() {
             }
 
             $('body').find('.startAction-btn').text(startActionBtn)
-        } else {}
+        }
     }
 
     renderNavbar(oprs)
