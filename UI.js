@@ -85,8 +85,19 @@ const oprs_en = [
                     ["input", "oem_input", "Custom command"],
                     ["br", ""]
                 ]
-            },
-            {
+            }, {
+                "title": "Fastboot getvar",
+                "name": "getvar-menu",
+                "content": [
+                    ["radio", "getvar_all", "checked"],
+                    ["radio", "getvar_current-slot"],
+                    ["radio", "getvar_unlocked"],
+                    ["radio", "getvar_is-userspace"],
+                    ["radio", "getvar_other"],
+                    ["input", "getvar_input", "Custom variable"],
+                    ["br", ""]
+                ]
+            }, {
                 "title": "Switch active slot to",
                 "name": "active-menu",
                 "content": [

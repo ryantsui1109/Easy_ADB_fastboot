@@ -1,10 +1,7 @@
 notifaction auto close
 select devices
-split flashing and oem commands
-multi-language support
 adb network
 adb pull
-fastboot oem device-info
-fastboot flashing get_unlock_ability
 fastboot getvar
 specific file type
+auto update
