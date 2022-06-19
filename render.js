@@ -1,5 +1,6 @@
 let oprs = []
 let startActionBtn = ''
+let selectFile
     // if (navigator.language.includes('zh')) {
     //     oprs = oprs_zh_hant
     //     startActionBtn = startActionBtn_zh_hant
@@ -9,6 +10,7 @@ let startActionBtn = ''
     // }
 oprs = oprs_en
 startActionBtn = startActionBtn_en
+selectFile = selectFile_en
 
 const { computeSafeArtifactNameIfNeeded } = require('app-builder-lib/out/platformPackager');
 const child = require('child_process');
@@ -110,7 +112,9 @@ function startAction(optmode, opt) {
     })
 }
 
-
+function displayPath(target) {
+    console.log(target)
+}
 
 jQuery(function() {
     function renderNavbar(items) {
@@ -164,7 +168,7 @@ jQuery(function() {
                     $('body').find(`#${card.name}`).append(
                         `<div class="${card.name}">
                     <input class="form-check-input" type="radio" name="${card.name}" id="${opt[1]}" checked>
-                    <label class="form-check-label" id="${opt[1]}_radio" for="${opt[1]}">
+                    <label class="form-check-label" id="${opt[1]}_radio" for="${opt[1]}" style="cursor: pointer;">
                             ${displayText}
                         </label>
                 </div>`
@@ -189,11 +193,26 @@ jQuery(function() {
                     `
                 )
             }
+
             if (opt[0] == 'file') {
-                // 產生檔案選擇器
+                let optName = opt[1]
                 $('body').find(`#${card.name}`).append(
-                    `<input type="file" id="${opt[1]}">`
+                    `
+                    <button class="btn btn-primary" id="${optName}_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
+                      <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
+                     </svg> 
+                     ${selectFile}</button>
+                    <input id="${optName}" type="file" name="name" style="display: none;" />
+                    <h5 id="${optName}_path"></h5>
+                    `
                 )
+                $('body').find(`#${optName}_btn`).on('click', function() {
+                    document.getElementById(`${optName}`).click()
+                });
+                document.getElementById(`${optName}`).onchange = function() {
+                    let realPath = document.getElementById(`${optName}`).files[0].path
+                    $('body').find(`#${optName}_path`).text(realPath);
+                }
             }
             if (opt[0] == 'check') {
                 // 產生勾選框
@@ -249,6 +268,7 @@ jQuery(function() {
         if (navigator.language.includes('zh')) {
             lang = lang_zh
             startActionBtn = startActionBtn_zh_hant
+            selectFile = selectFile_zh_hant
             for (let x of lang_zh) {
                 for (let y of x.content) {
                     $('body').find(`#${y.name}_title`).text(y.title);
@@ -271,7 +291,11 @@ jQuery(function() {
                     }
                 }
             }
-
+            $('body').find('.custom-file-upload').text(``)
+            $('body').find('.custom-file-upload').append(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
+                        <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
+                        </svg> 
+                    ${selectFile}`)
             $('body').find('.startAction-btn').text(startActionBtn)
         }
     }
@@ -280,4 +304,5 @@ jQuery(function() {
     renderBody(oprs)
     renderCards(oprs)
     processLang()
+
 });

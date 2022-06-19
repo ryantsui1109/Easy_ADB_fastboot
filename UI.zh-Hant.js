@@ -1,4 +1,4 @@
-let lang_zh = [{
+const lang_zh = [{
     "navbar": "Fastboot",
     "content": [{
             "title": "重啟到",
@@ -66,4 +66,5 @@ let lang_zh = [{
         ]
     }]
 }]
-let startActionBtn_zh_hant = '開始'
+const startActionBtn_zh_hant = '開始'
+const selectFile_zh_hant = '選擇檔案'

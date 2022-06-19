@@ -161,4 +161,5 @@ const oprs_en = [
     }
 
 ]
-let startActionBtn_en = 'Start Action'
+const startActionBtn_en = 'Start Action'
+const selectFile_en = 'Choose a file'
