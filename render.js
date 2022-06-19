@@ -232,7 +232,7 @@ jQuery(function() {
                 if (card.subtitle != undefined) {
                     // 若有，則產生副標題
                     $('body').find(`#${card.name}`).append(
-                        `<h5 class="card-subtitle mb-2 text-muted" id="${card.name}_subtitle">${card.subtitle}</h5>`
+                        `<h5 class="card-subtitle mb-2 text-muted" id="${card.name}_subtitle" style="font-weight:380;">${card.subtitle}</h5>`
                     )
                 }
                 processOpt(card.content)

@@ -5,3 +5,5 @@ adb pull
 fastboot getvar
 specific file type
 auto update
+need unlocking
+auto update
