@@ -12,8 +12,7 @@ startActionBtn = startActionBtn_en
 
 const { computeSafeArtifactNameIfNeeded } = require('app-builder-lib/out/platformPackager');
 const child = require('child_process');
-const adbPath = '.\\platform-tools\\adb.exe'
-const fastbootPath = '.\\platform-tools\\fastboot.exe'
+
 
 function displayAlert(msg, typ) {
     // 產生通知
@@ -37,6 +36,8 @@ function switchOprMode(oprmode) {
 
 function startAction(optmode, opt) {
     // 生成指令
+    const adbPath = '.\\platform-tools\\adb.exe'
+    const fastbootPath = '.\\platform-tools\\fastboot.exe'
     let hasRadio = true
     let hasFile = false
     let targetHasFile = ['sideload', 'flash', 'install', 'push', 'boot']
