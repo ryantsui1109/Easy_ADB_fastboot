@@ -113,10 +113,6 @@ function startAction(optmode, opt) {
     })
 }
 
-function displayPath(target) {
-    console.log(target)
-}
-
 jQuery(function() {
     function renderNavbar(items) {
         for (let x in items) {
