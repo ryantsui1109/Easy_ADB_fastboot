@@ -5,6 +5,7 @@ const oprs_en = [
         "content": [{
                 "title": "Reboot to",
                 "name": "power-menu",
+                "needUnlock": false,
                 "content": [
                     ["radio", "reboot_bootloader", "checked"],
                     ["radio", "reboot_recovery"],
@@ -19,6 +20,7 @@ const oprs_en = [
             }, {
                 "title": "Boot a image",
                 "name": "boot-menu",
+                "needUnlock": true,
                 "content": [
                     ["file", "boot_file"],
                     ["br", ""],
@@ -28,6 +30,7 @@ const oprs_en = [
             {
                 "title": "Flash image to partition",
                 "name": "flash-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "flash_boot", "checked"],
                     ["radio", "flash_recovery"],
@@ -39,6 +42,7 @@ const oprs_en = [
                     ["radio", "flash_other"],
                     ["input", "flash_input", "Partition to flash"],
                     ["br", ""],
+
                     ["file", "flash_file"],
                     ["br", ""],
                     ["br", ""]
@@ -46,13 +50,13 @@ const oprs_en = [
             }, {
                 "title": "Erase partition",
                 "name": "erase-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "erase_boot", "checked"],
                     ["radio", "erase_recovery"],
                     ["radio", "erase_super"],
                     ["radio", "erase_system"],
                     ["radio", "erase_vendor"],
-                    ["radio", "erase_boot"],
                     ["radio", "erase_cache"],
                     ["radio", "erase_other"],
                     ["input", "erase_input", "Partition to erase"],
@@ -62,6 +66,7 @@ const oprs_en = [
             }, {
                 "title": "Fastboot flashing",
                 "name": "flashing-menu",
+                "needUnlock": false,
                 "content": [
                     ["radio", "flashing_unlock", "checked"],
                     ["radio", "flashing_lock"],
@@ -75,6 +80,7 @@ const oprs_en = [
             }, {
                 "title": "Fastboot oem",
                 "name": "oem-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "oem_unlock", "checked"],
                     ["radio", "oem_lock"],
@@ -88,11 +94,13 @@ const oprs_en = [
             }, {
                 "title": "Fastboot getvar",
                 "name": "getvar-menu",
+                "needUnlock": false,
                 "content": [
                     ["radio", "getvar_all", "checked"],
                     ["radio", "getvar_current-slot"],
                     ["radio", "getvar_unlocked"],
                     ["radio", "getvar_is-userspace"],
+                    ["radio", "getvar_anti"],
                     ["radio", "getvar_other"],
                     ["input", "getvar_input", "Custom variable"],
                     ["br", ""]
@@ -100,6 +108,7 @@ const oprs_en = [
             }, {
                 "title": "Switch active slot to",
                 "name": "active-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "_a", "checked"],
                     ["radio", "_b"],
