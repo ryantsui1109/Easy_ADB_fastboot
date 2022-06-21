@@ -4,21 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';img-src  data: ;">
-    <script src="./items.en.js"></script>
-    <script src="./items.zh-Hant.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;">
+    <script src="./UI.js"></script>
+    <script src="./UI.zh-Hant.js"></script>
     <script>
         window.$ = window.jQuery = require('jquery');
         require('bootstrap')
         require('@popperjs/core')
     </script>
-
-
-
     <script src="./render.js"></script>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
-    <title>Easy ADB and fastboot</title </head>
+
+
     <style>
+        @import url('./res/HarmonyOS_Sans_TC/stylesheet.css');
         html {
             scrollbar-width: none;
             /* For Firefox */
@@ -30,15 +29,21 @@
             width: 0px;
             /* For Chrome, Safari, and Opera */
         }
+        
+        * {
+            font-family: HarmonyOS Sans TC;
+        }
     </style>
 
-    <body>
-        <div class="container alerts">
-            <div id="alertDiv"></div>
-        </div>
-        <ul class="nav justify-content-center" id="navbar">
+    <title>Easy ADB and fastboot</title>
+</head>
 
-        </ul>
-    </body>
+<body>
+    <div class="container alerts">
+        <div id="alertDiv"></div>
+    </div>
+    <ul class="nav justify-content-center" id="navbar">
+    </ul>
+</body>
 
 </html>

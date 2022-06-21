@@ -1,8 +1,11 @@
-let oprs_en = [{
+const oprs_en = [
+
+    {
         "navbar": "Fastboot",
         "content": [{
                 "title": "Reboot to",
                 "name": "power-menu",
+                "needUnlock": false,
                 "content": [
                     ["radio", "reboot_bootloader", "checked"],
                     ["radio", "reboot_recovery"],
@@ -17,6 +20,7 @@ let oprs_en = [{
             }, {
                 "title": "Boot a image",
                 "name": "boot-menu",
+                "needUnlock": true,
                 "content": [
                     ["file", "boot_file"],
                     ["br", ""],
@@ -26,6 +30,7 @@ let oprs_en = [{
             {
                 "title": "Flash image to partition",
                 "name": "flash-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "flash_boot", "checked"],
                     ["radio", "flash_recovery"],
@@ -37,6 +42,7 @@ let oprs_en = [{
                     ["radio", "flash_other"],
                     ["input", "flash_input", "Partition to flash"],
                     ["br", ""],
+
                     ["file", "flash_file"],
                     ["br", ""],
                     ["br", ""]
@@ -44,13 +50,13 @@ let oprs_en = [{
             }, {
                 "title": "Erase partition",
                 "name": "erase-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "erase_boot", "checked"],
                     ["radio", "erase_recovery"],
                     ["radio", "erase_super"],
                     ["radio", "erase_system"],
                     ["radio", "erase_vendor"],
-                    ["radio", "erase_boot"],
                     ["radio", "erase_cache"],
                     ["radio", "erase_other"],
                     ["input", "erase_input", "Partition to erase"],
@@ -58,22 +64,51 @@ let oprs_en = [{
                     ["br", ""],
                 ]
             }, {
-                "title": "Fastboot flashing/oem",
+                "title": "Fastboot flashing",
                 "name": "flashing-menu",
+                "needUnlock": false,
                 "content": [
                     ["radio", "flashing_unlock", "checked"],
                     ["radio", "flashing_lock"],
                     ["radio", "flashing_unlock-critical"],
                     ["radio", "flashing_lock-critical"],
+                    ["radio", "flashing_get-unlock-ability"],
                     ["radio", "flashing_other"],
                     ["input", "flashing_input", "Custom command"],
-                    ["check", "use_oem", "Use oem instead of flashing"],
                     ["br", ""]
                 ]
-            },
-            {
+            }, {
+                "title": "Fastboot oem",
+                "name": "oem-menu",
+                "needUnlock": true,
+                "content": [
+                    ["radio", "oem_unlock", "checked"],
+                    ["radio", "oem_lock"],
+                    ["radio", "oem_unlock-critical"],
+                    ["radio", "oem_lock-critical"],
+                    ["radio", "oem_device-info"],
+                    ["radio", "oem_other"],
+                    ["input", "oem_input", "Custom command"],
+                    ["br", ""]
+                ]
+            }, {
+                "title": "Fastboot getvar",
+                "name": "getvar-menu",
+                "needUnlock": false,
+                "content": [
+                    ["radio", "getvar_all", "checked"],
+                    ["radio", "getvar_current-slot"],
+                    ["radio", "getvar_unlocked"],
+                    ["radio", "getvar_is-userspace"],
+                    ["radio", "getvar_anti"],
+                    ["radio", "getvar_other"],
+                    ["input", "getvar_input", "Custom variable"],
+                    ["br", ""]
+                ]
+            }, {
                 "title": "Switch active slot to",
                 "name": "active-menu",
+                "needUnlock": true,
                 "content": [
                     ["radio", "_a", "checked"],
                     ["radio", "_b"],
@@ -81,7 +116,9 @@ let oprs_en = [{
                 ]
             }
         ]
-    }, {
+    },
+
+    {
         "navbar": "Recovery",
         "content": [{
             "title": "Sideload flashable zip",
@@ -93,7 +130,9 @@ let oprs_en = [{
                 ["br", ""]
             ]
         }]
-    }, {
+    },
+
+    {
         "navbar": "System",
         "content": [{
             "title": "Push file to /sdcard",
@@ -131,4 +170,5 @@ let oprs_en = [{
     }
 
 ]
-let startActionBtn_en = 'Start Action'
+const startActionBtn_en = 'Start Action'
+const selectFile_en = 'Choose a file'
