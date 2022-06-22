@@ -1,119 +1,34 @@
 let oprs = []
 let startActionBtn = ''
 let selectFile
-    // if (navigator.language.includes('zh')) {
-    //     oprs = oprs_zh_hant
-    //     startActionBtn = startActionBtn_zh_hant
-    // } else {
-    //     oprs = oprs_en
-    //     startActionBtn = startActionBtn_en
-    // }
+
 oprs = oprs_en
 startActionBtn = startActionBtn_en
 selectFile = selectFile_en
 
-const { computeSafeArtifactNameIfNeeded } = require('app-builder-lib/out/platformPackager');
-const child = require('child_process');
-
-
-function displayAlert(msg, typ) {
-    // 產生通知
-    alertDiv = document.getElementById('alertDiv')
-    var wrapper = document.createElement('div')
-    wrapper.innerHTML = `<div class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
+jQuery(function() {
+    function displayAlert(msg, typ) {
+        // 產生通知
+        alertDiv = document.getElementById('alertDiv')
+        var wrapper = document.createElement('div')
+        wrapper.innerHTML = `<div class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
         ${msg}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     </button>
     </div>`
 
-    alertDiv.prepend(wrapper)
-}
-
-function switchOprMode(oprmode) {
-    // 切換標籤
-    $('.container').hide();
-    $(`#${oprmode}-operations`).show();
-
-    $('.alerts').show();
-}
-
-function startAction(optmode, opt) {
-    // 生成指令
-    const adbPath = '.\\platform-tools\\adb.exe'
-    const fastbootPath = '.\\platform-tools\\fastboot.exe'
-    let hasRadio = true
-    let hasFile = false
-    let targetHasFile = ['sideload', 'flash', 'install', 'push', 'boot']
-    let targetHasNoRadio = ['sideload', 'install', 'push', 'boot']
-    let param = opt.split('-')[0]
-    let params = []
-
-    if (optmode != 'fastboot') { optmode = 'adb' }
-    if (param == 'power' || param == 'system') { param = 'reboot' }
-    if (param == 'active') { param = 'set_active' }
-
-    if (targetHasNoRadio.includes(param)) { hasRadio = false }
-    if (optmode == 'adb' && param == 'reboot') { hasRadio = true }
-
-    if (targetHasFile.includes(param)) { hasFile = true }
-
-    if (param == 'erase' && document.getElementById('use_format').checked) {
-        param = 'format'
+        alertDiv.prepend(wrapper)
     }
 
-    params.push(param);
-    if (hasRadio) {
-        let checkedRadio = document.querySelector(`input[name="${opt}"]:checked`).id
-        if (checkedRadio.split('_')[1] == 'other') {
-            params.push($(`#${checkedRadio.split('_')[0]}_input`).val())
-        } else {
-            let optTarget = ''
-            if (checkedRadio.split('_')[1] == 'fastbootd') {
-                optTarget = 'fastboot'
-            } else {
-                optTarget = checkedRadio.split('_')[1]
-            }
+    function switchOprMode(oprmode) {
+        // 切換標籤
+        $('.container').hide();
+        $(`#${oprmode}-operations`).show();
 
-            if (checkedRadio.split('_')[1] == 'system' && (param == 'reboot')) { optTarget = '' }
-            if (checkedRadio.split('_')[1] == 'get-unlock-ability') { optTarget = 'get_unlock_ability' }
-            if (optTarget) { params.push(optTarget) }
-        }
+        $('.alerts').show();
     }
 
-    if (hasFile) {
-        params.push(document.getElementById(`${param}_file`).files[0].path)
-    }
-    if (param == 'push') { params.push('/sdcard/') }
 
-    let cmd = ''
-    if (optmode == 'fastboot') {
-        cmd = fastbootPath
-    }
-    if (optmode == 'adb') {
-        cmd = adbPath
-    }
-    for (x of params) {
-        cmd += ' '
-        cmd += x
-    }
-    child.exec(cmd, (error, stdout, stderr) => {
-        if (error) {
-            let errmsg = ''
-            for (x of error.message.split('\n')) {
-                errmsg += (`<p>${x}</p>`)
-            }
-            displayAlert(errmsg, 'danger')
-        } else {
-            let logmsg = ''
-            for (x of stderr.split('\n')) {
-                logmsg += (`<p>${x}</p>`)
-            }
-            displayAlert(logmsg, 'success')
-        }
-    })
-}
-
-jQuery(function() {
     function renderNavbar(items) {
         for (let x in items) {
             const item = items[x]
@@ -151,9 +66,9 @@ jQuery(function() {
                 currentCard = card.name
                     //產生各式指令的卡片
                 $('body').find(`#${ currentOpr.toLowerCase()}-operations`).append(
-                    `<div class="card rounded-lg" style="margin-bottom: 1.5rem;" >
+                    `<div class="card rounded-lg border-0" style="margin-bottom: 1.5rem;" >
                     <div class="card-body" id="${card.name}">
-                    <h4 class="card-title" id="${card.name}_title">${card.title}</h4>
+                    <h3 class="card-title" id="${card.name}_title">${card.title}</h3>
                     </div>
                     </div>
                     `
@@ -293,5 +208,4 @@ jQuery(function() {
     renderBody(oprs)
     renderCards(oprs)
     processLang()
-
 });
