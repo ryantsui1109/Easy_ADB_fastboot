@@ -6,19 +6,20 @@ oprs = oprs_en
 startActionBtn = startActionBtn_en
 selectFile = selectFile_en
 
-jQuery(function() {
-    function displayAlert(msg, typ) {
-        // 產生通知
-        alertDiv = document.getElementById('alertDiv')
-        var wrapper = document.createElement('div')
-        wrapper.innerHTML = `<div class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
+function displayAlert(msg, typ) {
+    // 產生通知
+    alertDiv = document.getElementById('alertDiv')
+    var wrapper = document.createElement('div')
+    wrapper.innerHTML = `<div class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
         ${msg}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     </button>
     </div>`
 
-        alertDiv.prepend(wrapper)
-    }
+    alertDiv.prepend(wrapper)
+}
+
+jQuery(function() {
 
     function switchOprMode(oprmode) {
         // 切換標籤
