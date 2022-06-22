@@ -22,25 +22,11 @@ function displayAlert(msg, typ) {
 jQuery(function() {
 
     function switchOprMode(oprmode) {
-        // 切換標籤
-        $('.container').hide();
-        $(`#${oprmode}-operations`).show();
 
-        $('.alerts').show();
     }
 
 
-    function renderNavbar(items) {
-        for (let x in items) {
-            const item = items[x]
-                // 從items參數讀取上方導引欄並推入
-            $('#navbar').append(`
-                <li class="nav-item">
-                    <a class="nav-link navbar-items" href="javascript:void(0)" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')">${item.navbar}</a>
-                </li>
-                `);
-        }
-    }
+
 
     function renderBody(oprs) {
         for (let x in oprs) {
@@ -48,11 +34,11 @@ jQuery(function() {
 
             $('body').append(
                 `
-                <div class="container" id="${item.navbar.toLowerCase()}-operations" style="display:none;">
+                <div class="container" id="${item.navbar.toLowerCase()}-operations">
                 </div>
                 `
             );
-            $('body').find('#fastboot-operations').show()
+            // $('body').find('#fastboot-operations').show()
 
         }
     }
@@ -205,7 +191,6 @@ jQuery(function() {
         }
     }
 
-    renderNavbar(oprs)
     renderBody(oprs)
     renderCards(oprs)
     processLang()
