@@ -1,15 +1,25 @@
 const child = require('child_process');
+const { stdout, stderr } = require('process');
+
+const adbPath = '.\\platform-tools\\adb.exe'
+const fastbootPath = '.\\platform-tools\\fastboot.exe'
+
+let foundDevices = []
+
+child.exec(`${adbPath} start-server`, (error, stdout, stderr) => {
+    console.log(stderr)
+})
 
 function startAction(optmode, opt) {
     // 生成指令
-    const adbPath = '.\\platform-tools\\adb.exe'
-    const fastbootPath = '.\\platform-tools\\fastboot.exe'
+
     let hasRadio = true
     let hasFile = false
     let targetHasFile = ['sideload', 'flash', 'install', 'push', 'boot']
     let targetHasNoRadio = ['sideload', 'install', 'push', 'boot']
     let param = opt.split('-')[0]
     let params = []
+    let cmdByArray = ''
 
     if (optmode != 'fastboot') { optmode = 'adb' }
     if (param == 'power' || param == 'system') { param = 'reboot' }
@@ -51,27 +61,78 @@ function startAction(optmode, opt) {
     let cmd = ''
     if (optmode == 'fastboot') {
         cmd = fastbootPath
+        cmdByArray = fastbootPath
     }
     if (optmode == 'adb') {
         cmd = adbPath
+        cmdByArray = fastbootPath
     }
     for (x of params) {
         cmd += ' '
         cmd += x
     }
+    // child.exec(cmd, (error, stderr, stdout) => {
+    //     console.log(error)
+    //     console.log(stdout)
+    //     console.log(stderr)
+    //     if (error) {
+    //         let errmsg = ''
+    //         for (x of error.message.split('\n')) {
+    //             errmsg += (`<p>${x}</p>`)
+    //         }
+    //         displayAlert(errmsg, 'danger')
+    //     } else {
+    //         let logmsg = ''
+    //         for (x of stderr.split('\n')) {
+    //             logmsg += (`<p>${x}</p>`)
+    //         }
+    //         displayAlert(logmsg, 'success')
+    //     }
+    // })
+    let startTime = Date.now().toString()
+    runCommand = child.spawn(cmdByArray, params)
+
+
+    runCommand.stdout.on('data', (data) => {
+        console.log(`${data}`);
+        displayAlert(data, 'info', startTime)
+    });
+
+    runCommand.stderr.on('data', (data) => {
+        console.log(`${data}`);
+        displayAlert(data, 'info', startTime)
+    });
+
+
+}
+
+function refreshDevices() {
+
+    foundDevices = []
+    let cmd = ''
+    let callingExe = ''
+    if (currentOprMode == 'fastboot') {
+        cmd = fastbootPath
+        callingExe = 'fastboot'
+    }
+    if (currentOprMode == 'recovery' || currentOprMode == 'system') {
+        cmd = adbPath
+        callingExe = 'adb'
+    }
+
+    cmd += ' devices'
+
+
     child.exec(cmd, (error, stdout, stderr) => {
-        if (error) {
-            let errmsg = ''
-            for (x of error.message.split('\n')) {
-                errmsg += (`<p>${x}</p>`)
+        for (x of stdout.split('\n')) {
+            if (x) {
+                foundDevices.push(x.split('\t')[0])
             }
-            displayAlert(errmsg, 'danger')
-        } else {
-            let logmsg = ''
-            for (x of stderr.split('\n')) {
-                logmsg += (`<p>${x}</p>`)
-            }
-            displayAlert(logmsg, 'success')
         }
+        if (callingExe == 'adb') {
+            foundDevices.shift()
+            foundDevices.pop()
+        }
+        console.log(foundDevices)
     })
 }

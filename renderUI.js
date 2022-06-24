@@ -1,44 +1,62 @@
 let oprs = []
 let startActionBtn = ''
 let selectFile
+let currentOprMode = 'fastboot'
 
 oprs = oprs_en
 startActionBtn = startActionBtn_en
 selectFile = selectFile_en
 
-function displayAlert(msg, typ) {
+function displayAlert(msg, typ, alertId) {
+
     // 產生通知
-    alertDiv = document.getElementById('alertDiv')
-    var wrapper = document.createElement('div')
-    wrapper.innerHTML = `<div class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
-        ${msg}
+    let alertDiv = $('body').find('#alertDiv');
+    if ($('body').find(`#${alertId}`).length) {
+        $('body').find(`#${alertId}`).append(
+            `
+            <h5>    
+                ${msg}
+            </h5>
+            `
+        )
+    } else {
+        alertBox = `<div id="${alertId}" class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
+    <h5>    
+    ${msg}
+    </h5>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     </button>
     </div>`
 
-    alertDiv.prepend(wrapper)
+        alertDiv.prepend(alertBox)
+    }
+
+}
+
+function switchOprMode(oprmode) {
+    // 切換標籤
+    $('.container').hide();
+    $(`#${oprmode}-operations`).show();
+
+    $('.alerts').show();
+
+    currentOprMode = oprmode
 }
 
 jQuery(function() {
 
-    function switchOprMode(oprmode) {
-        // 切換標籤
-        $('.container').hide();
-        $(`#${oprmode}-operations`).show();
-
-        $('.alerts').show();
-    }
 
 
     function renderNavbar(items) {
         for (let x in items) {
             const item = items[x]
                 // 從items參數讀取上方導引欄並推入
-            $('#navbar').append(`
-                <li class="nav-item">
-                    <a class="nav-link navbar-items" href="javascript:void(0)" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')">${item.navbar}</a>
-                </li>
-                `);
+            $('#navbar').append(` <li clas ="nav-item">
+            <a class="nav-link navbar-items" href="javascript:void(0)" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
+            ${item.navbar}
+             </a> 
+             </li>
+            `);
         }
     }
 
@@ -47,10 +65,9 @@ jQuery(function() {
             const item = oprs[x]
 
             $('body').append(
-                `
-                <div class="container" id="${item.navbar.toLowerCase()}-operations" style="display:none;">
-                </div>
-                `
+                ` <div class="container"id="${item.navbar.toLowerCase()}-operations"style="display:none;">
+            </div>
+            `
             );
             $('body').find('#fastboot-operations').show()
 
@@ -66,19 +83,18 @@ jQuery(function() {
                 card = opr.content[y]
                 currentCard = card.name
                     //產生各式指令的卡片
-                $('body').find(`#${ currentOpr.toLowerCase()}-operations`).append(
-                    `<div class="card rounded-lg border-0" style="margin-bottom: 1.5rem;" >
-                    <div class="card-body" id="${card.name}">
-                    <h3 class="card-title" id="${card.name}_title">${card.title}</h3>
-                    </div>
-                    </div>
-                    `
+                $('body').find(`#${ currentOpr.toLowerCase() }-operations `).append(
+                    ` <div class="card rounded-lg border-0"style="margin-bottom: 1.5rem;">
+            <div class="card-body"
+            id="${card.name}">
+            <h3 class="card-title"id="${card.name}_title"> ${ card.title } </h3> </div> </div>
+            `
                     // card.title為卡片的標題
                 )
                 if (card.subtitle != undefined) {
                     // 若有，則產生副標題
-                    $('body').find(`#${card.name}`).append(
-                        `<h5 class="card-subtitle mb-2 text-muted" id="${card.name}_subtitle" style="font-weight:380;">${card.subtitle}</h5>`
+                    $('body').find(`#${ card.name }`).append(
+                        ` <h5 class="card-subtitle mb-2 text-muted"id="${card.name}_subtitle"style="font-weight:380;"> ${ card.subtitle } </h5>`
                     )
                 }
                 processOpt(card.content)

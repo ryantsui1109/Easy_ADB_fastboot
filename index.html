@@ -40,11 +40,40 @@
 </head>
 
 <body>
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="manage-devices" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select devices (by S/N)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button type="button" class="btn btn-primary" onclick="refreshDevices()">Refresh</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="container alerts">
         <div id="alertDiv"></div>
     </div>
     <ul class="nav justify-content-center" id="navbar">
     </ul>
+    <div class="container d-flex justify-content-center">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#manage-devices">
+      Select devices
+    </button>
+    </div>
 </body>
 
 </html>
