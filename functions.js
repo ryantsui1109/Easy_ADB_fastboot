@@ -148,7 +148,6 @@ function refreshDevices() {
       foundDevices.shift();
       foundDevices.pop();
     }
-    console.log(foundDevices);
     renderDevices(foundDevices);
   });
 }

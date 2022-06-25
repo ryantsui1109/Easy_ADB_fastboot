@@ -144,6 +144,21 @@ const oprs_en = [
     navbar: "System",
     content: [
       {
+        title: "Reboot to",
+        name: "system-power-menu",
+        content: [
+          ["radio", "system-reboot_bootloader", "checked"],
+          ["radio", "system-reboot_recovery"],
+          ["radio", "system-reboot_fastbootd"],
+          ["radio", "system-reboot_system"],
+          ["radio", "system-reboot_sideload"],
+          ["radio", "system-reboot_other"],
+          ["input", "system-reboot_input", "Other target"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+      {
         title: "Push file to /sdcard",
         name: "push-menu",
         content: [
@@ -158,21 +173,6 @@ const oprs_en = [
         name: "install-menu",
         content: [
           ["file", "install_file"],
-          ["br", ""],
-          ["br", ""],
-        ],
-      },
-      {
-        title: "Reboot to",
-        name: "system-power-menu",
-        content: [
-          ["radio", "system-reboot_bootloader", "checked"],
-          ["radio", "system-reboot_recovery"],
-          ["radio", "system-reboot_fastbootd"],
-          ["radio", "system-reboot_system"],
-          ["radio", "system-reboot_sideload"],
-          ["radio", "system-reboot_other"],
-          ["input", "system-reboot_input", "Other target"],
           ["br", ""],
           ["br", ""],
         ],

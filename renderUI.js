@@ -44,7 +44,6 @@ function switchOprMode(oprmode) {
 }
 
 function renderDevices(devices) {
-  console.log(devices);
   $("body").find("#deviceList").empty();
   for (x of devices) {
     if (x) {
@@ -70,7 +69,7 @@ jQuery(function () {
       const item = items[x];
       // 從items參數讀取上方導引欄並推入
       $("#navbar").append(` <li clas ="nav-item">
-            <a class="nav-link navbar-items" href="javascript:void(0)" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
+            <a class="nav-link navbar-items" href="javascript:refreshDevices()" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
             ${item.navbar}
              </a> 
              </li>
@@ -260,4 +259,5 @@ jQuery(function () {
   renderBody(oprs);
   renderCards(oprs);
   processLang();
+  refreshDevices();
 });
