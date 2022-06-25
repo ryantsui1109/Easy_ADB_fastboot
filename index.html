@@ -1,79 +1,111 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;"
+    />
     <script src="./UI.js"></script>
     <script src="./UI.zh-Hant.js"></script>
     <script>
-        window.$ = window.jQuery = require('jquery');
-        require('bootstrap')
-        require('@popperjs/core')
+      window.$ = window.jQuery = require("jquery");
+      require("bootstrap");
+      require("@popperjs/core");
     </script>
     <script src="./renderUI.js"></script>
     <script src="./functions.js"></script>
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
-
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.css"
+    />
 
     <style>
-        @import url('./res/HarmonyOS_Sans_TC/stylesheet.css');
-        html {
-            scrollbar-width: none;
-            /* For Firefox */
-            -ms-overflow-style: none;
-            /* For Internet Explorer and Edge */
-        }
-        
-        html::-webkit-scrollbar {
-            width: 0px;
-            /* For Chrome, Safari, and Opera */
-        }
-        
-        * {
-            font-family: HarmonyOS Sans TC;
-        }
+      @import url("./res/HarmonyOS_Sans_TC/stylesheet.css");
+      html {
+        scrollbar-width: none;
+        /* For Firefox */
+        -ms-overflow-style: none;
+        /* For Internet Explorer and Edge */
+      }
+
+      html::-webkit-scrollbar {
+        width: 0px;
+        /* For Chrome, Safari, and Opera */
+      }
+
+      * {
+        font-family: HarmonyOS Sans TC;
+      }
     </style>
 
     <title>Easy ADB and fastboot</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Button trigger modal -->
 
-
     <!-- Modal -->
-    <div class="modal fade" id="manage-devices" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select devices (by S/N)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <button type="button" class="btn btn-primary" onclick="refreshDevices()">Refresh</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
+    <div
+      class="modal fade"
+      data-bs-backdrop="static"
+      id="manage-devices"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modal-title"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Select devices (by S/N)</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-column">
+            <button
+              type="button"
+              class="btn btn-primary align-self-center col-2"
+              onclick="refreshDevices()"
+            >
+              Refresh
+            </button>
+            <div
+              id="deviceList"
+              class="d-flex justify-content-center flex-column"
+            ></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="selectDevice()"
+            >
+              Save
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-
-
 
     <div class="container alerts">
-        <div id="alertDiv"></div>
+      <div id="alertDiv"></div>
     </div>
-    <ul class="nav justify-content-center" id="navbar">
-    </ul>
+    <ul class="nav justify-content-center" id="navbar"></ul>
     <div class="container d-flex justify-content-center">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#manage-devices">
-      Select devices
-    </button>
+      <button
+        type="button"
+        class="btn btn-primary mb-2"
+        data-bs-toggle="modal"
+        data-bs-target="#manage-devices"
+      >
+        Select devices
+      </button>
     </div>
-</body>
-
+  </body>
 </html>
