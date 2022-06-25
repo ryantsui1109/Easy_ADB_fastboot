@@ -1,6 +1,6 @@
 {
     "name": "easy_adb_fastboot",
-    "version": "1.3.4",
+    "version": "1.3.5",
     "description": "A GUI tool for easier using ADB and fastboot",
     "main": "main.js",
     "scripts": {
@@ -40,14 +40,12 @@
             "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
         ],
         "win": {
-            "target": [
-                {
-                    "target": "portable",
-                    "arch": [
-                        "x64"
-                    ]
-                }
-            ]
+            "target": [{
+                "target": "portable",
+                "arch": [
+                    "x64"
+                ]
+            }]
         }
     }
 }
