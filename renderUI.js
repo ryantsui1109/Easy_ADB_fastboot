@@ -7,62 +7,19 @@ oprs = oprs_en;
 startActionBtn = startActionBtn_en;
 selectFile = selectFile_en;
 
-function displayAlert(msg, typ, alertId) {
-  // 產生通知
-  let alertDiv = $("body").find("#alertDiv");
-  if ($("body").find(`#${alertId}`).length) {
-    $("body")
-      .find(`#${alertId}`)
-      .append(
-        `
-            <h5>    
-                ${msg}
-            </h5>
-            `
-      );
-  } else {
-    let alertBox = `<div id="${alertId}" class="alert alert-${typ} alert-dismissible" role="alert" style="transition:0.2s;">
-            <h5>    
-            ${msg}
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            </button>
-            </div>`;
 
-    alertDiv.prepend(alertBox);
-  }
-}
 
 function switchOprMode(oprmode) {
   // 切換標籤
   $(".container").hide();
   $(`#${oprmode}-operations`).show();
 
-  $(".alerts").show();
+
 
   currentOprMode = oprmode;
 }
 
-function renderDevices(devices) {
-  console.log(devices);
-  $("body").find("#deviceList").empty();
-  for (x of devices) {
-    if (x) {
-      $("body")
-        .find("#deviceList")
-        .append(
-          `
-            <div class="form-check align-self-center">
-                <input class="form-check-input" type="checkbox" value="${x}" id="${x}" checked>
-                <label class="form-check-label" for="${x}">
-                    ${x}
-                </label>
-            </div>
-            `
-        );
-    }
-  }
-}
+
 
 jQuery(function () {
   function renderNavbar(items) {
@@ -256,8 +213,4 @@ jQuery(function () {
     }
   }
 
-  renderNavbar(oprs);
-  renderBody(oprs);
-  renderCards(oprs);
-  processLang();
-});
+
