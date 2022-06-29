@@ -84,7 +84,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              onclick="selectDevice()"
+              onclick="selectDevice(foundDevices)"
             >
               Save
             </button>
@@ -103,7 +103,7 @@
         class="btn btn-primary mb-2"
         data-bs-toggle="modal"
         data-bs-target="#manage-devices"
-        onclick="refreshDevices()"
+        onclick="refreshDevices();selectDevice();"
       >
         Select devices
       </button>

@@ -11,16 +11,6 @@ child.exec(`${adbPath} start-server`, (error, stdout, stderr) => {
   console.log(stderr);
 });
 
-function selectDevice() {
-  selectedDevices = [];
-  for (x of foundDevices) {
-    if ($("body").find(`#${x}`).is(":checked")) {
-      selectedDevices.push(x);
-    }
-  }
-  console.log(selectedDevices);
-}
-
 function startActionMultidevice(optmode, opt) {
   for (x of selectedDevices) {
     startAction(x, optmode, opt);
@@ -136,18 +126,37 @@ function refreshDevices() {
   }
 
   cmd += " devices";
+  
+  let finddevice = child.execSync(cmd);
+  output = finddevice.toString().split("\n");
+  if (callingExe == "adb") {
+    output.shift();
+    output.pop();
+    output.pop()
+  }
+  if(callingExe=='fastboot'){
+    output.pop()
+  }
 
-  child.exec(cmd, (error, stdout, stderr) => {
-    for (x of stdout.split("\n")) {
-      if (x) {
-        temp1 = x.split(" ")[0].split("\t")[0];
-        foundDevices.push(temp1);
-      }
+  
+  for(x of output){
+   
+    foundDevices.push(x.split("\t")[0]);
+  }
+  
+  
+  renderDevices(foundDevices);
+  
+}
+
+function selectDevice() {
+  selectedDevices = [];
+  
+  for (x of foundDevices) {
+    
+    if ($("body").find(`#${x}`).is(":checked")) {
+      selectedDevices.push(x);
     }
-    if (callingExe == "adb") {
-      foundDevices.shift();
-      foundDevices.pop();
-    }
-    renderDevices(foundDevices);
-  });
+  }
+  
 }
