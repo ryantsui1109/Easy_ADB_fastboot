@@ -1,7 +1,7 @@
-const oprs_en = [
+const oprs = [
   {
     navbar: "Fastboot",
-    content: [
+    items: [
       {
         title: "Reboot to",
         name: "power-menu",
@@ -126,7 +126,7 @@ const oprs_en = [
 
   {
     navbar: "Recovery",
-    content: [
+    items: [
       {
         title: "Sideload flashable zip",
         subtitle: "You can flash magisk here",
@@ -142,7 +142,7 @@ const oprs_en = [
 
   {
     navbar: "System",
-    content: [
+    items: [
       {
         title: "Reboot to",
         name: "system-power-menu",

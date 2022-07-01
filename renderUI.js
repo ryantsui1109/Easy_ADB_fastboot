@@ -1,4 +1,4 @@
-let oprs = [];
+// let oprs = [];
 let startActionBtn = "";
 let selectFile;
 let currentOprMode = "fastboot";
@@ -44,7 +44,7 @@ function switchOprMode(oprmode) {
 }
 
 function renderDevices(devices) {
-  console.log(devices)
+  console.log(devices);
   $("body").find("#deviceList").empty();
   for (x of devices) {
     if (x) {
@@ -95,8 +95,9 @@ jQuery(function () {
     for (let x in oprs) {
       const opr = oprs[x];
       currentOpr = opr.navbar;
-      for (let y in opr.content) {
-        card = opr.content[y];
+
+      for (let y in opr.items) {
+        card = opr.items[y];
         currentCard = card.name;
         //產生各式指令的卡片
         $("body")
