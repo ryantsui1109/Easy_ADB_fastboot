@@ -1,11 +1,11 @@
 // let oprs = [];
-let startActionBtn = "";
-let selectFile;
+// let startActionBtn = "";
+// let selectFile;
 let currentOprMode = "fastboot";
-
-oprs = oprs_en;
-startActionBtn = startActionBtn_en;
-selectFile = selectFile_en;
+let hasContent = false;
+// oprs = oprs_en;
+// startActionBtn = startActionBtn_en_us;
+// selectFile = selectFile_en_us;
 
 function displayAlert(msg, typ, alertId) {
   // 產生通知
@@ -67,7 +67,7 @@ function renderDevices(devices) {
 jQuery(function () {
   function renderNavbar(items) {
     for (let x in items) {
-      const item = items[x];
+      const item = oprs_multilang[x];
       // 從items參數讀取上方導引欄並推入
       $("#navbar").append(` <li clas ="nav-item">
             <a class="nav-link navbar-items" href="javascript:refreshDevices();selectDevice();" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
@@ -80,7 +80,7 @@ jQuery(function () {
 
   function renderBody(oprs) {
     for (let x in oprs) {
-      const item = oprs[x];
+      const item = oprs_multilang[x];
 
       $("body").append(
         ` <div class="container"id="${item.navbar.toLowerCase()}-operations"style="display:none;">
@@ -94,10 +94,14 @@ jQuery(function () {
   function renderCards(oprs) {
     for (let x in oprs) {
       const opr = oprs[x];
+      const opr_multilang = oprs_multilang[x];
+      // console.log(opr_multilang);
       currentOpr = opr.navbar;
 
       for (let y in opr.items) {
         card = opr.items[y];
+        let card_multilang = opr_multilang.items[y];
+        // console.log(card_multilang);
         currentCard = card.name;
         //產生各式指令的卡片
         $("body")
@@ -106,7 +110,7 @@ jQuery(function () {
             ` <div class="card rounded-lg "style="margin-bottom: 1.5rem;">
             <div class="card-body"
             id="${card.name}">
-            <h3 class="card-title"id="${card.name}_title"> ${card.title} </h3> </div> </div>
+            <h3 class="card-title"id="${card.name}_title"> ${card_multilang.title} </h3> </div> </div>
             `
             // card.title為卡片的標題
           );
@@ -115,25 +119,49 @@ jQuery(function () {
           $("body")
             .find(`#${card.name}`)
             .append(
-              ` <h5 class="card-subtitle mb-2 text-muted"id="${card.name}_subtitle"style="font-weight:380;"> ${card.subtitle} </h5>`
+              ` <h5 class="card-subtitle mb-2 text-muted"id="${card.name}_subtitle"style="font-weight:380;"> ${card_multilang.subtitle} </h5>`
             );
         }
-        processOpt(card.content);
+        // console.log(card_multilang);
+        processOpt(card.content, card_multilang.content);
         // 開始按鈕
         $("body").find(`#${card.name}`).append(`
                 <button type="button" class="btn btn-primary startAction-btn border-0" id="${
                   card.name
                 }-btn" onclick="startActionMultidevice('${currentOpr.toLowerCase()}','${
           card.name
-        }')">${startActionBtn}</button>`);
+        }')">${startActionBtn_multilang}</button>`);
       }
     }
   }
 
-  function processOpt(content) {
+  function processOptLang() {
+    for (x in oprs_multilang) {
+      opr_multilang = oprs_multilang[x];
+      for (y in opr_multilang.items) {
+        if (opr_multilang.items[y].content) {
+          // console.log(opr_multilang.items[y].content);
+        }
+      }
+    }
+  }
+  function processOpt(content, content_multilang) {
+    if (content_multilang) {
+      hasContent = true;
+      console.log(hasContent);
+    }else{
+      hasContent=false
+    }
+
     for (z in content) {
       opt = content[z];
+
       let displayText = opt[1].split("_")[1];
+      if (hasContent) {
+        console.log(content_multilang[opt[1]]);
+        displayText=content_multilang[opt[1]]
+      }
+
       if (displayText === "partition") {
         displayText = "other";
       }
@@ -165,7 +193,7 @@ jQuery(function () {
           .find(`#${card.name}`)
           .append(
             `
-                    <input type="text" placeholder="${opt[2]}" id="${opt[1]}" style="border: 1px solid rgba(0,0,0,.125);border-radius:.25rem;margin-bottom:0.3rem;">
+                    <input type="text" placeholder="${displayText}" id="${opt[1]}" style="border: 1px solid rgba(0,0,0,.125);border-radius:.25rem;margin-bottom:0.3rem;">
                     `
           );
       }
@@ -179,7 +207,7 @@ jQuery(function () {
                     <button class="btn btn-primary file-upload" id="${optName}_btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
                       <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
                      </svg> 
-                     ${selectFile}</button>
+                     ${selectFile_multilang}</button>
                     <input id="${optName}" type="file" name="name" style="display: none;" />
                     <h5 id="${optName}_path"></h5>
                     `
@@ -216,51 +244,22 @@ jQuery(function () {
   }
 
   function processLang() {
-    let lang = [];
     if (navigator.language.includes("zh")) {
-      lang = lang_zh;
-      startActionBtn = startActionBtn_zh_hant;
-      selectFile = selectFile_zh_hant;
-      for (let x of lang_zh) {
-        for (let y of x.content) {
-          $("body").find(`#${y.name}_title`).text(y.title);
-          if (y.subtitle) {
-            $("body").find(`#${y.name}_subtitle`).text(y.subtitle);
-          }
-          for (let z in y.content) {
-            item = y.content[z];
-            if (item[0] == "input") {
-              $("body").find(`#${item[1]}`).attr("placeholder", item[2]);
-            }
-            if (item[0] == "check") {
-              $("body").find(`#${item[1]}_label`).text(item[2]);
-            }
-            if (item[0] == "radio") {
-              console.log(item[2]);
-              console.log(`#${item[1]}_radio`);
-              $("body").find(`#${item[1]}_radio`).text(item[2]);
-            }
-            if (item[0] == "file") {
-              console.log(item[1]);
-            }
-          }
-        }
-      }
-
-      $("body").find(`.file-upload`).text(``);
-      $("body").find(`.file-upload`)
-        .append(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
-                        <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
-                        </svg> 
-                    ${selectFile}`);
-      $("body").find(".startAction-btn").text(startActionBtn);
+      oprs_multilang = oprs_zh_tw;
+      startActionBtn_multilang = startActionBtn_zh_tw;
+      selectFile_multilang = selectFile_zh_tw;
+    }else{
+      oprs_multilang = oprs_en_us;
+      startActionBtn_multilang = startActionBtn_en_us;
+      selectFile_multilang = selectFile_en_us;
     }
   }
-
+  processLang();
   renderNavbar(oprs);
   renderBody(oprs);
   renderCards(oprs);
-  processLang();
+  processOptLang();
+
   refreshDevices();
   selectDevice();
 });

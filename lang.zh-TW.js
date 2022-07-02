@@ -1,9 +1,9 @@
-const oprs_en_us = [
+const oprs_zh_tw = [
   {
     navbar: "Fastboot",
     items: [
       {
-        title: "Reboot to",
+        title: "重啟到",
         name: "power-menu",
         needUnlock: false,
         content: {
@@ -12,49 +12,49 @@ const oprs_en_us = [
           reboot_fastbootd: "fastbootd",
           reboot_system: "system",
           reboot_sideload: "sideload",
-          reboot_other: "other",
-          reboot_input: "Other target",
+          reboot_other: "其他模式",
+          reboot_input: "自訂模式名稱",
         },
       },
       {
-        title: "Boot a image",
+        title: "從鏡像啟動（免刷入需機器支援）",
         name: "boot-menu",
         needUnlock: true,
       },
       {
-        title: "Flash image to partition",
+        title: "將鏡像檔刷入分區",
         name: "flash-menu",
         needUnlock: true,
         content: {
           flash_boot: "boot",
           flash_recovery: "recovery",
-          flash_super: "(for VAB devices) super",
+          flash_super: "(VAB分區專用) super",
           flash_system: "system",
           flash_vendor: "vendor",
           flash_data: "data",
           flash_cache: "cache",
-          flash_other: "other",
-          flash_input: "Partition to flash",
+          flash_other: "其他分區",
+          flash_input: "欲刷入的分區",
         },
       },
       {
-        title: "Erase partition",
+        title: "清除分區",
         name: "erase-menu",
         needUnlock: true,
         content: {
           erase_boot: "boot",
           erase_recovery: "recovery",
-          erase_super: "(for VAB devices) super",
+          erase_super: "(VAB分區專用) super",
           erase_system: "system",
           erase_vendor: "vendor",
           erase_cache: "cache",
-          erase_other: "other",
-          erase_input: "Partition to erase",
-          use_format: "Use format instead of erase",
+          erase_other: "其他分區",
+          erase_input: "欲清除的分區",
+          use_format: "格式化",
         },
       },
       {
-        title: "Fastboot flashing",
+        title: "執行flashing指令",
         name: "flashing-menu",
         needUnlock: false,
         content: {
@@ -63,12 +63,12 @@ const oprs_en_us = [
           "flashing_unlock-critical": "unlock-critical",
           "flashing_lock-critical": "lock-critical",
           "flashing_get-unlock-ability": "get-unlock-ability",
-          flashing_other: "other",
-          flashing_input: "Custom command",
+          flashing_other: "其他指令",
+          flashing_input: "自訂 flashing 指令",
         },
       },
       {
-        title: "Fastboot oem",
+        title: "執行 oem 指令",
         name: "oem-menu",
         needUnlock: true,
         content: {
@@ -77,26 +77,26 @@ const oprs_en_us = [
           "oem_unlock-critical": "unlock-critical",
           "oem_lock-critical": "lock-critical",
           "oem_device-info": "device-info",
-          oem_other: "other",
-          oem_input: "Custom command",
+          oem_other: "其他指令",
+          oem_input: "自訂 oem 指令",
         },
       },
       {
-        title: "Fastboot getvar",
+        title: "取得 fastboot 中的變數",
         name: "getvar-menu",
         needUnlock: false,
         content: {
-          getvar_all: "all",
-          "getvar_current-slot": "(for AB devices)current-slot",
+          getvar_all: "所有變數",
+          "getvar_current-slot": "(AB分區專用)current-slot",
           getvar_unlocked: "unlocked",
-          "getvar_is-userspace": "(for VAB devices) is-userspace",
-          getvar_anti: "(for xiaomi) anti",
-          getvar_other: "other",
-          getvar_input: "Custom variable",
+          "getvar_is-userspace": "(VAB裝置專用) is-userspace",
+          getvar_anti: "(小米裝置專用) anti",
+          getvar_other: "其他變數",
+          getvar_input: "自訂變數",
         },
       },
       {
-        title: "(for AB devices) Switch active slot to",
+        title: "(AB分區專用) 切換 Active 槽位到",
         name: "active-menu",
         needUnlock: true,
         content: { _a: "a", _b: "b" },
@@ -108,8 +108,8 @@ const oprs_en_us = [
     navbar: "Recovery",
     items: [
       {
-        title: "Sideload flashable zip",
-        subtitle: "You can flash magisk here",
+        title: "安裝 Recovery 卡刷包",
+        subtitle: "此處可直接刷入 magisk.apk",
         name: "sideload-menu",
       },
     ],
@@ -119,7 +119,7 @@ const oprs_en_us = [
     navbar: "System",
     items: [
       {
-        title: "Reboot to",
+        title: "重啟到",
         name: "system-power-menu",
         content: {
           "system-reboot_bootloader": "bootloader",
@@ -127,21 +127,21 @@ const oprs_en_us = [
           "system-reboot_fastbootd": "fastbootd",
           "system-reboot_system": "system",
           "system-reboot_sideload": "sideload",
-          "system-reboot_other": "other",
-          "system-reboot_input": "Other target",
+          "system-reboot_other": "其他模式",
+          "system-reboot_input": "自訂模式名稱",
         },
       },
       {
-        title: "Push file to /sdcard",
+        title: "將檔案推至 /sdcard",
         name: "push-menu",
       },
       {
-        title: "Sideload apk file",
-        subtitle: "For installing apk, not for flashing magisk!",
+        title: "安裝apk檔案",
+        subtitle: "請勿在此“刷入”magisk",
         name: "install-menu",
       },
     ],
   },
 ];
-const startActionBtn_en_us = "開始";
-const selectFile_en_us = "選擇檔案";
+const startActionBtn_zh_tw = "開始";
+const selectFile_zh_tw = "選擇檔案";
