@@ -23,7 +23,7 @@ const oprs = [
         name: "boot-menu",
         needUnlock: true,
         content: [
-          ["file", "boot_file"],
+          ["file", "boot_file", ".img,.bin"],
           ["br", ""],
           ["br", ""],
         ],
@@ -44,7 +44,7 @@ const oprs = [
           ["input", "flash_input", "Partition to flash"],
           ["br", ""],
 
-          ["file", "flash_file"],
+          ["file", "flash_file", ".img,.bin,.mbn,.txt,.zip"],
           ["br", ""],
           ["br", ""],
         ],
@@ -132,7 +132,7 @@ const oprs = [
         subtitle: "You can flash magisk here",
         name: "sideload-menu",
         content: [
-          ["file", "sideload_file"],
+          ["file", "sideload_file", "application/zip,.apk"],
           ["br", ""],
           ["br", ""],
         ],
@@ -172,7 +172,7 @@ const oprs = [
         subtitle: "For installing apk, not for flashing magisk!",
         name: "install-menu",
         content: [
-          ["file", "install_file"],
+          ["file", "install_file", ".apk,application/zip"],
           ["br", ""],
           ["br", ""],
         ],

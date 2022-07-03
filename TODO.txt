@@ -1,4 +1,3 @@
-select devices
 adb network
 adb pull
 fastboot getvar
