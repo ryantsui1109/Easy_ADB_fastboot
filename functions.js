@@ -12,12 +12,16 @@ child.exec(`${adbPath} start-server`, (error, stdout, stderr) => {
 });
 
 function startActionMultidevice(optmode, opt) {
-  for (x of selectedDevices) {
-    startAction(x, optmode, opt);
+  if (selectedDevices.length == 0) {
+    startAction(optmode, opt, null);
+  } else {
+    for (x of selectedDevices) {
+      startAction(optmode, opt, x);
+    }
   }
 }
 
-function startAction(deviceSN, optmode, opt) {
+function startAction(optmode, opt, deviceSN) {
   // 生成指令
 
   let hasRadio = true;
@@ -42,9 +46,10 @@ function startAction(deviceSN, optmode, opt) {
   if (targetHasFile.includes(param)) {
     hasFile = true;
   }
-
-  params.push("-s");
-  params.push(deviceSN);
+  if (deviceSN != null) {
+    params.push("-s");
+    params.push(deviceSN);
+  }
 
   if (param == "power" || param == "system") {
     param = "reboot";
@@ -100,6 +105,7 @@ function startAction(deviceSN, optmode, opt) {
 
   let startTime = Date.now().toString();
   runCommand = child.spawn(cmdByArray, params);
+  console.log(cmdByArray, params);
 
   runCommand.stdout.on("data", (data) => {
     console.log(`${data}`);
@@ -126,37 +132,31 @@ function refreshDevices() {
   }
 
   cmd += " devices";
-  
+
   let finddevice = child.execSync(cmd);
   output = finddevice.toString().split("\n");
   if (callingExe == "adb") {
     output.shift();
     output.pop();
-    output.pop()
+    output.pop();
   }
-  if(callingExe=='fastboot'){
-    output.pop()
+  if (callingExe == "fastboot") {
+    output.pop();
   }
 
-  
-  for(x of output){
-   
+  for (x of output) {
     foundDevices.push(x.split("\t")[0]);
   }
-  
-  
+
   renderDevices(foundDevices);
-  
 }
 
 function selectDevice() {
   selectedDevices = [];
-  
+
   for (x of foundDevices) {
-    
     if ($("body").find(`#${x}`).is(":checked")) {
       selectedDevices.push(x);
     }
   }
-  
 }

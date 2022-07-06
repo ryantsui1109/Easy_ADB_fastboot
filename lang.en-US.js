@@ -62,7 +62,7 @@ const oprs_en_us = [
           flashing_lock: "lock",
           "flashing_unlock-critical": "unlock-critical",
           "flashing_lock-critical": "lock-critical",
-          "flashing_get-unlock-ability": "get-unlock-ability",
+          "flashing_get-unlock-ability": "get_unlock_ability",
           flashing_other: "other",
           flashing_input: "Custom command",
         },

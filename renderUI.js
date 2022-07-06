@@ -70,7 +70,7 @@ jQuery(function () {
       const item = oprs_multilang[x];
       // 從items參數讀取上方導引欄並推入
       $("#navbar").append(` <li clas ="nav-item">
-            <a class="nav-link navbar-items" href="javascript:refreshDevices();selectDevice();" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
+            <a class="nav-link navbar-items" href="javascript:refreshDevices();" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
             ${item.navbar}
              </a> 
              </li>
@@ -158,16 +158,17 @@ jQuery(function () {
 
       let displayText = opt[1].split("_")[1];
       if (hasContent) {
-        console.log(content_multilang[opt[1]]);
-        displayText=content_multilang[opt[1]]
+        if(content_multilang[opt[1]]){
+          displayText = content_multilang[opt[1]];
+        }
       }
 
-      if (displayText === "partition") {
-        displayText = "other";
-      }
-      if (displayText == "get-unlock-ability") {
-        displayText = "get_unlock_ability";
-      }
+      // if (displayText === "partition") {
+      //   displayText = "other";
+      // }
+      // if (displayText == "get-unlock-ability") {
+      //   displayText = "get_unlock_ability";
+      // }
       if (opt[0] == "radio") {
         // 讀取items.js，並產生元素，radio為單選按鈕
         // 第一個選項設為預設，較整齊
@@ -260,6 +261,4 @@ jQuery(function () {
   renderCards(oprs);
   processOptLang();
 
-  refreshDevices();
-  selectDevice();
 });

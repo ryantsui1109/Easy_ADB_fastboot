@@ -19,7 +19,7 @@
     <script src="./lang.zh-TW.js"></script>
     <script src="./renderUI.js"></script>
     <script src="./functions.js"></script>
-    
+
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap/dist/css/bootstrap.css"
@@ -84,11 +84,20 @@
               class="d-flex justify-content-center flex-column"
             ></div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer justify-content-between">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="selectedDevices=[]"
+            >
+              Clear queue
+            </button>
+
             <button
               type="button"
               class="btn btn-primary"
               onclick="selectDevice(foundDevices)"
+              data-bs-dismiss="modal"
             >
               Save
             </button>
@@ -107,7 +116,7 @@
         class="btn btn-primary mb-2"
         data-bs-toggle="modal"
         data-bs-target="#manage-devices"
-        onclick="refreshDevices();selectDevice();"
+        onclick="refreshDevices();"
       >
         Select devices
       </button>
