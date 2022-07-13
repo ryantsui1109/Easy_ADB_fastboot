@@ -7,7 +7,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "clean":"modclean --ignore='platform-tools'"
+    "clean": "modclean --ignore='platform-tools'"
   },
   "author": "ryantsui1109@github",
   "license": "Apache-2.0",
@@ -19,8 +19,8 @@
     "popper.js": "^1.16.1"
   },
   "devDependencies": {
-    "electron": "^19.0.4",
-    "electron-packager": "^15.5.1"
+    "electron": "^19.0.8",
+    "electron-packager": "^13.1.1"
   },
   "build": {
     "appId": "io.github.ryantsui1109.eaf",
