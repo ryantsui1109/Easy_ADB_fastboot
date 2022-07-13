@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
+let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 600,
@@ -19,7 +20,13 @@ const createWindow = () => {
   }
 
   win.webContents.openDevTools();
-  win.loadFile("index.html");
+  if (isPackaged) {
+    indexFile = "index.obfuscated.html";
+  } else {
+    indexFile = "index.html";
+  }
+  indexFile = "index.obfuscated.html";
+  win.loadFile(indexFile);
 };
 app.whenReady().then(() => {
   createWindow();

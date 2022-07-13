@@ -2,3 +2,4 @@
 *platform-tools/*
 *dist/*
 *easy_adb_fastboot-win32-x64/*
+*obfuscated.js*

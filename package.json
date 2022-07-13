@@ -7,7 +7,9 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "clean":"modclean --ignore='platform-tools'"
+    "clean": "modclean --ignore='platform-tools'",
+    "clean-obf": "del *obfuscated.js",
+    "obf": "node .\\obfuscator.js"
   },
   "author": "ryantsui1109@github",
   "license": "Apache-2.0",
@@ -15,6 +17,7 @@
     "@popperjs/core": "^2.11.5",
     "bootstrap": "^5.1.3",
     "electron-is-packaged": "^1.0.2",
+    "javascript-obfuscator": "^4.0.0",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1"
   },
@@ -26,24 +29,19 @@
     "appId": "io.github.ryantsui1109.eaf",
     "productName": "Easy ADB and fastboot",
     "icon": "./favicon_256.ico",
+    "extraFiles": "platform-tools/*",
     "files": [
-      "**/*",
-      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-      "!**/node_modules/*.d.ts",
-      "!**/node_modules/.bin",
-      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-      "!.editorconfig",
-      "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-      "!**/{appveyor.yml,.travis.yml,circle.yml}",
-      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+      "!functions.js",
+      "!lang_en-US.js",
+      "!lang_zh-TW.js",
+      "!preload.js",
+      "!renderUI.js",
+      "!UI.js"
     ],
     "win": {
       "target": [
         {
-          "target": "portable",
+          "target": "zip",
           "arch": [
             "x64"
           ]
