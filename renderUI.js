@@ -148,9 +148,8 @@ jQuery(function () {
   function processOpt(content, content_multilang) {
     if (content_multilang) {
       hasContent = true;
-      console.log(hasContent);
-    }else{
-      hasContent=false
+    } else {
+      hasContent = false;
     }
 
     for (z in content) {
@@ -158,7 +157,7 @@ jQuery(function () {
 
       let displayText = opt[1].split("_")[1];
       if (hasContent) {
-        if(content_multilang[opt[1]]){
+        if (content_multilang[opt[1]]) {
           displayText = content_multilang[opt[1]];
         }
       }
@@ -249,7 +248,7 @@ jQuery(function () {
       oprs_multilang = oprs_zh_tw;
       startActionBtn_multilang = startActionBtn_zh_tw;
       selectFile_multilang = selectFile_zh_tw;
-    }else{
+    } else {
       oprs_multilang = oprs_en_us;
       startActionBtn_multilang = startActionBtn_en_us;
       selectFile_multilang = selectFile_en_us;
@@ -260,5 +259,4 @@ jQuery(function () {
   renderBody(oprs);
   renderCards(oprs);
   processOptLang();
-
 });
