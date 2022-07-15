@@ -25,7 +25,6 @@ const createWindow = () => {
   } else {
     indexFile = "index.html";
   }
-  indexFile = "index.obfuscated.html";
   win.loadFile(indexFile);
 };
 app.whenReady().then(() => {

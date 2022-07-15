@@ -82,6 +82,16 @@ const oprs_en_us = [
         },
       },
       {
+        title: "Fastboot update",
+        name: "update-menu",
+        needUnlock: true,
+        content: [
+          ["file", "update_file", "application/zip"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+      {
         title: "Fastboot getvar",
         name: "getvar-menu",
         needUnlock: false,

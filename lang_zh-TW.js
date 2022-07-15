@@ -58,6 +58,16 @@ const oprs_zh_tw = [
         },
       },
       {
+        title: "Fastboot update",
+        name: "update-menu",
+        needUnlock: true,
+        content: [
+          ["file", "update_file", "application/zip"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+      {
         title: "取得 fastboot 中的變數",
         name: "getvar-menu",
         needUnlock: false,

@@ -26,8 +26,15 @@ function startAction(optmode, opt, deviceSN) {
 
   let hasRadio = true;
   let hasFile = false;
-  let targetHasFile = ["sideload", "flash", "install", "push", "boot"];
-  let targetHasNoRadio = ["sideload", "install", "push", "boot"];
+  let targetHasFile = [
+    "sideload",
+    "flash",
+    "install",
+    "push",
+    "boot",
+    "update",
+  ];
+  let targetHasNoRadio = ["sideload", "install", "push", "boot", "update"];
   let param = opt.split("-")[0];
   let params = [];
   let cmdByArray = "";
