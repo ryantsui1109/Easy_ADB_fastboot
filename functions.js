@@ -1,8 +1,8 @@
 const child = require("child_process");
 const { stdout, stderr } = require("process");
 
-const adbPath = ".\\platform-tools\\adb.exe";
-const fastbootPath = ".\\platform-tools\\fastboot.exe";
+const adbPath = ".\\platform-tools-win\\adb.exe";
+const fastbootPath = ".\\platform-tools-win\\fastboot.exe";
 
 let foundDevices = [];
 let selectedDevices = [];
