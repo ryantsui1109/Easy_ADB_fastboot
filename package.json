@@ -22,13 +22,13 @@
   },
   "devDependencies": {
     "electron": "^19.0.8",
+    "electron-builder": "^22.10.5",
     "electron-packager": "^13.1.1",
     "javascript-obfuscator": "^4.0.0"
   },
   "build": {
     "appId": "io.github.ryantsui1109.eaf",
     "productName": "Easy ADB and fastboot",
-    
     "files": [
       "!{functions.js,beforePackHook.js,index.html,lang_en-US.js,lang_zh-TW.js,obfuscator.js,preload.js,renderUI.js,UI.js,TODO.txt}"
     ],
