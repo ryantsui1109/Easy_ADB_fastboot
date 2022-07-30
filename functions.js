@@ -2,9 +2,13 @@ const child = require("child_process");
 const { stdout, stderr } = require("process");
 const fs = require("fs/promises");
 const getPlatform = require("os").platform;
+let adbPath = "";
+let fastbootPath = "";
 
-const adbPath = "./platform-tools-win/adb.exe";
-const fastbootPath = "./platform-tools-win/fastboot.exe";
+if (getPlatform() == "win32") {
+  adbPath = "./platform-tools-win/adb.exe";
+  fastbootPath = "./platform-tools-win/fastboot.exe";
+}
 
 if (getPlatform() == "linux") {
   adbPath = "./platform-tools-linux/adb";
