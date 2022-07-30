@@ -1,6 +1,6 @@
 const child = require("child_process");
 const { stdout, stderr } = require("process");
-
+const fs = require("fs/promises");
 const adbPath = ".\\platform-tools-win\\adb.exe";
 const fastbootPath = ".\\platform-tools-win\\fastboot.exe";
 
