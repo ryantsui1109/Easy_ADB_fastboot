@@ -3,7 +3,7 @@ const oprs_en_us = [
     navbar: "Fastboot",
     items: [
       {
-        title: "Reboot to",
+        title: "Reboot To",
         name: "power-menu",
         needUnlock: false,
         content: {
@@ -17,12 +17,12 @@ const oprs_en_us = [
         },
       },
       {
-        title: "Boot a image",
+        title: "Boot a Image",
         name: "boot-menu",
         needUnlock: true,
       },
       {
-        title: "Flash image to partition",
+        title: "Flash Image To Partition",
         name: "flash-menu",
         needUnlock: true,
         content: {
@@ -38,7 +38,7 @@ const oprs_en_us = [
         },
       },
       {
-        title: "Erase partition",
+        title: "Erase Partition",
         name: "erase-menu",
         needUnlock: true,
         content: {
@@ -54,7 +54,7 @@ const oprs_en_us = [
         },
       },
       {
-        title: "Fastboot flashing",
+        title: "Fastboot Flashing",
         name: "flashing-menu",
         needUnlock: false,
         content: {
@@ -68,7 +68,7 @@ const oprs_en_us = [
         },
       },
       {
-        title: "Fastboot oem",
+        title: "Fastboot Oem",
         name: "oem-menu",
         needUnlock: true,
         content: {
@@ -82,7 +82,7 @@ const oprs_en_us = [
         },
       },
       {
-        title: "Fastboot update",
+        title: "Fastboot Update",
         name: "update-menu",
         needUnlock: true,
         content: [
@@ -92,7 +92,7 @@ const oprs_en_us = [
         ],
       },
       {
-        title: "Fastboot getvar",
+        title: "Fastboot Getvar",
         name: "getvar-menu",
         needUnlock: false,
         content: {
@@ -106,7 +106,7 @@ const oprs_en_us = [
         },
       },
       {
-        title: "(for AB devices) Switch active slot to",
+        title: "(For AB Devices) Switch Active Slot To",
         name: "active-menu",
         needUnlock: true,
         content: { _a: "a", _b: "b" },
@@ -118,7 +118,7 @@ const oprs_en_us = [
     navbar: "Recovery",
     items: [
       {
-        title: "Sideload flashable zip",
+        title: "Sideload Flashable Zip",
         subtitle: "You can flash magisk here",
         name: "sideload-menu",
       },
@@ -129,7 +129,7 @@ const oprs_en_us = [
     navbar: "System",
     items: [
       {
-        title: "Reboot to",
+        title: "Reboot To",
         name: "system-power-menu",
         content: {
           "system-reboot_bootloader": "bootloader",
@@ -142,16 +142,16 @@ const oprs_en_us = [
         },
       },
       {
-        title: "Push file to /sdcard",
+        title: "Push File To /sdcard",
         name: "push-menu",
       },
       {
-        title: "Sideload apk file",
+        title: "Sideload APK File",
         subtitle: "For installing apk, not for flashing magisk!",
         name: "install-menu",
       },
     ],
   },
 ];
-const startActionBtn_en_us = "開始";
-const selectFile_en_us = "選擇檔案";
+const startActionBtn_en_us = "Start Action";
+const selectFile_en_us = "Select a file";

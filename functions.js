@@ -6,8 +6,8 @@ let adbPath = "";
 let fastbootPath = "";
 
 if (getPlatform() == "win32") {
-  adbPath = "./platform-tools-win/adb.exe";
-  fastbootPath = "./platform-tools-win/fastboot.exe";
+  adbPath = ".\\platform-tools-win\\adb.exe";
+  fastbootPath = ".\\platform-tools-win\\fastboot.exe";
 }
 
 if (getPlatform() == "linux") {

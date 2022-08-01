@@ -1,6 +1,20 @@
+const { exec } = require("child_process");
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
+const execFile = require("child_process").execFile;
+const execSync = require("child_process").execSync;
+const getPlatform = require("os").platform;
+let adbPath = "";
+
+if (getPlatform() == "win32") {
+  adbPath = ".\\platform-tools-win\\adb.exe";
+}
+
+if (getPlatform() == "linux") {
+  adbPath = "./platform-tools-linux/adb";
+}
+
 let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -33,7 +47,22 @@ app.whenReady().then(() => {
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+  app.on("before-quit", () => {
+    console.log("Trying to kill adb server");
+    console.log(getPlatform());
+    execFile(
+      ".\\platform-tools-win\\adb.exe",["kill-server"],
+      (error, stdout, stderr) => {
+        if (error) {
+          throw error;
+        }
+        console.log(stdout);
+      }
+    );
+    
+  });
 });
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+  if (process.platform !== "darwin");
+  app.quit();
 });
