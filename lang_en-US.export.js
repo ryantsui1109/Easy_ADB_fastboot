@@ -1,4 +1,4 @@
-const oprs_en_us = [
+exports.oprs = [
   {
     navbar: "Fastboot",
     items: [
@@ -152,6 +152,7 @@ const oprs_en_us = [
       },
     ],
   },
+  { navbar: "Settings", item: [] },
 ];
-const startActionBtn_en_us = "Start Action";
-const selectFile_en_us = "Select a file";
+exports.startActionBtn = "Start Action";
+exports.selectFile = "Select a file";

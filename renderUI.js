@@ -86,7 +86,7 @@ function renderDevices(devices) {
 }
 
 jQuery(function () {
-  console.log(settings)
+  console.log(settings);
   function renderNavbar(items) {
     for (let x in items) {
       const item = oprs_multilang[x];
@@ -264,16 +264,30 @@ jQuery(function () {
       }
     }
   }
-
+  function loadLangSource(source){
+    const lang = require(`./lang_${source}.export.js`);
+    oprs_multilang = lang.oprs;
+    startActionBtn_multilang = lang.startActionBtn;
+    selectFile_multilang = lang.selectFile;
+  }
   function processLang() {
-    if (navigator.language.includes("zh")) {
-      oprs_multilang = oprs_zh_tw;
-      startActionBtn_multilang = startActionBtn_zh_tw;
-      selectFile_multilang = selectFile_zh_tw;
+    // if (navigator.language.includes("zh")) {
+    //   oprs_multilang = oprs_zh_tw;
+    //   startActionBtn_multilang = startActionBtn_zh_tw;
+    //   selectFile_multilang = selectFile_zh_tw;
+    // } else {
+    //   oprs_multilang = oprs_en_us;
+    //   startActionBtn_multilang = startActionBtn_en_us;
+    //   selectFile_multilang = selectFile_en_us;
+    // }
+    if (settings.language !== "auto") {
+      loadLangSource(settings.language);
     } else {
-      oprs_multilang = oprs_en_us;
-      startActionBtn_multilang = startActionBtn_en_us;
-      selectFile_multilang = selectFile_en_us;
+      if (availableLanguages.includes(navigator.language)) {
+        loadLangSource(navigator.language)
+      }else{
+        loadLangSource("en-US")
+      }
     }
   }
   processLang();

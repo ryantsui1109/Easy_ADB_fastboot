@@ -1,4 +1,4 @@
-const oprs_zh_tw = [
+exports.oprs = [
   {
     navbar: "Fastboot",
     items: [
@@ -126,5 +126,5 @@ const oprs_zh_tw = [
     items:[]
   }
 ];
-const startActionBtn_zh_tw = "開始";
-const selectFile_zh_tw = "選擇檔案";
+exports.startActionBtn = "開始";
+exports.selectFile = "選擇檔案";

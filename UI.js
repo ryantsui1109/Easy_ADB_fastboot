@@ -188,8 +188,10 @@ const oprs = [
         ],
       },
     ],
-  },{
-    navbar:"Settings",
-    items:[]
-  }
+  },
+  {
+    navbar: "Settings",
+    items: [],
+  },
 ];
+const availableLanguages = ["zh-TW", "en-US"];

@@ -3,4 +3,3 @@ adb pull
 auto update
 need unlocking
 slot selection in flashing/erasing
-settings page

@@ -35,11 +35,12 @@ const createWindow = () => {
   }
 
   win.webContents.openDevTools();
-  if (isPackaged) {
-    indexFile = "index.obfuscated.html";
-  } else {
-    indexFile = "index.html";
-  }
+  // if (isPackaged) {
+  //   indexFile = "index.obfuscated.html";
+  // } else {
+  //   indexFile = "index.html";
+  // }
+  indexFile = "index.html";
   win.loadFile(indexFile);
 };
 app.whenReady().then(() => {
@@ -50,7 +51,7 @@ app.whenReady().then(() => {
   });
   app.on("before-quit", () => {
     console.log("Trying to kill adb server");
-    
+
     execFile(adbPath, ["kill-server"], (error, stdout, stderr) => {
       if (error) {
         throw error;
