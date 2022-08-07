@@ -26,6 +26,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
       devTools: !isPackaged,
+      webviewTag: true,
       icon: __dirname + "./favicon_256.ico",
     },
   });
@@ -49,17 +50,13 @@ app.whenReady().then(() => {
   });
   app.on("before-quit", () => {
     console.log("Trying to kill adb server");
-    console.log(getPlatform());
-    execFile(
-      ".\\platform-tools-win\\adb.exe",["kill-server"],
-      (error, stdout, stderr) => {
-        if (error) {
-          throw error;
-        }
-        console.log(stdout);
-      }
-    );
     
+    execFile(adbPath, ["kill-server"], (error, stdout, stderr) => {
+      if (error) {
+        throw error;
+      }
+      console.log(stdout);
+    });
   });
 });
 app.on("window-all-closed", () => {

@@ -39,8 +39,29 @@ function switchOprMode(oprmode) {
   $(`#${oprmode}-operations`).show();
 
   $(".alerts").show();
-
+  $("#settings-operation").css(
+    "height",
+    `calc(100vh - ${$("#navbar").css("height")})`
+  );
+  $("#web").css(
+    "height",
+    `calc(100vh - ${$("#navbar").css("height")} - ${$("#topButtons").css(
+      "height"
+    )})`
+  );
   currentOprMode = oprmode;
+  detectSettingsPage();
+}
+
+function detectSettingsPage() {
+  if (currentOprMode == "settings") {
+    console.log("now at settings page");
+    $("#devicesSelector-btn").hide();
+    $("#refreshSettings").show();
+  } else {
+    $("#devicesSelector-btn").show();
+    $("#refreshSettings").hide();
+  }
 }
 
 function renderDevices(devices) {
@@ -65,11 +86,12 @@ function renderDevices(devices) {
 }
 
 jQuery(function () {
+  console.log(settings)
   function renderNavbar(items) {
     for (let x in items) {
       const item = oprs_multilang[x];
       // 從items參數讀取上方導引欄並推入
-      $("#navbar").append(` <li clas ="nav-item">
+      $("#navbar").append(` <li class ="nav-item">
             <a class="nav-link navbar-items" href="javascript:refreshDevices();" id="${item.navbar.toLowerCase()}" onclick="switchOprMode('${item.navbar.toLowerCase()}')"> 
             ${item.navbar}
              </a> 
@@ -259,4 +281,5 @@ jQuery(function () {
   renderBody(oprs);
   renderCards(oprs);
   processOptLang();
+  $("#refreshSettings").hide();
 });

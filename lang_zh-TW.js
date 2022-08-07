@@ -121,7 +121,10 @@ const oprs_zh_tw = [
         name: "install-menu",
       },
     ],
-  },
+  },{
+    navbar:"Settings",
+    items:[]
+  }
 ];
 const startActionBtn_zh_tw = "開始";
 const selectFile_zh_tw = "選擇檔案";

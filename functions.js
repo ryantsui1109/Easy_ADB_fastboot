@@ -2,6 +2,7 @@ const child = require("child_process");
 const { stdout, stderr } = require("process");
 const fs = require("fs/promises");
 const getPlatform = require("os").platform;
+const settings = require("./settings.json");
 let adbPath = "";
 let fastbootPath = "";
 
@@ -144,7 +145,11 @@ function refreshDevices() {
     cmd = fastbootPath;
     callingExe = "fastboot";
   }
-  if (currentOprMode == "recovery" || currentOprMode == "system") {
+  if (
+    currentOprMode == "recovery" ||
+    currentOprMode == "system" ||
+    currentOprMode == "settings"
+  ) {
     cmd = adbPath;
     callingExe = "adb";
   }

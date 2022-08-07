@@ -188,5 +188,8 @@ const oprs = [
         ],
       },
     ],
-  },
+  },{
+    navbar:"Settings",
+    items:[]
+  }
 ];

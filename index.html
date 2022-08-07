@@ -17,9 +17,18 @@
     <script src="./UI.js"></script>
     <script src="./lang_en-US.js"></script>
     <script src="./lang_zh-TW.js"></script>
+
     <script src="./renderUI.js"></script>
     <script src="./functions.js"></script>
+    <!-- <script>
+      const webview = document.querySelector("webview");
+      webview.addEventListener("found-in-page", (e) => {
+        webview.stopFindInPage("keepSelection");
+      });
 
+      const requestId = webview.findInPage("test");
+      console.log(requestId);
+    </script> -->
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap/dist/css/bootstrap.css"
@@ -27,21 +36,33 @@
 
     <style>
       @import url("./res/HarmonyOS_Sans_TC/stylesheet.css");
-      html {
-        scrollbar-width: none;
-        /* For Firefox */
-        -ms-overflow-style: none;
-        /* For Internet Explorer and Edge */
-      }
-
-      html::-webkit-scrollbar {
-        width: 0px;
-        /* For Chrome, Safari, and Opera */
-      }
 
       * {
         font-family: HarmonyOS Sans TC;
       }
+      /* #settings-operations #web {
+        height: calc(100vh - 40px);
+      } */
+      /* @media (prefers-color-scheme: dark) {
+        body {
+          background-color: rgb(0, 0, 0);
+          color: rgba(255, 255, 255, 1);
+        }
+        .card {
+          border-color: rgba(255, 255, 255, 1);
+          background-color: rgb(0, 0, 0);
+          color: rgba(255, 255, 255, 1);
+        }
+        .nav {
+          --bs-nav-link-color: #317af7;
+        }
+        .btn-primary {
+          --bs-btn-bg: #317af7;
+        }
+        .form-check-input:checked {
+          background-color: #317af7;
+        }
+      } */
     </style>
 
     <title>Easy ADB and fastboot</title>
@@ -110,9 +131,10 @@
       <div id="alertDiv"></div>
     </div>
     <ul class="nav justify-content-center" id="navbar"></ul>
-    <div class="container d-flex justify-content-center">
+    <div id="topButtons" class="container d-flex justify-content-center">
       <button
         type="button"
+        id="devicesSelector-btn"
         class="btn btn-primary mb-2"
         data-bs-toggle="modal"
         data-bs-target="#manage-devices"
@@ -120,6 +142,37 @@
       >
         Select devices
       </button>
+      <button
+        id="refreshSettings"
+        class="btn btn-primary btn-sm"
+        onclick="document.getElementById('web').reload()"
+      >
+        Refresh Settings
+      </button>
     </div>
+    <script>
+      $(document).ready(function () {
+        function createWebview(id, url) {
+          //creates a webview with the id of the tab and the url loaded
+          let webview = document.createElement("webview");
+          webview.setAttribute("id", id);
+          webview.setAttribute("src", url);
+          webview.setAttribute("nodeintegration", "");
+          webview.setAttribute("webpreferences", "contextIsolation=false");
+          webview.addEventListener("dom-ready", () => {
+            webview.openDevTools();
+          });
+          console.log(webview);
+          return webview;
+        }
+        const settingsWeb = document
+          .querySelector("#settings-operations")
+          .appendChild(
+            createWebview("web", `file://${__dirname}/settings/settings.html`)
+          );
+        // $('#web').css('width', '100%');
+        console.log(`calc(100vh-${$("#navbar").css("height")})`);
+      });
+    </script>
   </body>
 </html>

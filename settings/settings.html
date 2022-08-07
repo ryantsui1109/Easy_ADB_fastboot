@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;"
+    /> -->
+    <title>Settings</title>
+    <script>
+      window.$ = window.jQuery = require("jquery");
+      const bootstrap = require("bootstrap");
+      require("@popperjs/core");
+    </script>
+    <script src="./settings.js"></script>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <style>
+      @import url("../res/HarmonyOS_Sans_TC/stylesheet.css");
+      html {
+        scrollbar-width: none;
+        /* For Firefox */
+        -ms-overflow-style: none;
+        /* For Internet Explorer and Edge */
+      }
+
+      html::-webkit-scrollbar {
+        width: 0px;
+        /* For Chrome, Safari, and Opera */
+      }
+
+      * {
+        font-family: HarmonyOS Sans TC;
+      }
+      /* @media (prefers-color-scheme: dark) {
+        body {
+          background-color: rgb(0, 0, 0);
+          color: rgba(255, 255, 255, 1);
+        }
+        .btn {
+          color: #fff;
+        }
+      } */
+      .modal-backdrop {
+        opacity: 0 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h5 id="language-title">Language</h5>
+
+      <div class="dropdown">
+        <a
+          class="btn dropdown-toggle"
+          href="#"
+          role="button"
+          id="language"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          language:
+        </a>
+
+        <ul
+          id="language-options"
+          class="dropdown-menu"
+          aria-labelledby="languages"
+        ></ul>
+      </div>
+      <h5 id="darkMode-title">Dark Mode</h5>
+
+      <div class="dropdown">
+        <a
+          class="btn dropdown-toggle"
+          href="#"
+          role="button"
+          id="darkMode"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          darkMode:
+        </a>
+
+        <ul
+          id="darkMode-options"
+          class="dropdown-menu"
+          aria-labelledby="darkmode"
+        ></ul>
+      </div>
+      <div id="aboutEAF">
+        <h5>About EAF</h5>
+        <h6 id="uiver" class="btnPadding">UI Version:</h6>
+        <h6 id="fnver" class="btnPadding">Function Version:</h6>
+        <h6 class="btnPadding">
+          Author:
+          <a
+            href="javascript:openWithBrowser('https://github.com/ryantsui1109')"
+            >ryantsui1109@github</a
+          >
+        </h6>
+        <h6 class="btnPadding">
+          Contact Me:
+          <a href="javascript:openWithBrowser('mailto:beigua87@gmail.com')"
+            >E-Mail</a
+          >
+        </h6>
+      </div>
+      <div id="saveSettings" class="d-flex justify-content-end">
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#saveConfirmation"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="saveConfirmation" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow">
+          <div class="modal-header">
+            <h5 class="modal-title">Save Changes</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure to save changes?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveChanges()"
+              data-bs-dismiss="modal"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <style>
+    .btnPadding {
+      padding: 0.375rem 0.75rem;
+    }
+  </style>
+</html>
