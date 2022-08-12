@@ -38,29 +38,13 @@
       * {
         font-family: HarmonyOS Sans TC;
       }
+      body{
+        overflow-y: scroll;
+      }
       /* #settings-operations #web {
         height: calc(100vh - 40px);
       } */
-      /* @media (prefers-color-scheme: dark) {
-        body {
-          background-color: rgb(0, 0, 0);
-          color: rgba(255, 255, 255, 1);
-        }
-        .card {
-          border-color: rgba(255, 255, 255, 1);
-          background-color: rgb(0, 0, 0);
-          color: rgba(255, 255, 255, 1);
-        }
-        .nav {
-          --bs-nav-link-color: #317af7;
-        }
-        .btn-primary {
-          --bs-btn-bg: #317af7;
-        }
-        .form-check-input:checked {
-          background-color: #317af7;
-        }
-      } */
+      
     </style>
 
     <title>Easy ADB and fastboot</title>
@@ -68,7 +52,7 @@
 
   <body>
     <!-- Button trigger modal -->
-
+    <div id="autoHideScrollBar"></div>
     <!-- Modal -->
     <div
       class="modal fade"
@@ -142,35 +126,35 @@
       </button>
       <button
         id="refreshSettings"
-        class="btn btn-primary btn-sm"
+        class="btn btn-primary mb-2"
         onclick="document.getElementById('web').reload()"
       >
         Refresh Settings
       </button>
     </div>
-    <script>
-      $(document).ready(function () {
-        function createWebview(id, url) {
-          //creates a webview with the id of the tab and the url loaded
-          let webview = document.createElement("webview");
-          webview.setAttribute("id", id);
-          webview.setAttribute("src", url);
-          webview.setAttribute("nodeintegration", "");
-          webview.setAttribute("webpreferences", "contextIsolation=false");
-          webview.addEventListener("dom-ready", () => {
-            webview.openDevTools();
-          });
-          console.log(webview);
-          return webview;
-        }
-        const settingsWeb = document
-          .querySelector("#settings-operations")
-          .appendChild(
-            createWebview("web", `file://${__dirname}/settings/settings.html`)
-          );
-        // $('#web').css('width', '100%');
-        console.log(`calc(100vh-${$("#navbar").css("height")})`);
-      });
-    </script>
   </body>
+  <script>
+    $(document).ready(function () {
+      function createWebview(id, url) {
+        //creates a webview with the id of the tab and the url loaded
+        let webview = document.createElement("webview");
+        webview.setAttribute("id", id);
+        webview.setAttribute("src", url);
+        webview.setAttribute("nodeintegration", "");
+        webview.setAttribute("webpreferences", "contextIsolation=false");
+        webview.addEventListener("dom-ready", () => {
+          webview.openDevTools();
+        });
+        console.log(webview);
+        return webview;
+      }
+      const settingsWeb = document
+        .querySelector("#settings-operations")
+        .appendChild(
+          createWebview("web", `file://${__dirname}/settings/settings.html`)
+        );
+      // $('#web').css('width', '100%');
+      console.log(`calc(100vh-${$("#navbar").css("height")})`);
+    });
+  </script>
 </html>

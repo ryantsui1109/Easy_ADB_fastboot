@@ -3,10 +3,11 @@
 // let selectFile;
 let currentOprMode = "fastboot";
 let hasContent = false;
+let UIsetted = false;
 // oprs = oprs_en;
 // startActionBtn = startActionBtn_en_us;
 // selectFile = selectFile_en_us;
-
+const theme = require("./index.theme");
 function displayAlert(msg, typ, alertId) {
   // 產生通知
   let alertDiv = $("body").find("#alertDiv");
@@ -43,12 +44,7 @@ function switchOprMode(oprmode) {
     "height",
     `calc(100vh - ${$("#navbar").css("height")})`
   );
-  $("#web").css(
-    "height",
-    `calc(100vh - ${$("#navbar").css("height")} - ${$("#topButtons").css(
-      "height"
-    )})`
-  );
+
   currentOprMode = oprmode;
   detectSettingsPage();
 }
@@ -58,6 +54,31 @@ function detectSettingsPage() {
     console.log("now at settings page");
     $("#devicesSelector-btn").hide();
     $("#refreshSettings").show();
+    $("#web").css(
+      "height",
+      `calc(100vh - ${$("#navbar").css("height")} - ${$("#topButtons").css(
+        "height"
+      )})`
+    );
+    const settingsOpt = $("#settings-operations");
+    console.log(
+      `calc(${settingsOpt.css("width")} + ${settingsOpt.css(
+        "margin-left"
+      )} + ${settingsOpt.css("margin-right")})`
+    );
+    $("#web").css("position", "absolute");
+    $("#web").css(
+      "width",
+      `calc(${settingsOpt.css("width")} + ${settingsOpt.css(
+        "margin-left"
+      )} + ${settingsOpt.css("margin-right")})`
+    );
+    if (!UIsetted) {
+      $("#settings-operations").css("max-width", "");
+      $("#settings-operations").css("margin", "0");
+      $("#settings-operations").css("padding", "0");
+      UIsetted = true;
+    }
   } else {
     $("#devicesSelector-btn").show();
     $("#refreshSettings").hide();
@@ -87,6 +108,15 @@ function renderDevices(devices) {
 
 jQuery(function () {
   console.log(settings);
+  function detectDarkmode() {
+    $("head").append(`<style>${theme.lightTheme}</style>`);
+    if (settings.darkMode == "dark") {
+      $("head").append(`<style>${theme.darkTheme}</style>`);
+    }
+    if (settings.darkMode == "auto") {
+      $("head").append(`<style>${theme.autoTheme}</style>`);
+    }
+  }
   function renderNavbar(items) {
     for (let x in items) {
       const item = oprs_multilang[x];
@@ -129,13 +159,17 @@ jQuery(function () {
         $("body")
           .find(`#${currentOpr.toLowerCase()}-operations `)
           .append(
-            ` <div class="card rounded-lg "style="margin-bottom: 1.5rem;">
+            ` 
+            <hr class="darkHr">
+            <div class="card rounded-lg "style="margin-bottom: 1.5rem;">
             <div class="card-body"
             id="${card.name}">
             <h3 class="card-title"id="${card.name}_title"> ${card_multilang.title} </h3> </div> </div>
+            
             `
             // card.title為卡片的標題
           );
+        // $('.darkHr').hide();
         if (card.subtitle != undefined) {
           // 若有，則產生副標題
           $("body")
@@ -264,7 +298,7 @@ jQuery(function () {
       }
     }
   }
-  function loadLangSource(source){
+  function loadLangSource(source) {
     const lang = require(`./lang_${source}.export.js`);
     oprs_multilang = lang.oprs;
     startActionBtn_multilang = lang.startActionBtn;
@@ -280,20 +314,22 @@ jQuery(function () {
     //   startActionBtn_multilang = startActionBtn_en_us;
     //   selectFile_multilang = selectFile_en_us;
     // }
-    if (settings.language !== "auto") {
-      loadLangSource(settings.language);
+    loadLangSource("en-US");
+    if (settings.language != "auto") {
+      if (availableLanguages.includes(settings.language)) {
+        loadLangSource(settings.language);
+      }
     } else {
       if (availableLanguages.includes(navigator.language)) {
-        loadLangSource(navigator.language)
-      }else{
-        loadLangSource("en-US")
+        loadLangSource(navigator.language);
       }
     }
   }
+  $("#refreshSettings").hide();
   processLang();
+  detectDarkmode();
   renderNavbar(oprs);
   renderBody(oprs);
   renderCards(oprs);
   processOptLang();
-  $("#refreshSettings").hide();
 });

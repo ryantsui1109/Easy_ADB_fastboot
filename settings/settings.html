@@ -19,6 +19,7 @@
       rel="stylesheet"
       href="../node_modules/bootstrap/dist/css/bootstrap.css"
     />
+
     <style>
       @import url("../res/HarmonyOS_Sans_TC/stylesheet.css");
       html {
@@ -36,15 +37,14 @@
       * {
         font-family: HarmonyOS Sans TC;
       }
-      /* @media (prefers-color-scheme: dark) {
-        body {
-          background-color: rgb(0, 0, 0);
-          color: rgba(255, 255, 255, 1);
-        }
-        .btn {
-          color: #fff;
-        }
-      } */
+      .fade {
+        transition: opacity 0s linear;
+      }
+      .modal.fade .modal-dialog {
+        transition: 0.3s;
+        
+      }
+
       .modal-backdrop {
         opacity: 0 !important;
       }
@@ -52,64 +52,76 @@
   </head>
   <body>
     <div class="container">
-      <h5 id="language-title">Language</h5>
+      <hr class="darkHr" />
+      <div class="card marginBottom">
+        <div class="card-body">
+          <h3 class="card-title" id="language-title">Language</h3>
+          <div class="dropdown">
+            <a
+              class="btn dropdown-toggle"
+              href="#"
+              role="button"
+              id="language"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              language:
+            </a>
 
-      <div class="dropdown">
-        <a
-          class="btn dropdown-toggle"
-          href="#"
-          role="button"
-          id="language"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          language:
-        </a>
-
-        <ul
-          id="language-options"
-          class="dropdown-menu"
-          aria-labelledby="languages"
-        ></ul>
+            <ul
+              id="language-options"
+              class="dropdown-menu"
+              aria-labelledby="languages"
+            ></ul>
+          </div>
+        </div>
       </div>
-      <h5 id="darkMode-title">Dark Mode (Still in progress, won't be effected!)</h5>
+      <hr class="darkHr" />
+      <div class="card marginBottom">
+        <div class="card-body">
+          <h3 class="card-title" id="darkMode-title">Theme (Beta)</h3>
+          <div class="dropdown">
+            <a
+              class="btn dropdown-toggle"
+              href="#"
+              role="button"
+              id="darkMode"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              darkMode:
+            </a>
 
-      <div class="dropdown">
-        <a
-          class="btn dropdown-toggle"
-          href="#"
-          role="button"
-          id="darkMode"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          darkMode:
-        </a>
+            <ul
+              id="darkMode-options"
+              class="dropdown-menu"
+              aria-labelledby="darkmode"
+            ></ul>
+          </div>
+        </div>
+      </div>
+      <hr class="darkHr" />
+      <div class="card marginBottom" id="aboutEAF">
+        <div class="card-body">
+          <h3 class="card-title">About EAF</h3>
+          <h6 id="uiver" class="card-text">UI Version:</h6>
+          <h6 id="fnver" class="card-text">Function Version:</h6>
+          <h6 class="card-text">
+            Author:
+            <a
+              href="javascript:openWithBrowser('https://github.com/ryantsui1109')"
+              >ryantsui1109@github</a
+            >
+          </h6>
+          <h6 class="card-text">
+            Contact Me:
+            <a href="javascript:openWithBrowser('mailto:beigua87@gmail.com')"
+              >E-Mail</a
+            >
+          </h6>
+        </div>
+      </div>
 
-        <ul
-          id="darkMode-options"
-          class="dropdown-menu"
-          aria-labelledby="darkmode"
-        ></ul>
-      </div>
-      <div id="aboutEAF">
-        <h5>About EAF</h5>
-        <h6 id="uiver" class="btnPadding">UI Version:</h6>
-        <h6 id="fnver" class="btnPadding">Function Version:</h6>
-        <h6 class="btnPadding">
-          Author:
-          <a
-            href="javascript:openWithBrowser('https://github.com/ryantsui1109')"
-            >ryantsui1109@github</a
-          >
-        </h6>
-        <h6 class="btnPadding">
-          Contact Me:
-          <a href="javascript:openWithBrowser('mailto:beigua87@gmail.com')"
-            >E-Mail</a
-          >
-        </h6>
-      </div>
       <div id="saveSettings" class="d-flex justify-content-end">
         <button
           class="btn btn-primary"
@@ -149,6 +161,8 @@
               class="btn btn-primary"
               onclick="saveChanges()"
               data-bs-dismiss="modal"
+              data-bs-toggle="modal"
+              data-bs-target="#restartReminder"
             >
               Save Changes
             </button>
@@ -156,10 +170,42 @@
         </div>
       </div>
     </div>
+
+    <div
+      class="modal fade"
+      id="restartReminder"
+      tabindex="-1"
+      aria-labelledby="restartReminderLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow">
+          <div class="modal-header">
+            <h5 class="modal-title" id="restartReminderLabel">Restart</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">Please restart the app to see changes</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <style>
-    .btnPadding {
-      padding: 0.375rem 0.75rem;
+    .marginBottom {
+      margin-bottom: 1.5rem;
     }
   </style>
 </html>

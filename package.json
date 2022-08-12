@@ -1,6 +1,6 @@
 {
   "name": "easy_adb_fastboot",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "A GUI tool for easier using ADB and fastboot",
   "main": "main.js",
   "scripts": {
@@ -30,8 +30,9 @@
     "appId": "io.github.ryantsui1109.eaf",
     "productName": "Easy ADB and fastboot",
     "files": [
-      "!{functions.js,beforePackHook.js,index.html,lang_en-US.js,lang_zh-TW.js,obfuscator.js,preload.js,renderUI.js,UI.js,TODO.txt}"
+      "!{TODO.txt}"
     ],
+    "extraFiles": "settings.json",
     "win": {
       "icon": "./favicon_256.ico",
       "extraFiles": "platform-tools-win",

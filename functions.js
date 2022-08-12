@@ -2,7 +2,15 @@ const child = require("child_process");
 const { stdout, stderr } = require("process");
 const fs = require("fs/promises");
 const getPlatform = require("os").platform;
-const settings = require("./settings.json");
+const isPackaged = require("electron-is-packaged").isPackaged;
+let settings = "";
+const { dirname } = require("path");
+if (isPackaged) {
+  settings = require(__dirname + "\\..\\..\\settings.json");
+} else {
+  settings = require("./settings.json");
+}
+
 let adbPath = "";
 let fastbootPath = "";
 

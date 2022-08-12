@@ -1,12 +1,20 @@
 const shell = require("electron").shell;
 const fs = require("fs");
-const appInfo = JSON.parse(fs.readFileSync("./package.json"));
+
+let appInfo = ""
+const isPackaged = require("electron-is-packaged").isPackaged;
+if (isPackaged) {
+  appInfo = JSON.parse(fs.readFileSync(__dirname + "\\..\\package.json"));
+} else {
+  appInfo = JSON.parse(fs.readFileSync("./package.json"));
+}
 const defaultSettings = {
   language: "auto",
   darkMode: "auto",
 };
 const path = "./settings.json";
 const appVersion = appInfo.version.split(".");
+const theme = require("../index.theme");
 let settings = defaultSettings;
 loadedSettings = JSON.parse(fs.readFileSync(path));
 
@@ -50,6 +58,15 @@ function saveChanges() {
 }
 
 $(document).ready(function () {
+  function detectDarkmode() {
+    $("head").append(`<style>${theme.lightTheme}</style>`);
+    if (settings.darkMode == "dark") {
+      $("head").append(`<style>${theme.darkTheme}</style>`);
+    }
+    if (settings.darkMode == "auto") {
+      $("head").append(`<style>${theme.autoTheme}</style>`);
+    }
+  }
   for (x of Object.keys(_options)) {
     $("body").find(`#${x}`).text(`${settings[x]}`);
     for (y of _options[x]) {
@@ -62,4 +79,5 @@ $(document).ready(function () {
   });
   $("#uiver").text("UI Version: " + appVersion[0]);
   $("#fnver").text(`Function Version: ${appVersion[1]}.${appVersion[2]}`);
+  detectDarkmode();
 });
