@@ -1,6 +1,6 @@
 {
   "name": "easy_adb_fastboot",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "A GUI tool for easier using ADB and fastboot",
   "main": "main.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "dist": "electron-builder",
     "clean": "modclean --ignore='platform-tools'",
     "clean-obf": "del *obfuscated.js",
-    "obf": "node .\\obfuscator.js"
+    "obf": "node ./obfuscator.js"
   },
   "author": "ryantsui1109@github",
   "license": "Apache-2.0",
@@ -19,7 +19,8 @@
     "electron-is-packaged": "^1.0.2",
     "got": "^11.8.5",
     "jquery": "^3.6.0",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "upath": "^2.0.1"
   },
   "devDependencies": {
     "electron": "^19.0.8",

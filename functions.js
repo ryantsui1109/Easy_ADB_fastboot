@@ -1,12 +1,13 @@
 const child = require("child_process");
 const { stdout, stderr } = require("process");
-const fs = require("fs/promises");
+const fs = require("fs");
+const upath = require("upath");
 const getPlatform = require("os").platform;
 const isPackaged = require("electron-is-packaged").isPackaged;
 let settings = "";
 const { dirname } = require("path");
 if (isPackaged) {
-  settings = require(__dirname + "\\..\\..\\settings.json");
+  settings = require(upath.toUnix(__dirname) + "/../../settings.json");
 } else {
   settings = require("./settings.json");
 }

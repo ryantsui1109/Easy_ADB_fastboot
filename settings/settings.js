@@ -1,10 +1,11 @@
 const shell = require("electron").shell;
 const fs = require("fs");
-
-let appInfo = ""
+const upath = require("upath");
+let appInfo = "";
 const isPackaged = require("electron-is-packaged").isPackaged;
+console.log(upath.toUnix(__dirname))
 if (isPackaged) {
-  appInfo = JSON.parse(fs.readFileSync(__dirname + "\\..\\package.json"));
+  appInfo = JSON.parse(fs.readFileSync(__dirname + "/../package.json"));
 } else {
   appInfo = JSON.parse(fs.readFileSync("./package.json"));
 }
