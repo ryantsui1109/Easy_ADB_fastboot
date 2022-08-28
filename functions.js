@@ -130,7 +130,7 @@ function startAction(optmode, opt, deviceSN) {
   if (optmode == "adb") {
     cmdByArray = adbPath;
   }
-
+  console.log(cmdByArray, param);
   let startTime = Date.now().toString();
   runCommand = child.spawn(cmdByArray, params);
   console.log(cmdByArray, params);

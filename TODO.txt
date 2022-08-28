@@ -3,3 +3,6 @@ adb pull
 auto update
 need unlocking
 slot selection in flashing/erasing
+adb uninstall
+adb disable
+adb list installed packages

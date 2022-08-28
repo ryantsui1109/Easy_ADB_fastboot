@@ -150,6 +150,14 @@ exports.oprs = [
         subtitle: "For installing apk, not for flashing magisk!",
         name: "install-menu",
       },
+      {
+        title: "List installed apps",
+        subtitle: "adb shell needed",
+        name: "list-menu0",
+        content: {
+          "shell_cmd package list packages": "list installed apps",
+        },
+      },
     ],
   },
   { navbar: "Settings", item: [] },

@@ -38,13 +38,12 @@
       * {
         font-family: HarmonyOS Sans TC;
       }
-      body{
+      body {
         overflow-y: scroll;
       }
       /* #settings-operations #web {
         height: calc(100vh - 40px);
       } */
-      
     </style>
 
     <title>Easy ADB and fastboot</title>
@@ -143,7 +142,7 @@
         webview.setAttribute("nodeintegration", "");
         webview.setAttribute("webpreferences", "contextIsolation=false");
         webview.addEventListener("dom-ready", () => {
-          webview.openDevTools();
+          // webview.openDevTools();
         });
         console.log(webview);
         return webview;

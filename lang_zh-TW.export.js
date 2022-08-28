@@ -120,11 +120,18 @@ exports.oprs = [
         subtitle: "請勿在此“刷入”magisk",
         name: "install-menu",
       },
+      {
+        title: "列出已安裝的 APP",
+        subtitle: "需要 adb shell",
+        name: "list-menu0",
+        content: { "shell_cmd package list packages": "列出已安裝的APP" },
+      },
     ],
-  },{
-    navbar:"Settings",
-    items:[]
-  }
+  },
+  {
+    navbar: "Settings",
+    items: [],
+  },
 ];
 exports.startActionBtn = "開始";
 exports.selectFile = "選擇檔案";

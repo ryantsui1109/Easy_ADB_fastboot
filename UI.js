@@ -187,6 +187,16 @@ const oprs = [
           ["br", ""],
         ],
       },
+      {
+        title: "List installed apps",
+        subtitle: "adb shell needed",
+        name: "shell-menu0",
+        content: [
+          ["radio", "shell_cmd package list packages", "checked"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
     ],
   },
   {
