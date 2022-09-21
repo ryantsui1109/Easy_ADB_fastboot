@@ -181,12 +181,15 @@ jQuery(function () {
         // console.log(card_multilang);
         processOpt(card.content, card_multilang.content);
         // 開始按鈕
+        if(!card.multipleCommands==true){
+          card.multipleCommands=false
+        }
         $("body").find(`#${card.name}`).append(`
                 <button type="button" class="btn btn-primary startAction-btn border-0" id="${
                   card.name
                 }-btn" onclick="startActionMultidevice('${currentOpr.toLowerCase()}','${
           card.name
-        }')">${startActionBtn_multilang}</button>`);
+        }',${card.multipleCommands})">${startActionBtn_multilang}</button>`);
       }
     }
   }
