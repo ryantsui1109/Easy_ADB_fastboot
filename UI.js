@@ -191,6 +191,8 @@ const oprs = [
         title: "List installed apps",
         subtitle: "adb shell needed",
         name: "shell-menu0",
+        multipleCommands: true,
+        scripts: ["shell","cmd package list packages"],
         content: [
           ["radio", "shell_cmd package list packages", "checked"],
           ["br", ""],

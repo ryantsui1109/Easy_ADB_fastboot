@@ -92,15 +92,15 @@ exports.oprs = [
         ],
       },
       {
-        title: "Fastboot Getvar",
+        title: "Get Variables Stored in Fastboot",
         name: "getvar-menu",
         needUnlock: false,
         content: {
           getvar_all: "all",
-          "getvar_current-slot": "(for AB devices)current-slot",
+          "getvar_current-slot": "(for AB devices) current-slot",
           getvar_unlocked: "unlocked",
           "getvar_is-userspace": "(for VAB devices) is-userspace",
-          getvar_anti: "(for xiaomi) anti",
+          getvar_anti: "(for Xiaomi devices) anti",
           getvar_other: "other",
           getvar_input: "Custom variable",
         },

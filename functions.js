@@ -32,7 +32,8 @@ child.exec(`${adbPath} start-server`, (error, stdout, stderr) => {
   console.log(stderr);
 });
 
-function startActionMultidevice(optmode, opt) {
+function startActionMultidevice(optmode, opt, multipleCommands) {
+  console.log(multipleCommands);
   if (selectedDevices.length == 0) {
     startAction(optmode, opt, null);
   } else {
