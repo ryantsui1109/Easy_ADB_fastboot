@@ -189,7 +189,7 @@ jQuery(function () {
                   card.name
                 }-btn" onclick="startActionMultidevice('${currentOpr.toLowerCase()}','${
           card.name
-        }',${card.multipleCommands})">${startActionBtn_multilang}</button>`);
+        }',${card.multipleCommands},${card.scripts})">${startActionBtn_multilang}</button>`);
       }
     }
   }

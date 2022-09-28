@@ -32,13 +32,19 @@ child.exec(`${adbPath} start-server`, (error, stdout, stderr) => {
   console.log(stderr);
 });
 
-function startActionMultidevice(optmode, opt, multipleCommands) {
+function startActionMultidevice(optmode, opt, multipleCommands, scripts) {
   console.log(multipleCommands);
-  if (selectedDevices.length == 0) {
-    startAction(optmode, opt, null);
+  if (multipleCommands) {
+    for (x of scripts) {
+      console.log(x);
+    }
   } else {
-    for (x of selectedDevices) {
-      startAction(optmode, opt, x);
+    if (selectedDevices.length == 0) {
+      startAction(optmode, opt, null);
+    } else {
+      for (x of selectedDevices) {
+        startAction(optmode, opt, x);
+      }
     }
   }
 }
@@ -137,7 +143,7 @@ function startAction(optmode, opt, deviceSN) {
   console.log(cmdByArray, params);
 
   runCommand.stdout.on("data", (data) => {
-    console.log(`${data}`);
+    // console.log(`${data}`);
     displayAlert(data, "info", startTime);
   });
 

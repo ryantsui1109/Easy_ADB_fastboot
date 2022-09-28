@@ -192,7 +192,13 @@ const oprs = [
         subtitle: "adb shell needed",
         name: "shell-menu0",
         multipleCommands: true,
-        scripts: ["shell","cmd package list packages"],
+        scripts: [
+          {
+            exec: "adb",
+            operation: "shell",
+            arg: ["cmd", "package", "list", "packages"],
+          }
+        ],
         content: [
           ["radio", "shell_cmd package list packages", "checked"],
           ["br", ""],
