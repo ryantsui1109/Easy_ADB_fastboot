@@ -35,8 +35,11 @@ child.exec(`${adbPath} start-server`, (error, stdout, stderr) => {
 function startActionMultidevice(optmode, opt, multipleCommands, scripts) {
   console.log(multipleCommands);
   if (multipleCommands) {
-    for (x of scripts) {
-      console.log(x);
+    for (cmd of scripts) {
+      console.log(cmd);
+      if (selectedDevices.length == 0) {
+        startAction(cmd.exec, `${cmd.operation}${cmd.arg}`, null);
+      }
     }
   } else {
     if (selectedDevices.length == 0) {
@@ -62,7 +65,14 @@ function startAction(optmode, opt, deviceSN) {
     "boot",
     "update",
   ];
-  let targetHasNoRadio = ["sideload", "install", "push", "boot", "update"];
+  let targetHasNoRadio = [
+    "sideload",
+    "install",
+    "push",
+    "boot",
+    "update",
+    "shell",
+  ];
   let param = opt.split("-")[0];
   let params = [];
   let cmdByArray = "";
@@ -123,6 +133,10 @@ function startAction(optmode, opt, deviceSN) {
       }
     }
   }
+  if ((param == "shell")) {
+    params.push(opt.split("-")[1])
+  }
+  console.log(opt);
 
   if (hasFile) {
     params.push(document.getElementById(`${param}_file`).files[0].path);

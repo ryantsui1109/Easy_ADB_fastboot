@@ -194,9 +194,9 @@ const oprs = [
         multipleCommands: true,
         scripts: [
           {
-            exec: "adb",
-            operation: "shell",
-            arg: ["cmd", "package", "list", "packages"],
+            exec: "system",
+            operation: "shell-",
+            arg: ["cmd package list packages"],
           }
         ],
         content: [

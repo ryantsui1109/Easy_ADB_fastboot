@@ -171,7 +171,7 @@ jQuery(function () {
           );
         // $('.darkHr').hide();
         if (card.subtitle != undefined) {
-          // 若有，則產生副標題
+          // F若有，則產生副標題
           $("body")
             .find(`#${card.name}`)
             .append(
@@ -181,15 +181,23 @@ jQuery(function () {
         // console.log(card_multilang);
         processOpt(card.content, card_multilang.content);
         // 開始按鈕
-        if(!card.multipleCommands==true){
-          card.multipleCommands=false
+        let cmds = "";
+        let cmds_unquoted = "";
+        if (!card.multipleCommands == true) {
+          card.multipleCommands = false;
+        } else {
+          cmds_unquoted = JSON.stringify(card.scripts);
+          cmds = cmds_unquoted.replaceAll('"', "'");
+          // console.log(JSON.stringify(card.scripts));
         }
         $("body").find(`#${card.name}`).append(`
                 <button type="button" class="btn btn-primary startAction-btn border-0" id="${
                   card.name
                 }-btn" onclick="startActionMultidevice('${currentOpr.toLowerCase()}','${
           card.name
-        }',${card.multipleCommands},${card.scripts})">${startActionBtn_multilang}</button>`);
+        }',${
+          card.multipleCommands
+        },${cmds})">${startActionBtn_multilang}</button>`);
       }
     }
   }
