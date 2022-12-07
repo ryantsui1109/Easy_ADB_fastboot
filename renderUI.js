@@ -249,7 +249,7 @@ jQuery(function () {
                 </div>`
           );
 
-        if (opt[2] == "checked") {
+        if (opt[3] == "checked") {
           $("body").find(`#${opt[1]}`).attr("checked", "");
         }
       }
