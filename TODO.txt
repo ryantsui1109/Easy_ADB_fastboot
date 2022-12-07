@@ -1,3 +1,5 @@
+new method to run command
+
 adb network
 adb pull
 auto update
