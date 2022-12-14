@@ -1,6 +1,6 @@
 const darkTheme = `body {
-    background-color: rgb(0, 0, 0);
-    color: rgba(255, 255, 255, 1);
+    background-color: rgba(0, 0, 0,0.4);
+    color: rgba(255, 255, 255, 0);
   }
   .card {
     border-color: rgba(255, 255, 255, 1);

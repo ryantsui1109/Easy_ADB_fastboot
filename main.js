@@ -20,6 +20,10 @@ const createWindow = () => {
   const win = new BrowserWindow({
     width: 600,
     height: 800,
+    transparent: true,
+    frame: false,
+    titleBarOverlay: true,
+    titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       // allowRunningInsecureContent: true
@@ -41,7 +45,7 @@ const createWindow = () => {
   //   indexFile = "index.html";
   // }
   indexFile = "index.html";
-  win.loadFile('index.html');
+  win.loadFile("index.html");
 };
 app.whenReady().then(() => {
   createWindow();
