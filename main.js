@@ -1,6 +1,5 @@
 const { exec } = require("child_process");
-const { app } = require("electron");
-const { BrowserWindow } = require("electron-acrylic-window");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
 const execFile = require("child_process").execFile;
@@ -19,12 +18,9 @@ if (getPlatform() == "linux") {
 let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 600,
+    width: 1200,
     height: 800,
     frame: false,
-    vibrancy: { disableOnBlur: true },
-    // titleBarOverlay: true,
-    titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       // allowRunningInsecureContent: true
@@ -47,6 +43,19 @@ const createWindow = () => {
   // }
   indexFile = "index.html";
   win.loadFile("index.html");
+  ipcMain.on("close-window", () => {
+    win.close();
+  });
+  ipcMain.on("maximize-window", () => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+    } else {
+      win.maximize();
+    }
+  });
+  ipcMain.on("minimize-window", () => {
+    win.minimize();
+  });
 };
 app.whenReady().then(() => {
   createWindow();

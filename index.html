@@ -14,10 +14,10 @@
       require("bootstrap");
       require("@popperjs/core");
     </script>
-    <script src="./UI.js"></script>
+    <!-- <script src="./UI.js"></script>
 
     <script src="./renderUI.js"></script>
-    <script src="./functions.js"></script>
+    <script src="./functions.js"></script> -->
     <!-- <script>
       const webview = document.querySelector("webview");
       webview.addEventListener("found-in-page", (e) => {
@@ -32,35 +32,7 @@
       href="./node_modules/bootstrap/dist/css/bootstrap.css"
     />
 
-    <style>
-      @import url("./res/HarmonyOS_Sans_TC/stylesheet.css");
-
-      * {
-        font-family: HarmonyOS Sans TC;
-      }
-      #title-bar {
-        -webkit-app-region: drag;
-      }
-      /* body {
-        
-        -webkit-app-region: drag;
-        
-      }
-      button,
-      input,
-      label,
-      li {
-        -webkit-app-region: no-drag;
-      } */
-      body {
-        height: 800px;
-        /* overflow: hidden; */
-      }
-      /* .container {
-        overflow-y: scroll;
-        height: 100%;
-      } */
-    </style>
+    <style></style>
 
     <title>Easy ADB and fastboot</title>
   </head>
@@ -97,110 +69,52 @@
     </div>
   </nav>
   <body>
-    <!-- Button trigger modal -->
-    <!-- Modal -->
-
-    <div
-      class="modal fade"
-      data-bs-backdrop="static"
-      id="manage-devices"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="modal-title"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Select devices (by S/N)</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body d-flex justify-content-center flex-column">
-            <button
-              type="button"
-              class="btn btn-primary align-self-center col-2"
-              onclick="refreshDevices()"
-            >
-              Refresh
-            </button>
-            <div
-              id="deviceList"
-              class="d-flex justify-content-center flex-column"
-            ></div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onclick="selectedDevices=[]"
-            >
-              Clear queue
-            </button>
-
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="selectDevice(foundDevices)"
-              data-bs-dismiss="modal"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="alerts">
-      <div id="alertDiv"></div>
-    </div>
-    <!-- <ul class="nav fixed-top justify-content-center" id="navbar"></ul>
-    <div id="topButtons" class="fixed-top d-flex justify-content-center">
+    <div class="d-flex flex-row-reverse" style="-webkit-app-region: drag">
       <button
-        type="button"
-        id="devicesSelector-btn"
-        class="btn btn-primary mb-2"
-        data-bs-toggle="modal"
-        data-bs-target="#manage-devices"
-        onclick="refreshDevices();"
+        id="close-btn"
+        class="btn btn-primary"
+        style="-webkit-app-region: none"
       >
-        Select devices
+        X
       </button>
       <button
-        id="refreshSettings"
-        class="btn btn-primary mb-2"
-        onclick="document.getElementById('web').reload()"
+        id="max-btn"
+        class="btn btn-primary"
+        style="-webkit-app-region: none"
       >
-        Refresh Settings
+        口
       </button>
-    </div> -->
+      <button
+        id="min-btn"
+        class="btn btn-primary"
+        style="-webkit-app-region: none"
+      >
+        _
+      </button>
+    </div>
+    <div class="d-flex flex-row">
+      <div class="col-3 bg-primary">what?</div>
+      <div class="col-9 bg-success">what?</div>
+    </div>
   </body>
   <script>
+    const ipc = require("electron").ipcRenderer;
     $(document).ready(function () {
-      function createWebview(id, url) {
-        //creates a webview with the id of the tab and the url loaded
-        let webview = document.createElement("webview");
-        webview.setAttribute("id", id);
-        webview.setAttribute("src", url);
-        webview.setAttribute("nodeintegration", "");
-        webview.setAttribute("webpreferences", "contextIsolation=false");
-        webview.addEventListener("dom-ready", () => {
-          // webview.openDevTools();
-        });
+      $("#close-btn").click(function (e) {
+        e.preventDefault();
 
-        return webview;
-      }
-      const settingsWeb = document
-        .querySelector("#settings-operations")
-        .appendChild(
-          createWebview("web", `file://${__dirname}/settings/settings.html`)
-        );
-      // $('#web').css('width', '100%');
-      console.log(`calc(100vh-${$("#navbar").css("height")})`);
+        ipc.send("close-window");
+      });
+      $("#max-btn").click(function (e) {
+        e.preventDefault();
+
+        ipc.send("maximize-window");
+      });
+      $("#min-btn").click(function (e) {
+        e.preventDefault();
+
+        ipc.send("minimize-window");
+      });
     });
   </script>
 </html>
