@@ -38,21 +38,68 @@
       * {
         font-family: HarmonyOS Sans TC;
       }
-      body {
-        overflow-y: scroll;
+      #title-bar {
+        -webkit-app-region: drag;
       }
-      /* #settings-operations #web {
-        height: calc(100vh - 40px);
+      /* body {
+        
+        -webkit-app-region: drag;
+        
+      }
+      button,
+      input,
+      label,
+      li {
+        -webkit-app-region: no-drag;
+      } */
+      body {
+        height: 800px;
+        /* overflow: hidden; */
+      }
+      /* .container {
+        overflow-y: scroll;
+        height: 100%;
       } */
     </style>
 
     <title>Easy ADB and fastboot</title>
   </head>
-
+  <nav
+    class="fixed-top d-flex justify-content-end"
+    style="width: 100%"
+    id="title-bar"
+  >
+    <div class="right-nav align-items-end">
+      <span style="color: white"> _ </span>
+      <span style="color: white"> 口 </span>
+      <span style="color: white"> X </span>
+    </div>
+    <br>
+    <ul class="nav fixed-top justify-content-center" id="navbar"></ul>
+    <div id="topButtons" class="fixed-top d-flex justify-content-center">
+      <button
+        type="button"
+        id="devicesSelector-btn"
+        class="btn btn-primary mb-2"
+        data-bs-toggle="modal"
+        data-bs-target="#manage-devices"
+        onclick="refreshDevices();"
+      >
+        Select devices
+      </button>
+      <button
+        id="refreshSettings"
+        class="btn btn-primary mb-2"
+        onclick="document.getElementById('web').reload()"
+      >
+        Refresh Settings
+      </button>
+    </div>
+  </nav>
   <body>
     <!-- Button trigger modal -->
-    <div id="autoHideScrollBar"></div>
     <!-- Modal -->
+
     <div
       class="modal fade"
       data-bs-backdrop="static"
@@ -108,11 +155,11 @@
       </div>
     </div>
 
-    <div class="container alerts">
+    <div class="alerts">
       <div id="alertDiv"></div>
     </div>
-    <ul class="nav justify-content-center" id="navbar"></ul>
-    <div id="topButtons" class="container d-flex justify-content-center">
+    <!-- <ul class="nav fixed-top justify-content-center" id="navbar"></ul>
+    <div id="topButtons" class="fixed-top d-flex justify-content-center">
       <button
         type="button"
         id="devicesSelector-btn"
@@ -130,7 +177,7 @@
       >
         Refresh Settings
       </button>
-    </div>
+    </div> -->
   </body>
   <script>
     $(document).ready(function () {
@@ -144,7 +191,7 @@
         webview.addEventListener("dom-ready", () => {
           // webview.openDevTools();
         });
-        
+
         return webview;
       }
       const settingsWeb = document

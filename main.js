@@ -1,5 +1,6 @@
 const { exec } = require("child_process");
-const { app, BrowserWindow } = require("electron");
+const { app } = require("electron");
+const { BrowserWindow } = require("electron-acrylic-window");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
 const execFile = require("child_process").execFile;
@@ -20,9 +21,9 @@ const createWindow = () => {
   const win = new BrowserWindow({
     width: 600,
     height: 800,
-    transparent: true,
     frame: false,
-    titleBarOverlay: true,
+    vibrancy: { disableOnBlur: true },
+    // titleBarOverlay: true,
     titleBarStyle: "hidden",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),

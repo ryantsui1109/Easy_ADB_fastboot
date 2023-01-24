@@ -4,7 +4,7 @@ const darkTheme = `body {
   }
   .card {
     border-color: rgba(255, 255, 255, 1);
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0,0);
     color: rgba(255, 255, 255, 1);
   }
   .nav {

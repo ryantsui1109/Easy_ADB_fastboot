@@ -135,7 +135,7 @@ jQuery(function () {
       const item = oprs_multilang[x];
 
       $("body").append(
-        ` <div class="container"id="${item.navbar.toLowerCase()}-operations"style="display:none;">
+        ` <div class="container operations"id="${item.navbar.toLowerCase()}-operations"style="display:none;">
             </div>
             `
       );
