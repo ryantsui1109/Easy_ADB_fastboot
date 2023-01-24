@@ -36,38 +36,6 @@
 
     <title>Easy ADB and fastboot</title>
   </head>
-  <nav
-    class="fixed-top d-flex justify-content-end"
-    style="width: 100%"
-    id="title-bar"
-  >
-    <div class="right-nav align-items-end">
-      <span style="color: white"> _ </span>
-      <span style="color: white"> 口 </span>
-      <span style="color: white"> X </span>
-    </div>
-    <br>
-    <ul class="nav fixed-top justify-content-center" id="navbar"></ul>
-    <div id="topButtons" class="fixed-top d-flex justify-content-center">
-      <button
-        type="button"
-        id="devicesSelector-btn"
-        class="btn btn-primary mb-2"
-        data-bs-toggle="modal"
-        data-bs-target="#manage-devices"
-        onclick="refreshDevices();"
-      >
-        Select devices
-      </button>
-      <button
-        id="refreshSettings"
-        class="btn btn-primary mb-2"
-        onclick="document.getElementById('web').reload()"
-      >
-        Refresh Settings
-      </button>
-    </div>
-  </nav>
   <body>
     <div class="d-flex flex-row-reverse" style="-webkit-app-region: drag">
       <button
