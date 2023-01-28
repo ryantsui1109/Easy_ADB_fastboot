@@ -1,88 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;"
     />
-    <!-- <script src="./UI.js"></script> -->
-    <!-- <script src="./UI.zh-Hant.js"></script> -->
+
     <script>
       window.$ = window.jQuery = require("jquery");
       require("bootstrap");
       require("@popperjs/core");
     </script>
-    <!-- <script src="./UI.js"></script>
-
-    <script src="./renderUI.js"></script>
-    <script src="./functions.js"></script> -->
-    <!-- <script>
-      const webview = document.querySelector("webview");
-      webview.addEventListener("found-in-page", (e) => {
-        webview.stopFindInPage("keepSelection");
-      });
-
-      const requestId = webview.findInPage("test");
-      console.log(requestId);
-    </script> -->
+    <script src="./UI.js"></script>
+    <script src="renderer-2.0.0.js"></script>
     <link
       rel="stylesheet"
       href="./node_modules/bootstrap/dist/css/bootstrap.css"
     />
 
-    <style></style>
+    <link rel="stylesheet" href="index.css" />
 
     <title>Easy ADB and fastboot</title>
   </head>
   <body>
-    <div class="d-flex flex-row-reverse" style="-webkit-app-region: drag">
+    <div
+      id="winCtrl-bar"
+      class="d-flex flex-row-reverse"
+      style="-webkit-app-region: drag; width: 100%"
+    >
       <button
         id="close-btn"
-        class="btn btn-primary"
+        class="winCtrl-btn border-0"
         style="-webkit-app-region: none"
       >
-        X
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-x-lg"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+          />
+        </svg>
       </button>
       <button
         id="max-btn"
-        class="btn btn-primary"
+        class="winCtrl-btn border-0"
         style="-webkit-app-region: none"
       >
-        口
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-app"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h6zM5 1a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4H5z"
+          />
+        </svg>
       </button>
       <button
         id="min-btn"
-        class="btn btn-primary"
+        class="winCtrl-btn border-0"
         style="-webkit-app-region: none"
       >
-        _
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-dash-lg"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"
+          />
+        </svg>
       </button>
     </div>
-    <div class="d-flex flex-row">
-      <div class="col-3 bg-primary">what?</div>
-      <div class="col-9 bg-success">what?</div>
+
+    <div id="main-content" class="d-flex flex-row">
+      <div id="sidebar" style="height: 100%; overflow: auto">
+        <div class="container">
+          <nav id="navbar" class="nav flex-column bg-dark" style="height: 100%">
+            <div class="mb-3 categories-div">
+              <button
+                class="btn btn-primary categories-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#adb-categories-collapse"
+              >
+                ADB
+              </button>
+              <div id="adb-categories-collapse" class="collapse">
+                <h6>adb</h6>
+                <h6>adb</h6>
+                <h6>adb</h6>
+              </div>
+            </div>
+            <div class="mb-3 categories-div">
+              <button
+                class="btn btn-primary categories-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#fastboot-categories-collapse"
+              >
+                Fastboot
+              </button>
+              <div id="fastboot-categories-collapse" class="collapse">
+                <h6>fb</h6>
+                <h6>fb</h6>
+                <h6>fb</h6>
+              </div>
+            </div>
+            <div class="mb-3 categories-div">
+              <button
+                class="btn btn-primary categories-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#devices-categories-collapse"
+              >
+                Manage Devices
+              </button>
+              <div id="devices-categories-collapse" class="collapse">
+                <h6>dev</h6>
+                <h6>dev</h6>
+                <h6>dev</h6>
+              </div>
+            </div>
+            <div class="mb-3 categories-div">
+              <button
+                class="btn btn-primary categories-btn"
+                data-bs-toggle="collapse"
+                data-bs-target="#settings-categories-collapse"
+              >
+                Settings
+              </button>
+              <div id="settings-categories-collapse" class="collapse">
+                <h6>set</h6>
+                <h6>set</h6>
+                <h6>set</h6>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div id="operation-area" class="container">
+        <h4 class="text-muted">
+          Select any of the operations from the left to start.
+        </h4>
+      </div>
+
+      <div id="logs-output">
+        <!-- <p id="logs-output" class="font-monospace"></p> -->
+      </div>
     </div>
   </body>
-  <script>
-    const ipc = require("electron").ipcRenderer;
-    $(document).ready(function () {
-      $("#close-btn").click(function (e) {
-        e.preventDefault();
-
-        ipc.send("close-window");
-      });
-      $("#max-btn").click(function (e) {
-        e.preventDefault();
-
-        ipc.send("maximize-window");
-      });
-      $("#min-btn").click(function (e) {
-        e.preventDefault();
-
-        ipc.send("minimize-window");
-      });
-    });
-  </script>
 </html>

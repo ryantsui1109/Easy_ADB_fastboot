@@ -1,215 +1,215 @@
-const oprs = [
-  {
+const oprs = {
+  system: {
+    navbar: "System",
+    items: {
+      power: {
+        title: "Reboot to",
+        name: "system-power-menu",
+        script: [["adb", "reboot", "$radio"]],
+        content: [
+          ["radio", "bootloader", "checked"],
+          ["radio", "recovery"],
+          ["radio", "fastbootd"],
+          ["radio", "system"],
+          ["radio", "sideload"],
+          ["radio", "other"],
+          ["input", "input", "Other target"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+      push: {
+        title: "Push file to /sdcard",
+        name: "push-menu",
+        operation: "push",
+        script: [["adb", "push", "$file", "/sdcard"]],
+        content: [
+          ["file", "file"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+      install: {
+        title: "Install apk file",
+        subtitle: "For installing apk, not for flashing magisk!",
+        name: "install-menu",
+        operation: "install",
+        script: [["adb", "install", "$file"]],
+        content: [
+          ["file", "file", ".apk,application/zip"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+    },
+  },
+  recovery: {
+    navbar: "Recovery",
+    items: {
+      sideload: {
+        title: "Sideload flashable zip",
+        subtitle: "You can flash magisk here",
+        name: "sideload-menu",
+        operation: "sideload",
+        script: [["adb", "sideload", "$file"]],
+        content: [
+          ["file", "file", "application/zip,.apk"],
+          ["br", ""],
+          ["br", ""],
+        ],
+      },
+    },
+  },
+  fastboot: {
     navbar: "Fastboot",
-    items: [
-      {
+    items: {
+      power: {
         title: "Reboot to",
         name: "power-menu",
         needUnlock: false,
+        script: [["fastboot", "reboot", "$radio"]],
         content: [
-          ["radio", "reboot_bootloader", "", "checked"],
-          ["radio", "reboot_recovery", ""],
-          ["radio", "reboot_fastbootd", ""],
-          ["radio", "reboot_system", ""],
-          ["radio", "reboot_sideload", ""],
-          ["radio", "reboot_other", ""],
-          ["input", "reboot_input", "Other target"],
+          ["radio", "bootloader", "checked"],
+          ["radio", "recovery"],
+          ["radio", "fastbootd"],
+          ["radio", "system"],
+          ["radio", "sideload"],
+          ["radio", "other"],
+          ["input", "input", "Other target"],
           ["br", ""],
           ["br", ""],
         ],
       },
-      {
+      boot: {
         title: "Boot a image",
         name: "boot-menu",
         needUnlock: true,
+        script: [["fastboot", "boot", "$file"]],
         content: [
-          ["file", "boot_file", ".img,.bin"],
+          ["file", "file", ".img,.bin"],
           ["br", ""],
           ["br", ""],
         ],
       },
-      {
+      flash: {
         title: "Flash image to partition",
         name: "flash-menu",
         needUnlock: true,
+        script: [["fastboot", "flash", "$radio", "$file"]],
         content: [
-          ["radio", "flash_boot", "", "checked"],
-          ["radio", "flash_recovery", ""],
-          ["radio", "flash_super", ""],
-          ["radio", "flash_system", ""],
-          ["radio", "flash_vendor", ""],
-          ["radio", "flash_data", ""],
-          ["radio", "flash_cache", ""],
-          ["radio", "flash_other", ""],
-          ["input", "flash_input", "Partition to flash"],
+          ["radio", "boot", "checked"],
+          ["radio", "recovery"],
+          ["radio", "super"],
+          ["radio", "system"],
+          ["radio", "vendor"],
+          ["radio", "data"],
+          ["radio", "cache"],
+          ["radio", "other"],
+          ["input", "input", "Partition to flash"],
           ["br", ""],
 
-          ["file", "flash_file", ".img,.bin,.mbn,.txt,.zip"],
+          ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
           ["br", ""],
           ["br", ""],
         ],
       },
-      {
+      erase: {
         title: "Erase partition",
         name: "erase-menu",
         needUnlock: true,
+        script: [["fastboot", "erase", "$radio"]],
         content: [
-          ["radio", "erase_boot", "", "checked"],
-          ["radio", "erase_recovery", ""],
-          ["radio", "erase_super", ""],
-          ["radio", "erase_system", ""],
-          ["radio", "erase_vendor", ""],
-          ["radio", "erase_cache", ""],
-          ["radio", "erase_other", ""],
-          ["input", "erase_input", "Partition to erase"],
+          ["radio", "boot", "checked"],
+          ["radio", "recovery"],
+          ["radio", "super"],
+          ["radio", "system"],
+          ["radio", "vendor"],
+          ["radio", "cache"],
+          ["radio", "other"],
+          ["input", "input", "Partition to erase"],
           ["check", "use_format", "Use format instead of erase"],
           ["br", ""],
         ],
       },
-      {
+      flashing: {
         title: "Fastboot flashing",
         name: "flashing-menu",
         needUnlock: false,
+        script: [["fastboot", "flashing", "$radio"]],
         content: [
-          ["radio", "flashing_unlock", "", "checked"],
-          ["radio", "flashing_lock", ""],
-          ["radio", "flashing_unlock-critical", ""],
-          ["radio", "flashing_lock-critical", ""],
-          ["radio", "flashing_get-unlock-ability", ""],
-          ["radio", "flashing_other", ""],
-          ["input", "flashing_input", "Custom command"],
+          ["radio", "unlock", "checked"],
+          ["radio", "lock"],
+          ["radio", "unlock-critical"],
+          ["radio", "lock-critical"],
+          ["radio", "get-unlock-ability"],
+          ["radio", "other"],
+          ["input", "input", "Custom command"],
           ["br", ""],
         ],
       },
-      {
+      oem: {
         title: "Fastboot oem",
         name: "oem-menu",
         needUnlock: true,
+        script: [],
         content: [
-          ["radio", "oem_unlock", "", "checked"],
-          ["radio", "oem_lock", ""],
-          ["radio", "oem_unlock-critical", ""],
-          ["radio", "oem_lock-critical", ""],
-          ["radio", "oem_device-info", ""],
-          ["radio", "oem_other", ""],
-          ["input", "oem_input", "Custom command"],
+          ["radio", "unlock", "checked"],
+          ["radio", "lock"],
+          ["radio", "unlock-critical"],
+          ["radio", "lock-critical"],
+          ["radio", "device-info"],
+          ["radio", "other"],
+          ["input", "input", "Custom command"],
           ["br", ""],
         ],
       },
-      {
+      update: {
         title: "Fastboot update",
         name: "update-menu",
         needUnlock: true,
+        script: [],
         content: [
-          ["file", "update_file", "application/zip"],
+          ["file", "file", "application/zip"],
           ["br", ""],
           ["br", ""],
         ],
       },
-      {
+      getvar: {
         title: "Fastboot getvar",
         name: "getvar-menu",
         needUnlock: false,
+        script: [["fastboot", "getvar", "$radio"]],
         content: [
-          ["radio", "getvar_all", "", "checked"],
-          ["radio", "getvar_current-slot", ""],
-          ["radio", "getvar_unlocked", ""],
-          ["radio", "getvar_is-userspace", ""],
-          ["radio", "getvar_anti", ""],
-          ["radio", "getvar_other", ""],
-          ["input", "getvar_input", "Custom variable"],
+          ["radio", "all", "checked"],
+          ["radio", "current-slot"],
+          ["radio", "unlocked"],
+          ["radio", "is-userspace"],
+          ["radio", "anti"],
+          ["radio", "other"],
+          ["input", "input", "Custom variable"],
           ["br", ""],
         ],
       },
-      {
+      active: {
         title: "Switch active slot to",
         name: "active-menu",
         needUnlock: true,
+        script: [["fastboot", "set_active", "$radio"]],
         content: [
           ["radio", "_a", "", "checked"],
           ["radio", "_b", ""],
           ["br", ""],
         ],
       },
-    ],
+    },
   },
-
-  {
-    navbar: "Recovery",
-    items: [
-      {
-        title: "Sideload flashable zip",
-        subtitle: "You can flash magisk here",
-        name: "sideload-menu",
-        content: [
-          ["file", "sideload_file", "application/zip,.apk"],
-          ["br", ""],
-          ["br", ""],
-        ],
-      },
-    ],
+  devices: {
+    navbar: "Devices",
+    items: {},
   },
-
-  {
-    navbar: "System",
-    items: [
-      {
-        title: "Reboot to",
-        name: "system-power-menu",
-        content: [
-          ["radio", "system-reboot_bootloader", "", "checked"],
-          ["radio", "system-reboot_recovery", ""],
-          ["radio", "system-reboot_fastbootd", ""],
-          ["radio", "system-reboot_system", ""],
-          ["radio", "system-reboot_sideload", ""],
-          ["radio", "system-reboot_other", ""],
-          ["input", "system-reboot_input", "Other target"],
-          ["br", ""],
-          ["br", ""],
-        ],
-      },
-      {
-        title: "Push file to /sdcard",
-        name: "push-menu",
-        content: [
-          ["file", "push_file"],
-          ["br", ""],
-          ["br", ""],
-        ],
-      },
-      {
-        title: "Sideload apk file",
-        subtitle: "For installing apk, not for flashing magisk!",
-        name: "install-menu",
-        content: [
-          ["file", "install_file", ".apk,application/zip"],
-          ["br", ""],
-          ["br", ""],
-        ],
-      },
-      {
-        title: "List installed apps",
-        subtitle: "adb shell needed",
-        name: "shell-menu0",
-        multipleCommands: true,
-        scripts: [
-          {
-            exec: "system",
-            operation: "shell-",
-            arg: ["cmd package list packages"],
-          },
-        ],
-        content: [
-          ["radio", "shell_cmd package list packages", "", "checked"],
-          ["br", ""],
-          ["br", ""],
-        ],
-      },
-    ],
-  },
-  {
+  settings: {
     navbar: "Settings",
-    items: [],
+    items: {},
   },
-];
+};
 const availableLanguages = ["zh-TW", "en-US"];

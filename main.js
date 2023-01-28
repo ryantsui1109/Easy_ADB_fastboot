@@ -18,8 +18,9 @@ if (getPlatform() == "linux") {
 let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 1080,
+    height: 500,
+    minWidth:1080,
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),

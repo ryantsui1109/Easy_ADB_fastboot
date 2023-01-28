@@ -1,0 +1,38 @@
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+#close-btn:hover {
+  transition: 0.3s;
+  background-color: brown;
+}
+#max-btn:hover,
+#min-btn:hover {
+  transition: 0.3s;
+  background-color: #3c3642;
+}
+#logs-output{
+    height: 100%;
+    width: 85%;
+    padding: 0.5rem;
+    background-color: black;
+}
+.winCtrl-btn {
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+}
+.categories-div {
+  width: 100%;
+}
+.categories-btn {
+  width: 100%;
+}
+.operations:hover {
+  transition: 0.3s;
+  color: white;
+}
+.extra-input {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  
+}
