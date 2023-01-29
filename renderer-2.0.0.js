@@ -116,7 +116,9 @@ function switchOpr(keyPath, language) {
 }
 
 function printLogs(data) {
+  const logsOutput = document.getElementById("logs-output");
   $("#logs-output").append(`<p class="log-message font-monospace">${data}</p>`);
+  logsOutput.scrollTo(0,logsOutput.scrollHeight);
 }
 function runCommand(execFile, parameters) {
   cmd = child.spawn(execFile, parameters);
@@ -146,8 +148,12 @@ function runScript(path, name) {
   for (let commandList of scripts) {
     let params = [];
     let execFile = "";
-    for (const j of commandList) {
-      switch (j) {
+    let operation = "";
+    for (const j in commandList) {
+      if (j == 1) {
+        operation = commandList[j];
+      }
+      switch (commandList[j]) {
         case "adb":
           execFile = adbPath;
           break;
@@ -155,13 +161,16 @@ function runScript(path, name) {
           execFile = fastbootPath;
           break;
         case "$radio":
-          params.push(readRadio(name));
+          if (!(readRadio(name) == "system" && operation == "reboot")) {
+            params.push(readRadio(name));
+          }
+
           break;
         case "$file":
           params.push(readFileSelector("file-input"));
           break;
         default:
-          params.push(j);
+          params.push(commandList[j]);
           break;
       }
     }
