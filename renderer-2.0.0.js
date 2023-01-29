@@ -103,8 +103,9 @@ function switchOpr(keyPath, language) {
   }
   generateContents(opArea, target, langTarget);
   opArea.append(`<div></div>`);
-  opArea.append(
-    `<button
+  if(!target.noStartButton){
+    opArea.append(
+      `<button
       type="button"
       class="btn btn-primary startAction-btn border-0"
       id="${target.name}-btn"
@@ -112,7 +113,9 @@ function switchOpr(keyPath, language) {
     >
       ${startBtn[language]}
     </button>`
-  );
+    );
+  }
+  
 }
 
 function printLogs(data) {

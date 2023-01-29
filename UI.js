@@ -137,7 +137,7 @@ const oprs = {
         needUnlock: true,
         script: [["fastboot", "format", "$radio"]],
         content: [
-          ["radio", "super","checked"],
+          ["radio", "super", "checked"],
           ["radio", "system"],
           ["radio", "vendor"],
           ["radio", "cache"],
@@ -225,6 +225,7 @@ const oprs = {
       todo: {
         title: "TODO",
         subtitle: "TODO",
+        noStartButton: true,
       },
     },
   },
@@ -234,6 +235,7 @@ const oprs = {
       todo: {
         title: "TODO",
         subtitle: "TODO",
+        noStartButton: true,
       },
     },
   },
