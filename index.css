@@ -11,12 +11,29 @@ body {
   transition: 0.3s;
   background-color: #3c3642;
 }
-#logs-output{
-    height: 100%;
-    width: 85%;
-    padding: 0.5rem;
-    background-color: black;
+#sidebar {
+  height: 100%;
+  overflow: auto;
 }
+#logs-output {
+  width: 85%;
+  padding: 0.5rem;
+  background-color: black;
+  overflow: auto;
+}
+#navbar {
+  height: 100%;
+}
+#winCtrl-bar {
+  -webkit-app-region: drag;
+  width: 100%;
+}
+#close-btn,
+#max-btn,
+#min-btn {
+  -webkit-app-region: none;
+}
+
 .winCtrl-btn {
   background-color: rgba(255, 255, 255, 0);
   color: white;
@@ -34,5 +51,4 @@ body {
 .extra-input {
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
-  
 }

@@ -1,7 +1,7 @@
 const lang = {
   zh_TW: {
     system: {
-      navbar: "System",
+      navbar: "ADB 操作 - 系統",
       items: {
         power: {
           title: "重啟",
@@ -45,7 +45,7 @@ const lang = {
       },
     },
     recovery: {
-      navbar: "Recovery",
+      navbar: "ADB 操作 - Recovery",
       items: {
         sideload: {
           title: "安裝 Zip",
@@ -62,7 +62,7 @@ const lang = {
       },
     },
     fastboot: {
-      navbar: "Fastboot",
+      navbar: "Fastboot 操作",
       items: {
         power: {
           title: "重啟",
@@ -221,7 +221,7 @@ const lang = {
       },
     },
     devices: {
-      navbar: "Devices",
+      navbar: "裝置",
       items: {
         todo: {
           title: "敬請期待",
@@ -232,7 +232,7 @@ const lang = {
       },
     },
     settings: {
-      navbar: "Settings",
+      navbar: "設定",
       items: {
         todo: {
           title: "敬請期待",
@@ -486,6 +486,11 @@ const lang = {
       },
     },
   },
+};
+
+const nothingSelected = {
+  zh_TW: "從側邊欄選取功能以開始",
+  en_US: "Select any of the operations from the left to start.",
 };
 
 const unlockAlertMsg = {

@@ -19,8 +19,8 @@ let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1080,
-    height: 500,
-    minWidth:1080,
+    height: 502,
+    minWidth: 1080,
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -56,6 +56,10 @@ const createWindow = () => {
   });
   ipcMain.on("minimize-window", () => {
     win.minimize();
+  });
+  ipcMain.on("resize", () => {
+    win.setSize(1080, 500);
+    console.log("window resized!");
   });
 };
 app.whenReady().then(() => {

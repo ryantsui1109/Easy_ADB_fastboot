@@ -213,6 +213,7 @@ $(function () {
     const realPath = document.getElementById("file-input").files[0].path;
     $("#file-path").text(realPath);
   });
-
+  $("#nothing-selected").text(nothingSelected[language]);
   renderNavbar(oprs, language);
+  ipc.send("resize");
 });
