@@ -3,8 +3,10 @@ const getPlatform = require("os").platform;
 const child = require("child_process");
 const { stdout, stderr } = require("process");
 const { Z_ASCII } = require("zlib");
+const language = "zh_TW";
 
-function renderNavbar(elements) {
+function renderNavbar(elements, language) {
+  const locale = lang[language];
   $("#navbar").empty();
   Object.keys(elements).forEach((element) => {
     $("#navbar").append(
@@ -14,7 +16,7 @@ function renderNavbar(elements) {
         data-bs-toggle="collapse"
         data-bs-target="#${element}-categories-collapse"
       >
-        ${elements[element].navbar}
+        ${locale[element].navbar}
       </button>
       <div id="${element}-categories-collapse" class="collapse">
 
@@ -23,7 +25,7 @@ function renderNavbar(elements) {
     );
     Object.keys(elements[element].items).forEach((e) => {
       $(`#${element}-categories-collapse`).append(
-        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="switchOpr($(this).attr('value'))">${elements[element].items[e].title}</p>`
+        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="switchOpr($(this).attr('value'),'zh_TW')">${locale[element].items[e].title}</p>`
       );
     });
   });
@@ -38,25 +40,26 @@ function generateTitle(opArea, title, subtitle) {
     $("#operation-area").find("#title").addClass("mb-3");
   }
 }
-function generateContents(opArea, operation) {
+function generateContents(opArea, operation, operationLang) {
   const content = operation.content;
-  for (let i of content) {
-    switch (i[0]) {
+  const contentLang = operationLang.content;
+  for (let i in content) {
+    switch (content[i][0]) {
       case "radio":
         const radio = `<div class="form-check">
-                        <input class="form-check-input" type="radio" name="${operation.name}" id="${i[1]}" value="${i[1]}">
-                        <label class="form-check-label" for="${i[1]}">
-                          ${i[1]}
+                        <input class="form-check-input" type="radio" name="${operation.name}" id="${content[i][1]}" value="${content[i][1]}">
+                        <label class="form-check-label" for="${content[i][1]}">
+                          ${contentLang[i][1]}
                         </label>
                       </div>`;
         opArea.append(radio);
-        if (i[2] == "checked") {
-          opArea.find(`#${i[1]}`).attr("checked", "checked");
+        if (content[i][2] == "checked") {
+          opArea.find(`#${content[i][1]}`).attr("checked", "checked");
         }
         break;
       case "input":
         opArea.append(`
-        <input class="extra-input mb-3" type="text" placeholder="${i[2]}" id="${i[1]}">
+        <input id="${content[i][1]}" class="extra-input mb-3" type="text" placeholder="${contentLang[i][2]}" >
         `);
         break;
       case "file":
@@ -65,10 +68,10 @@ function generateContents(opArea, operation) {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
             <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
           </svg>
-            Select a file
+            ${fileSelectorBtn[language]}
           </label>
-          <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" />
-          <h5 id="file-path">Nothing selected...</h5>
+          <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" accept="${content[i][2]}"/>
+          <h5 id="file-path">${fileSelectorDefault[language]}</h5>
         </div>`);
         break;
       default:
@@ -84,23 +87,21 @@ function keyPath2obj(path, initial) {
   return output;
 }
 
-function switchOpr(keyPath) {
-  // const target = keyPath.split(".").reduce((object, property) => {
-  //   return object[property];
-  // }, oprs);
+function switchOpr(keyPath, language) {
   const target = keyPath2obj(keyPath, oprs);
+  const langTarget = keyPath2obj(keyPath, lang[language]);
   const opArea = $("#operation-area");
   opArea.empty();
 
-  generateTitle(opArea, target.title, target.subtitle);
+  generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
-      `<div class="alert alert-info">This operation needs bootloader to be unlocked first.</div>`
+      `<div class="alert alert-info">${unlockAlertMsg[language]}</div>`
     );
   } else {
     opArea.append(`<div style="width:100%"></div>`);
   }
-  generateContents(opArea, target);
+  generateContents(opArea, target, langTarget);
   opArea.append(`<div></div>`);
   opArea.append(
     `<button
@@ -109,7 +110,7 @@ function switchOpr(keyPath) {
       id="${target.name}-btn"
       onclick="runScript('${keyPath}','${target.name}')"
     >
-      Start
+      ${startBtn[language]}
     </button>`
   );
 }
@@ -171,12 +172,17 @@ function readRadio(name) {
   const checkedRadio = document.querySelector(
     `input[name="${name}"]:checked`
   ).id;
-  return $(`#${checkedRadio}`).val();
+  if (checkedRadio == "other") {
+    return $("#operation-area").find("#input").val();
+  } else {
+    return $(`#${checkedRadio}`).val();
+  }
 }
 function readFileSelector(name) {
   console.log(name);
   return document.getElementById(name).files[0].path;
 }
+
 $(function () {
   $("#close-btn").on("click", (e) => {
     e.preventDefault();
@@ -208,5 +214,5 @@ $(function () {
     $("#file-path").text(realPath);
   });
 
-  renderNavbar(oprs);
+  renderNavbar(oprs, language);
 });

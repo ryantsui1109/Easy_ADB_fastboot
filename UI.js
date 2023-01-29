@@ -82,6 +82,7 @@ const oprs = {
       },
       boot: {
         title: "Boot a image",
+        subtitle: "Some models are not supported",
         name: "boot-menu",
         needUnlock: true,
         script: [["fastboot", "boot", "$file"]],
@@ -127,7 +128,22 @@ const oprs = {
           ["radio", "cache"],
           ["radio", "other"],
           ["input", "input", "Partition to erase"],
-          ["check", "use_format", "Use format instead of erase"],
+          ["br", ""],
+        ],
+      },
+      format: {
+        title: "Format partition",
+        name: "format-menu",
+        needUnlock: true,
+        script: [["fastboot", "format", "$radio"]],
+        content: [
+          ["radio", "super","checked"],
+          ["radio", "system"],
+          ["radio", "vendor"],
+          ["radio", "cache"],
+          ["radio", "userdata"],
+          ["radio", "other"],
+          ["input", "input", "Partition to format"],
           ["br", ""],
         ],
       },
@@ -196,8 +212,8 @@ const oprs = {
         needUnlock: true,
         script: [["fastboot", "set_active", "$radio"]],
         content: [
-          ["radio", "_a", "", "checked"],
-          ["radio", "_b", ""],
+          ["radio", "a", "", "checked"],
+          ["radio", "b", ""],
           ["br", ""],
         ],
       },
@@ -205,11 +221,21 @@ const oprs = {
   },
   devices: {
     navbar: "Devices",
-    items: {},
+    items: {
+      todo: {
+        title: "TODO",
+        subtitle: "TODO",
+      },
+    },
   },
   settings: {
     navbar: "Settings",
-    items: {},
+    items: {
+      todo: {
+        title: "TODO",
+        subtitle: "TODO",
+      },
+    },
   },
 };
 const availableLanguages = ["zh-TW", "en-US"];

@@ -1,4 +1,4 @@
-exports.oprs = [
+const oprs = [
   {
     navbar: "Fastboot",
     items: [
@@ -133,5 +133,5 @@ exports.oprs = [
     items: [],
   },
 ];
-exports.startActionBtn = "開始";
-exports.selectFile = "選擇檔案";
+export const startActionBtn = "開始";
+export const selectFile = "選擇檔案";
