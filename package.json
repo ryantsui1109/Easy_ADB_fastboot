@@ -30,7 +30,7 @@
     "electron-builder": "^22.10.3"
   },
   "build": {
-    "appId": "io.github.ryantsui1109.eaf",
+    "appId": "io.github.ryantsui1109.eaf2",
     "productName": "Easy ADB and fastboot",
     "files": [
       "!{TODO.txt}"

@@ -213,3 +213,7 @@ const oprs = {
   },
 };
 const availableLanguages = ["zh-TW", "en-US"];
+const winURL =
+  "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+const linURL =
+  "https://dl.google.com/android/repository/platform-tools-latest-linux.zip";
