@@ -328,11 +328,6 @@
   "resolved" "https://registry.npmjs.org/boolean/-/boolean-3.2.0.tgz"
   "version" "3.2.0"
 
-"bootstrap-icons@^1.10.3":
-  "integrity" "sha512-7Qvj0j0idEm/DdX9Q0CpxAnJYqBCFCiUI6qzSPYfERMcokVuV9Mdm/AJiVZI8+Gawe4h/l6zFcOzvV7oXCZArw=="
-  "resolved" "https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.10.3.tgz"
-  "version" "1.10.3"
-
 "bootstrap@^5.3.0-alpha1":
   "integrity" "sha512-ABZpKK4ObS3kKlIqH+ZVDqoy5t/bhFG0oHTAzByUdon7YIom0lpCeTqRniDzJmbtcWkNe800VVPBiJgxSYTYew=="
   "resolved" "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.0-alpha1.tgz"
