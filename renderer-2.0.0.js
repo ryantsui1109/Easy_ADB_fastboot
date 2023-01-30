@@ -103,7 +103,7 @@ function switchOpr(keyPath, language) {
   }
   generateContents(opArea, target, langTarget);
   opArea.append(`<div></div>`);
-  if(!target.noStartButton){
+  if (!target.noStartButton) {
     opArea.append(
       `<button
       type="button"
@@ -115,36 +115,34 @@ function switchOpr(keyPath, language) {
     </button>`
     );
   }
-  
 }
 
 function printLogs(data) {
   const logsOutput = document.getElementById("logs-output");
   $("#logs-output").append(`<p class="log-message font-monospace">${data}</p>`);
-  logsOutput.scrollTo(0,logsOutput.scrollHeight);
+  logsOutput.scrollTo(0, logsOutput.scrollHeight);
 }
 function runCommand(execFile, parameters) {
   cmd = child.spawn(execFile, parameters);
   console.log(execFile, parameters);
   cmd.stdout.on("data", (data) => {
-    console.log(data);
+    console.log(`${data}`);
     printLogs(data);
   });
   cmd.stderr.on("data", (data) => {
-    console.log(data);
+    console.log(`${data}`);
     printLogs(data);
   });
 }
 function runScript(path, name) {
-  let adbPath = "";
-  let fastbootPath = "";
+  let fileExtension = "";
+  let execDir = "";
   if (getPlatform() == "win32") {
-    adbPath = ".\\platform-tools-win\\adb.exe";
-    fastbootPath = ".\\platform-tools-win\\fastboot.exe";
+    execDir = ".\\platform-tools-win\\";
+    fileExtension = ".exe";
   }
   if (getPlatform() == "linux") {
-    adbPath = "./platform-tools-linux/adb";
-    fastbootPath = "./platform-tools-linux/fastboot";
+    execDir = "./platform-tools-linux/";
   }
   const scripts = keyPath2obj(path, oprs).script;
 
@@ -156,25 +154,32 @@ function runScript(path, name) {
       if (j == 1) {
         operation = commandList[j];
       }
-      switch (commandList[j]) {
-        case "adb":
-          execFile = adbPath;
-          break;
-        case "fastboot":
-          execFile = fastbootPath;
-          break;
-        case "$radio":
-          if (!(readRadio(name) == "system" && operation == "reboot")) {
-            params.push(readRadio(name));
-          }
+      if (j == 0) {
+        switch (commandList[j]) {
+          case "adb":
+            execFile = execDir + "adb" + fileExtension;
+            break;
+          case "fastboot":
+            execFile = execDir + "fastboot" + fileExtension;
+            break;
+          default:
+            break;
+        }
+      } else {
+        switch (commandList[j]) {
+          case "$radio":
+            if (!(readRadio(name) == "system" && operation == "reboot")) {
+              params.push(readRadio(name));
+            }
 
-          break;
-        case "$file":
-          params.push(readFileSelector("file-input"));
-          break;
-        default:
-          params.push(commandList[j]);
-          break;
+            break;
+          case "$file":
+            params.push(readFileSelector("file-input"));
+            break;
+          default:
+            params.push(commandList[j]);
+            break;
+        }
       }
     }
     runCommand(execFile, params);

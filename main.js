@@ -59,15 +59,19 @@ const createWindow = () => {
   });
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
-    console.log("window resized!");
   });
 };
 app.whenReady().then(() => {
   createWindow();
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  console.log("starting ADB server");
+  execFile(adbPath, ["start-server"], (error, stdout, stderr) => {
+    if (error) {
+      throw error;
+    }
+    console.log(stderr);
   });
+
   app.on("before-quit", () => {
     console.log("Trying to kill adb server");
 
