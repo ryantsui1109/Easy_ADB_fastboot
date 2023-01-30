@@ -167,7 +167,7 @@ const oprs = {
         title: "Fastboot oem",
         name: "oem-menu",
         needUnlock: true,
-        script: [],
+        script: [['fastboot','oem','$radio']],
         content: [
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
@@ -222,7 +222,7 @@ const oprs = {
   devices: {
     navbar: "Devices",
     items: {
-      todo: {
+      devices: {
         title: "TODO",
         subtitle: "TODO",
         noStartButton: true,
@@ -232,7 +232,7 @@ const oprs = {
   settings: {
     navbar: "Settings",
     items: {
-      todo: {
+      settings: {
         title: "TODO",
         subtitle: "TODO",
         noStartButton: true,

@@ -198,10 +198,10 @@ const lang = {
           script: [["fastboot", "getvar", "$radio"]],
           content: [
             ["radio", "all", "checked"],
-            ["radio", "current-slot"],
+            ["radio", "（AB分區專用）current-slot"],
             ["radio", "unlocked"],
-            ["radio", "is-userspace"],
-            ["radio", "anti"],
+            ["radio", "（VAB分區專用）is-userspace"],
+            ["radio", "（小米專用）anti"],
             ["radio", "other"],
             ["input", "input", "其他變數"],
             ["br", ""],
@@ -223,7 +223,7 @@ const lang = {
     devices: {
       navbar: "裝置",
       items: {
-        todo: {
+        devices: {
           title: "敬請期待",
           subtitle: "敬請期待",
           subtitle: "敬請期待",
@@ -234,7 +234,7 @@ const lang = {
     settings: {
       navbar: "設定",
       items: {
-        todo: {
+        settings: {
           title: "敬請期待",
           subtitle: "敬請期待",
           content: [],
@@ -466,10 +466,9 @@ const lang = {
     devices: {
       navbar: "Devices",
       items: {
-        todo: {
+        devices: {
           title: "TODO",
           subtitle: "TODO",
-          subtitle: "敬請期待",
           content: [],
         },
       },
@@ -477,10 +476,9 @@ const lang = {
     settings: {
       navbar: "Settings",
       items: {
-        todo: {
+        settings: {
           title: "TODO",
           subtitle: "TODO",
-          subtitle: "敬請期待",
           content: [],
         },
       },

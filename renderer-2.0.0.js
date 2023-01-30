@@ -1,6 +1,7 @@
 const ipc = require("electron").ipcRenderer;
 const getPlatform = require("os").platform;
 const child = require("child_process");
+const { KeyObject } = require("crypto");
 const { stdout, stderr } = require("process");
 const { Z_ASCII } = require("zlib");
 const language = "zh_TW";
@@ -88,6 +89,7 @@ function keyPath2obj(path, initial) {
 }
 
 function switchOpr(keyPath, language) {
+  console.log(keyPath)
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang[language]);
   const opArea = $("#operation-area");
