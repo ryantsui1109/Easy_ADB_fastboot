@@ -7,9 +7,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "clean": "modclean --ignore='platform-tools'",
-    "clean-obf": "del *obfuscated.js",
-    "obf": "node ./obfuscator.js"
+    "clean": "modclean --ignore='platform-tools'"
   },
   "author": "ryantsui1109@github",
   "license": "Apache-2.0",
@@ -32,7 +30,7 @@
     "appId": "io.github.ryantsui1109.eaf2",
     "productName": "Easy ADB and fastboot",
     "files": [
-      "!{TODO.txt}"
+      "!{TODO.txt,.github}"
     ],
     "extraFiles": "settings.json",
     "win": {
