@@ -6,7 +6,6 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;"
     />
-
     <script>
       window.$ = window.jQuery = require("jquery");
       require("bootstrap");
@@ -71,79 +70,19 @@
       </button>
       <div class="ml-3 flex-fill" style="margin-left: .5rem;">Easy ADB and Fastboot</div>
     </div>
-
     <div id="main-content" class="d-flex flex-row">
       <div id="sidebar">
         <div class="container">
           <nav id="navbar" class="nav flex-column bg-dark">
-            <div class="mb-3 categories-div">
-              <button
-                class="btn btn-primary categories-btn"
-                data-bs-toggle="collapse"
-                data-bs-target="#adb-categories-collapse"
-              >
-                ADB
-              </button>
-              <div id="adb-categories-collapse" class="collapse">
-                <h6>adb</h6>
-                <h6>adb</h6>
-                <h6>adb</h6>
-              </div>
-            </div>
-            <div class="mb-3 categories-div">
-              <button
-                class="btn btn-primary categories-btn"
-                data-bs-toggle="collapse"
-                data-bs-target="#fastboot-categories-collapse"
-              >
-                Fastboot
-              </button>
-              <div id="fastboot-categories-collapse" class="collapse">
-                <h6>fb</h6>
-                <h6>fb</h6>
-                <h6>fb</h6>
-              </div>
-            </div>
-            <div class="mb-3 categories-div">
-              <button
-                class="btn btn-primary categories-btn"
-                data-bs-toggle="collapse"
-                data-bs-target="#devices-categories-collapse"
-              >
-                Manage Devices
-              </button>
-              <div id="devices-categories-collapse" class="collapse">
-                <h6>dev</h6>
-                <h6>dev</h6>
-                <h6>dev</h6>
-              </div>
-            </div>
-            <div class="mb-3 categories-div">
-              <button
-                class="btn btn-primary categories-btn"
-                data-bs-toggle="collapse"
-                data-bs-target="#settings-categories-collapse"
-              >
-                Settings
-              </button>
-              <div id="settings-categories-collapse" class="collapse">
-                <h6>set</h6>
-                <h6>set</h6>
-                <h6>set</h6>
-              </div>
-            </div>
           </nav>
         </div>
       </div>
-
       <div id="operation-area" class="container">
         <h4 id="nothing-selected" class="text-muted">
           Select any of the operations from the left to start.
         </h4>
       </div>
-
       <div id="logs-output">
-        <!-- <p id="logs-output" class="font-monospace"></p> -->
       </div>
     </div>
   </body>
