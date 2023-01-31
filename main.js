@@ -19,7 +19,7 @@ let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1080,
-    height: 502,
+    height: 500,
     minWidth: 1080,
     frame: false,
     webPreferences: {
@@ -35,13 +35,7 @@ const createWindow = () => {
   if (isPackaged) {
     win.setMenu(null);
   }
-
-  win.webContents.openDevTools();
-  // if (isPackaged) {
-  //   indexFile = "index.obfuscated.html";
-  // } else {
-  //   indexFile = "index.html";
-  // }
+  win.webContents.openDevTools({mode: 'undocked'});
   indexFile = "index.html";
   win.loadFile("index.html");
   ipcMain.on("close-window", () => {
@@ -56,9 +50,6 @@ const createWindow = () => {
   });
   ipcMain.on("minimize-window", () => {
     win.minimize();
-  });
-  ipcMain.on("resize", () => {
-    win.setSize(1080, 500);
   });
 };
 app.whenReady().then(() => {

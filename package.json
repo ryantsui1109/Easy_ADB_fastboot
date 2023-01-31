@@ -20,6 +20,7 @@
     "got": "^11.8.5",
     "jquery": "^3.6.1",
     "popper.js": "^1.16.1",
+    "react": "^18.2.0",
     "upath": "^2.0.1"
   },
   "devDependencies": {
@@ -32,7 +33,6 @@
     "files": [
       "!{TODO.txt,.github}"
     ],
-    "extraFiles": "settings.json",
     "win": {
       "icon": "./favicon_256.ico",
       "extraFiles": "platform-tools-win",
