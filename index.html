@@ -11,6 +11,7 @@
       require("bootstrap");
       require("@popperjs/core");
     </script>
+    <style></style>
     <script src="./UI.js"></script>
     <script src="./lang.js"></script>
     <script src="renderer-2.0.0.js"></script>
@@ -68,13 +69,14 @@
           />
         </svg>
       </button>
-      <div class="ml-3 flex-fill" style="margin-left: .5rem;">Easy ADB and Fastboot</div>
+      <div class="ml-3 flex-fill" style="margin-left: 0.5rem">
+        Easy ADB and Fastboot
+      </div>
     </div>
     <div id="main-content" class="d-flex flex-row">
-      <div id="sidebar">
+      <div id="sidebar" data-bs-theme="dark">
         <div class="container">
-          <nav id="navbar" class="nav flex-column bg-dark">
-          </nav>
+          <nav id="navbar" class="nav flex-column"></nav>
         </div>
       </div>
       <div id="operation-area" class="container">
@@ -82,8 +84,7 @@
           Select any of the operations from the left to start.
         </h4>
       </div>
-      <div id="logs-output">
-      </div>
+      <div id="logs-output"></div>
     </div>
   </body>
 </html>

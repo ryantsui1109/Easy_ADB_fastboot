@@ -4,6 +4,7 @@ const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
 const execFile = require("child_process").execFile;
 const execSync = require("child_process").execSync;
+const os = require("os");
 const getPlatform = require("os").platform;
 let adbPath = "";
 
@@ -19,7 +20,7 @@ let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1080,
-    height: 500,
+    height: 501,
     minWidth: 1080,
     frame: false,
     webPreferences: {
@@ -27,7 +28,7 @@ const createWindow = () => {
       // allowRunningInsecureContent: true
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: !isPackaged,
+      // devTools: !isPackaged,
       webviewTag: true,
       icon: __dirname + "./favicon_256.ico",
     },
@@ -35,7 +36,7 @@ const createWindow = () => {
   if (isPackaged) {
     win.setMenu(null);
   }
-  win.webContents.openDevTools({mode: 'undocked'});
+  win.webContents.openDevTools({ mode: "undocked" });
   indexFile = "index.html";
   win.loadFile("index.html");
   ipcMain.on("close-window", () => {
@@ -50,6 +51,18 @@ const createWindow = () => {
   });
   ipcMain.on("minimize-window", () => {
     win.minimize();
+  });
+  ipcMain.on("get-version", (e) => {
+    e.returnValue = app.getVersion();
+  });
+  ipcMain.on("resize", () => {
+    win.setSize(1080, 500);
+  });
+  ipcMain.on("get-osInfo", (e) => {
+    e.returnValue = [os.type(), os.release()];
+  });
+  ipcMain.on("is-packaged", (e) => {
+    e.returnValue = isPackaged;
   });
 };
 app.whenReady().then(() => {

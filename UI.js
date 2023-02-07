@@ -1,3 +1,5 @@
+const { auto } = require("@popperjs/core");
+
 const oprs = {
   system: {
     navbar: "System",
@@ -14,8 +16,6 @@ const oprs = {
           ["radio", "sideload"],
           ["radio", "other"],
           ["input", "input", "Other target"],
-          ["br", ""],
-          ["br", ""],
         ],
       },
       push: {
@@ -23,11 +23,7 @@ const oprs = {
         name: "push-menu",
         operation: "push",
         script: [["adb", "push", "$file", "/sdcard"]],
-        content: [
-          ["file", "file"],
-          ["br", ""],
-          ["br", ""],
-        ],
+        content: [["file", "file"]],
       },
       install: {
         title: "Install apk file",
@@ -35,11 +31,7 @@ const oprs = {
         name: "install-menu",
         operation: "install",
         script: [["adb", "install", "$file"]],
-        content: [
-          ["file", "file", ".apk,application/zip"],
-          ["br", ""],
-          ["br", ""],
-        ],
+        content: [["file", "file", ".apk,application/zip"]],
       },
     },
   },
@@ -52,11 +44,7 @@ const oprs = {
         name: "sideload-menu",
         operation: "sideload",
         script: [["adb", "sideload", "$file"]],
-        content: [
-          ["file", "file", "application/zip,.apk"],
-          ["br", ""],
-          ["br", ""],
-        ],
+        content: [["file", "file", "application/zip,.apk"]],
       },
     },
   },
@@ -76,8 +64,6 @@ const oprs = {
           ["radio", "sideload"],
           ["radio", "other"],
           ["input", "input", "Other target"],
-          ["br", ""],
-          ["br", ""],
         ],
       },
       boot: {
@@ -86,11 +72,7 @@ const oprs = {
         name: "boot-menu",
         needUnlock: true,
         script: [["fastboot", "boot", "$file"]],
-        content: [
-          ["file", "file", ".img,.bin"],
-          ["br", ""],
-          ["br", ""],
-        ],
+        content: [["file", "file", ".img,.bin"]],
       },
       flash: {
         title: "Flash image to partition",
@@ -107,11 +89,8 @@ const oprs = {
           ["radio", "cache"],
           ["radio", "other"],
           ["input", "input", "Partition to flash"],
-          ["br", ""],
 
           ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
-          ["br", ""],
-          ["br", ""],
         ],
       },
       erase: {
@@ -128,7 +107,6 @@ const oprs = {
           ["radio", "cache"],
           ["radio", "other"],
           ["input", "input", "Partition to erase"],
-          ["br", ""],
         ],
       },
       format: {
@@ -144,7 +122,6 @@ const oprs = {
           ["radio", "userdata"],
           ["radio", "other"],
           ["input", "input", "Partition to format"],
-          ["br", ""],
         ],
       },
       flashing: {
@@ -160,14 +137,13 @@ const oprs = {
           ["radio", "get-unlock-ability"],
           ["radio", "other"],
           ["input", "input", "Custom command"],
-          ["br", ""],
         ],
       },
       oem: {
         title: "Fastboot oem",
         name: "oem-menu",
         needUnlock: true,
-        script: [['fastboot','oem','$radio']],
+        script: [["fastboot", "oem", "$radio"]],
         content: [
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
@@ -176,7 +152,6 @@ const oprs = {
           ["radio", "device-info"],
           ["radio", "other"],
           ["input", "input", "Custom command"],
-          ["br", ""],
         ],
       },
       update: {
@@ -184,11 +159,7 @@ const oprs = {
         name: "update-menu",
         needUnlock: true,
         script: [],
-        content: [
-          ["file", "file", "application/zip"],
-          ["br", ""],
-          ["br", ""],
-        ],
+        content: [["file", "file", "application/zip"]],
       },
       getvar: {
         title: "Fastboot getvar",
@@ -203,7 +174,6 @@ const oprs = {
           ["radio", "anti"],
           ["radio", "other"],
           ["input", "input", "Custom variable"],
-          ["br", ""],
         ],
       },
       active: {
@@ -214,7 +184,6 @@ const oprs = {
         content: [
           ["radio", "a", "", "checked"],
           ["radio", "b", ""],
-          ["br", ""],
         ],
       },
     },
@@ -225,6 +194,7 @@ const oprs = {
       devices: {
         title: "TODO",
         subtitle: "TODO",
+
         noStartButton: true,
       },
     },
@@ -235,12 +205,28 @@ const oprs = {
       settings: {
         title: "TODO",
         subtitle: "TODO",
+
         noStartButton: true,
       },
     },
   },
 };
 const availableLanguages = ["zh-TW", "en-US"];
+const settings = {
+  language: {
+    title: "Language:",
+    type: "dropdown",
+    name: "language",
+    options: [...availableLanguages, "auto"],
+  },
+  theme: {
+    title: "Theme:",
+    type: "dropdown",
+    name: "theme",
+    options: ["light", "dark", "auto"],
+  },
+};
+
 const winURL =
   "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
 const linURL =

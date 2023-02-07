@@ -1,5 +1,5 @@
 const lang = {
-  zh_TW: {
+  "zh-TW": {
     system: {
       navbar: "ADB 操作 - 系統",
       items: {
@@ -235,14 +235,13 @@ const lang = {
       navbar: "設定",
       items: {
         settings: {
-          title: "敬請期待",
-          subtitle: "敬請期待",
+          title: "設定",
           content: [],
         },
       },
     },
   },
-  en_US: {
+  "en-US": {
     system: {
       navbar: "System",
       items: {
@@ -477,8 +476,8 @@ const lang = {
       navbar: "Settings",
       items: {
         settings: {
-          title: "TODO",
-          subtitle: "TODO",
+          title: "Settings",
+
           content: [],
         },
       },
@@ -486,27 +485,61 @@ const lang = {
   },
 };
 
-const nothingSelected = {
-  zh_TW: "從側邊欄選取功能以開始",
-  en_US: "Select any of the operations from the left to start.",
-};
-
-const unlockAlertMsg = {
-  zh_TW: "請在BL解鎖後再執行",
-  en_US: "This operation needs bootloader to be unlocked first.",
-};
-
-const fileSelectorBtn = {
-  zh_TW: "選擇檔案",
-  en_US: "Select a file",
-};
-
-const fileSelectorDefault = {
-  zh_TW: "請選擇檔案",
-  en_US: "Nothing selected...",
-};
-
-const startBtn = {
-  zh_TW: "開始",
-  en_US: "Start",
+const messages = {
+  settingsLang: {
+    "zh-TW": { language: "語言：", theme: "主題：" },
+    "en-US": { language: "Language:", theme: "Theme:" },
+  },
+  restartAlert: {
+    "zh-TW": "重啟 APP 以套用變更",
+    "en-US": "Restart the app to take effect",
+  },
+  saveSettingsBtn: {
+    "zh-TW": "儲存",
+    "en-US": "Save",
+  },
+  nothingSelected: {
+    "zh-TW": "從側邊欄選取功能以開始",
+    "en-US": "Select any of the operations from the left to start.",
+  },
+  unlockAlertMsg: {
+    "zh-TW": "請在BL解鎖後再執行",
+    "en-US": "This operation needs bootloader to be unlocked first.",
+  },
+  fileSelectorBtn: {
+    "zh-TW": "選擇檔案",
+    "en-US": "Select a file",
+  },
+  fileSelectorDefault: {
+    "zh-TW": "請選擇檔案",
+    "en-US": "Nothing selected...",
+  },
+  startBtn: {
+    "zh-TW": "開始",
+    "en-US": "Start",
+  },
+  appVersion: {
+    "zh-TW": "版本：",
+    "en-US": "Version:",
+  },
+  chromeVersion: {
+    "zh-TW": "Chromium 版本：",
+    "en-US": "Chromium Version:",
+  },
+  osType: {
+    "zh-TW": "系統：",
+    "en-US": "OS:",
+  },
+  osVersion: {
+    "zh-TW": "系統版本：",
+    "en-US": "OS Version",
+  },
+  updaterTitle: {
+    "zh-TW": "線上更新",
+    "en-US": "Online Updates",
+  },
+  updateEafBtn: {
+    "zh-TW": "更新 EAF",
+    "en-US": "Update EAF",
+  },
 };

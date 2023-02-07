@@ -2,10 +2,39 @@ const ipc = require("electron").ipcRenderer;
 const getPlatform = require("os").platform;
 const child = require("child_process");
 const { KeyObject } = require("crypto");
-const { stdout, stderr } = require("process");
+const { stdout, stderr, connected } = require("process");
+const { cursorTo } = require("readline");
+const fs = require("fs");
 const { Z_ASCII } = require("zlib");
-const language = "zh_TW";
+// const { default: settings, set } = require("./settings");
 
+const isPackaged = ipc.sendSync("is-packaged");
+let config;
+if (isPackaged) {
+  config = require("../../config.json");
+} else {
+  config = require("./config.json");
+}
+
+let language = config.language;
+let theme = config.theme;
+if (config.language === "auto") {
+  switch (navigator.language) {
+    case "zh-TW":
+    case "en-US":
+      language = navigator.language;
+      break;
+    default:
+      language = "en-US";
+  }
+}
+if (config.theme === "auto") {
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    theme = "dark";
+  } else {
+    theme = "light";
+  }
+}
 function renderNavbar(elements, language) {
   const locale = lang[language];
   $("#navbar").empty();
@@ -26,7 +55,7 @@ function renderNavbar(elements, language) {
     );
     Object.keys(elements[element].items).forEach((e) => {
       $(`#${element}-categories-collapse`).append(
-        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="switchOpr($(this).attr('value'),'zh_TW')">${locale[element].items[e].title}</p>`
+        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="switchOpr($(this).attr('value'))">${locale[element].items[e].title}</p>`
       );
     });
   });
@@ -69,10 +98,10 @@ function generateContents(opArea, operation, operationLang) {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
             <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
           </svg>
-            ${fileSelectorBtn[language]}
+            ${messages.fileSelectorBtn[language]}
           </label>
           <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" accept="${content[i][2]}"/>
-          <h5 id="file-path">${fileSelectorDefault[language]}</h5>
+          <h5 id="file-path">${messages.fileSelectorDefault[language]}</h5>
         </div>`);
         break;
       default:
@@ -87,9 +116,76 @@ function keyPath2obj(path, initial) {
   }, initial);
   return output;
 }
+function updateSettings(name, value) {
+  config[name] = value;
+  switchOpr("settings.items.settings");
+}
+function generateSettings(opArea) {
+  Object.keys(settings).forEach((e) => {
+    const curSet = settings[e];
+    switch (curSet.type) {
+      case "dropdown":
+        opArea.append(`<h6>${messages.settingsLang[language][curSet.name]}</h6>
+        <div class="dropdown mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ${config[curSet.name]}
+          </button>
 
-function switchOpr(keyPath, language) {
-  console.log(keyPath)
+          <ul class="dropdown-menu" id="${curSet.name}-menu">
+          
+          </ul>
+        </div>
+        `);
+        for (let i of curSet.options) {
+          $(`#${curSet.name}-menu`).append(`<li>
+            <a class="dropdown-item" href="javascript:void(0)" onclick="updateSettings('${curSet.name}','${i}')">${i}</a>
+          </li>`);
+        }
+      default:
+        break;
+    }
+  });
+}
+function renderAbouts(opArea) {
+  var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+  const _version = ipc.sendSync("get-version");
+  const osInfo = ipc.sendSync("get-osInfo");
+  const crVersion = parseInt(raw[2], 10);
+  opArea.append(`<div class="card mb-2">
+    <div class="card-body">
+      <h6 class="card-title">${messages.appVersion[language]}${_version}</h6>
+      <h6 class="card-title">${messages.chromeVersion[language]}${crVersion}</h6>
+      <h6 class="card-title">${messages.osType[language]}${osInfo[0]}</h6>
+      <h6 class="card-title">${messages.osVersion[language]}${osInfo[1]}</h6>
+    </div>
+  </div>`);
+}
+
+function saveSettings() {
+  console.log(JSON.stringify(config, null, "  "));
+  fs.writeFileSync("./config.json", JSON.stringify(config, null, "  "));
+  alert(messages.restartAlert[language]);
+}
+function renderUpdater(opArea){
+  opArea.append(`<div class="card mb-2">
+      <div class="card-body">
+        <h6 class="card-title">${messages.updaterTitle[language]}</h6>
+        <button class="btn btn-primary">${messages.updateEafBtn[language]}</button>
+      </div>
+    </div>
+    `
+  )
+}
+function renderSettings(opArea) {
+  generateSettings(opArea);
+  renderAbouts(opArea);
+  // renderUpdater(opArea)
+  opArea.append(`<button class="btn btn-primary" onclick="saveSettings()">
+    ${messages.saveSettingsBtn[language]}
+  </button>`);
+}
+
+function switchOpr(keyPath) {
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang[language]);
   const opArea = $("#operation-area");
@@ -98,7 +194,7 @@ function switchOpr(keyPath, language) {
   generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
-      `<div class="alert alert-info">${unlockAlertMsg[language]}</div>`
+      `<div class="alert alert-info">${messages.unlockAlertMsg[language]}</div>`
     );
   } else {
     opArea.append(`<div style="width:100%"></div>`);
@@ -113,9 +209,12 @@ function switchOpr(keyPath, language) {
       id="${target.name}-btn"
       onclick="runScript('${keyPath}','${target.name}')"
     >
-      ${startBtn[language]}
+      ${messages.startBtn[language]}
     </button>`
     );
+  }
+  if (keyPath == "settings.items.settings") {
+    renderSettings(opArea);
   }
 }
 
@@ -203,6 +302,45 @@ function readFileSelector(name) {
 }
 
 $(function () {
+  $("html").attr("data-bs-theme", theme);
+  if (theme == "dark") {
+    $("style").append(`.winCtrl-btn {
+      background-color: rgba(255, 255, 255, 0);
+      color: white;
+    }
+    #close-btn:hover {
+      background-color: brown;
+    }
+    #max-btn:hover,
+    #min-btn:hover {
+      background-color: #3c3642;
+    }
+    #logs-output {
+      background-color: black;
+    }
+    .operations:hover {
+      color: white;
+  }`);
+  } else {
+    $("style").append(`
+    .winCtrl-btn {
+    background-color: white;
+  }
+  #close-btn:hover {
+    background-color: red;
+  }
+  #max-btn:hover,
+  #min-btn:hover {
+    background-color: darkgray;
+  }
+  #logs-output {
+    background-color: gray;
+  }
+  .operations:hover {
+    color: black;
+  }
+    `);
+  }
   $("#close-btn").on("click", (e) => {
     e.preventDefault();
     ipc.send("close-window");
@@ -232,7 +370,7 @@ $(function () {
     const realPath = document.getElementById("file-input").files[0].path;
     $("#file-path").text(realPath);
   });
-  $("#nothing-selected").text(nothingSelected[language]);
+  $("#nothing-selected").text(messages.nothingSelected[language]);
   renderNavbar(oprs, language);
   ipc.send("resize");
 });
