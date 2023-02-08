@@ -11,7 +11,7 @@ const oprs = {
         content: [
           ["radio", "bootloader", "checked"],
           ["radio", "recovery"],
-          ["radio", "fastbootd"],
+          ["radio", "fastboot"],
           ["radio", "system"],
           ["radio", "sideload"],
           ["radio", "other"],
@@ -59,7 +59,7 @@ const oprs = {
         content: [
           ["radio", "bootloader", "checked"],
           ["radio", "recovery"],
-          ["radio", "fastbootd"],
+          ["radio", "fastboot"],
           ["radio", "system"],
           ["radio", "sideload"],
           ["radio", "other"],
