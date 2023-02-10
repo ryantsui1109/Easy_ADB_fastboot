@@ -1,5 +1,4 @@
-new method to run command
-
+preload.js
 adb network
 adb pull
 auto update
