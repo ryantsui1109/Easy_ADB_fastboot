@@ -208,6 +208,10 @@ const oprs = {
 
         noStartButton: true,
       },
+      updater: {
+        title: "Online Updates",
+        noStartButton: true,
+      },
     },
   },
 };
