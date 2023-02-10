@@ -8,3 +8,4 @@ adb uninstall
 adb disable
 adb list installed packages
 download adb at start
+emulation mode
