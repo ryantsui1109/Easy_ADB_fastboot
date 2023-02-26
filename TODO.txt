@@ -10,3 +10,4 @@ adb list installed packages
 download adb at start
 emulation mode
 operation hint
+add init_boot option
