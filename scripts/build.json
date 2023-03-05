@@ -1,0 +1,28 @@
+{
+    "appId": "io.github.ryantsui1109.eaf2",
+    "productName": "Easy ADB and fastboot",
+    "files": [
+        "!{TODO.txt,.github}"
+    ],
+    "win": {
+        "icon": "./favicon_256.ico",
+        "extraFiles": [
+            "platform-tools-win",
+            "config.json"
+        ],
+        "target": [
+            {
+                "target": "zip",
+                "arch": [
+                    "x64"
+                ]
+            }
+        ]
+    },
+    "linux": {
+        "extraFiles": "platform-tools-linux",
+        "target": [
+            "tar.gz"
+        ]
+    }
+}
