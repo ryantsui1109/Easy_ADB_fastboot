@@ -2,8 +2,9 @@ const { exec } = require("child_process");
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
-const execFile = require("child_process").execFile;
-const execSync = require("child_process").execSync;
+const { execFile } = require("child_process");
+const { download } = require("electron-dl");
+
 const os = require("os");
 const getPlatform = require("os").platform;
 let adbPath = "";
@@ -28,8 +29,7 @@ const createWindow = () => {
       // allowRunningInsecureContent: true
       nodeIntegration: true,
       contextIsolation: false,
-      // devTools: !isPackaged,
-      webviewTag: true,
+      devTools: !isPackaged,
       icon: __dirname + "./favicon_256.ico",
     },
   });
@@ -52,19 +52,31 @@ const createWindow = () => {
   ipcMain.on("minimize-window", () => {
     win.minimize();
   });
-  ipcMain.on("get-version", (e) => {
-    e.returnValue = app.getVersion();
-  });
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
-  ipcMain.on("get-osInfo", (e) => {
-    e.returnValue = [os.type(), os.release()];
-  });
-  ipcMain.on("is-packaged", (e) => {
-    e.returnValue = isPackaged;
+  ipcMain.on("download-update", async (e, url) => {
+    await download(BrowserWindow.getFocusedWindow(), url, {
+      showProgressBar: true,
+      directory: __dirname,
+      filename: "update.exe",
+      overwrite: true,
+      onProgress: (progress) =>
+        win.webContents.send("update-progress", progress),
+    });
   });
 };
+
+ipcMain.on("get-version", (e) => {
+  e.returnValue = app.getVersion();
+});
+ipcMain.on("get-osInfo", (e) => {
+  e.returnValue = [os.type(), os.release()];
+});
+ipcMain.on("is-packaged", (e) => {
+  e.returnValue = isPackaged;
+});
+
 app.whenReady().then(() => {
   createWindow();
 

@@ -1,13 +1,18 @@
 const ipc = require("electron").ipcRenderer;
 const getPlatform = require("os").platform;
-const child = require("child_process");
+const { spawn } = require("child_process");
 const { KeyObject } = require("crypto");
 const { stdout, stderr, connected } = require("process");
 const { cursorTo } = require("readline");
-const fs = require("fs");
+const { writeFile } = require("fs");
 const { Z_ASCII } = require("zlib");
-// const { default: settings, set } = require("./settings");
+const { PassThrough } = require("stream");
+const _version = ipc.sendSync("get-version");
+window.$ = window.jQuery = require("jquery");
+require("bootstrap");
+require("@popperjs/core");
 
+// const { default: settings, set } = require("./settings");
 const isPackaged = ipc.sendSync("is-packaged");
 let config;
 if (isPackaged) {
@@ -15,7 +20,9 @@ if (isPackaged) {
 } else {
   config = require("./config.json");
 }
-
+const currentUpdateIndex = config.updateIndex;
+const updateURL = config.updateURL + config.channel + "/";
+console.log(config.updateURL + config.channel);
 let language = config.language;
 let theme = config.theme;
 if (config.language === "auto") {
@@ -98,10 +105,10 @@ function generateContents(opArea, operation, operationLang) {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
             <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
           </svg>
-            ${messages.fileSelectorBtn[language]}
+            ${messages.ui.fileSelectorBtn[language]}
           </label>
           <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" accept="${content[i][2]}"/>
-          <h5 id="file-path">${messages.fileSelectorDefault[language]}</h5>
+          <h5 id="file-path">${messages.ui.fileSelectorDefault[language]}</h5>
         </div>`);
         break;
       default:
@@ -125,9 +132,9 @@ function generateSettings(opArea) {
     const curSet = settings[e];
     switch (curSet.type) {
       case "dropdown":
-        opArea.append(`<h6>${messages.settingsLang[language][curSet.name]}</h6>
-        <div class="dropdown mb-2">
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        opArea.append(`<h6>${messages.settings[curSet.name][language]}
+        <div class="dropdown mb-2 d-inline">
+          <button class="btn btn-secondary dropdown-toggle d-inline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             ${config[curSet.name]}
           </button>
 
@@ -135,6 +142,9 @@ function generateSettings(opArea) {
           
           </ul>
         </div>
+        
+        </h6>
+        
         `);
         for (let i of curSet.options) {
           $(`#${curSet.name}-menu`).append(`<li>
@@ -148,40 +158,115 @@ function generateSettings(opArea) {
 }
 function renderAbouts(opArea) {
   var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
-  const _version = ipc.sendSync("get-version");
+
   const osInfo = ipc.sendSync("get-osInfo");
   const crVersion = parseInt(raw[2], 10);
   opArea.append(`<div class="card mb-2">
     <div class="card-body">
-      <h6 class="card-title">${messages.appVersion[language]}${_version}</h6>
-      <h6 class="card-title">${messages.chromeVersion[language]}${crVersion}</h6>
-      <h6 class="card-title">${messages.osType[language]}${osInfo[0]}</h6>
-      <h6 class="card-title">${messages.osVersion[language]}${osInfo[1]}</h6>
+      <h6 class="card-title">${messages.info.appVersion[language]}${_version}</h6>
+      <h6 class="card-title">${messages.info.chromeVersion[language]}${crVersion}</h6>
+      <h6 class="card-title">${messages.info.osType[language]}${osInfo[0]}</h6>
+      <h6 class="card-title">${messages.info.osVersion[language]}${osInfo[1]}</h6>
     </div>
   </div>`);
 }
 
 function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
-  fs.writeFileSync("./config.json", JSON.stringify(config, null, "  "));
-  alert(messages.restartAlert[language]);
+  writeFile("./config.json", JSON.stringify(config, null, "  "), (err) => {
+    alert(messages.alert.restartAlert[language]);
+  });
 }
-function renderUpdater(opArea){
-  opArea.append(`<div class="card mb-2">
-      <div class="card-body">
-        <h6 class="card-title">${messages.updaterTitle[language]}</h6>
-        <button class="btn btn-primary">${messages.updateEafBtn[language]}</button>
+function downloadUpdates(channel, index) {
+  const downloadURL = config.downloadURL + channel + "-" + index + "/setup.exe";
+  console.log(__dirname);
+  ipc.send("download-update", downloadURL);
+}
+function showUpdates(opArea, newUpdateIndex) {
+  opArea.empty();
+  let changeLog;
+  const xhrCL = new XMLHttpRequest();
+  xhrCL.open("GET", updateURL + `changelog_${language}`);
+
+  xhrCL.onreadystatechange = () => {
+    if (xhrCL.readyState == XMLHttpRequest.DONE) {
+      if (xhrCL.responseText) {
+        changeLog = xhrCL.responseText;
+        xhrVer.send();
+      }
+    }
+  };
+  xhrCL.send();
+
+  const xhrVer = new XMLHttpRequest();
+  xhrVer.open("GET", updateURL + "latestVersion");
+  xhrVer.onreadystatechange = () => {
+    if (xhrVer.readyState == XMLHttpRequest.DONE) {
+      if (xhrVer.responseText) {
+        opArea.append(`<h5 class="card-title">${messages.update.newVerFound[language]}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">${_version} &rarr; ${xhrVer.responseText}</h6>
+        `);
+        opArea.append(`<p class="card-text">${changeLog}</p>`);
+        opArea.append(
+          `<button class="btn btn-primary" onclick="downloadUpdates('${config.channel}','${newUpdateIndex}')">${messages.update.downloadAndInstall[language]}</button>`
+        );
+      }
+    }
+  };
+}
+function checkUpdates(opArea) {
+  const xhr = new XMLHttpRequest();
+
+  console.log(currentUpdateIndex);
+  xhr.open("GET", updateURL + "latestUpdateIndex" + `?t=${Date.now()}`);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+      if (Number(xhr.responseText) > currentUpdateIndex) {
+        showUpdates(opArea, Number(xhr.responseText));
+      }else{
+        opArea.empty();
+        opArea.append(`<p class="mb-0">${messages.update.latestVersion[language]}</p>`);
+      }
+    }
+  };
+  xhr.send();
+}
+function checkUpdatesUI() {
+  $("#operation-area")
+    .append(`<div class="card mb-2">
+    <div id="eaf-updater" class="card-body">
+      <h5 class="card-title">
+        ${messages.update.checkUpdatesHint[language]}
+      </h5>
       </div>
-    </div>
-    `
-  )
+    </div>`);
+  const eafUpdater = $("#operation-area").find("#eaf-updater");
+  eafUpdater.empty();
+  eafUpdater.append(
+    `<div class="d-flex align-items-center m-2">
+      <p class="mb-0">${messages.update.checkingUpdates[language]}</p>
+      <div
+        class="spinner-border ms-auto"
+        role="status"
+        aria-hidden="true"
+      ></div>
+    </div>`
+  );
+  checkUpdates(eafUpdater);
+}
+function renderUpdater(opArea) {
+  opArea.append(`
+    <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn[language]}</button>
+    
+    
+  `);
 }
 function renderSettings(opArea) {
   generateSettings(opArea);
   renderAbouts(opArea);
-  // renderUpdater(opArea)
+
   opArea.append(`<button class="btn btn-primary" onclick="saveSettings()">
-    ${messages.saveSettingsBtn[language]}
+    ${messages.ui.saveSettingsBtn[language]}
   </button>`);
 }
 
@@ -194,7 +279,7 @@ function switchOpr(keyPath) {
   generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
-      `<div class="alert alert-info">${messages.unlockAlertMsg[language]}</div>`
+      `<div class="alert alert-info">${messages.ui.unlockAlertMsg[language]}</div>`
     );
   } else {
     opArea.append(`<div style="width:100%"></div>`);
@@ -209,12 +294,15 @@ function switchOpr(keyPath) {
       id="${target.name}-btn"
       onclick="runScript('${keyPath}','${target.name}')"
     >
-      ${messages.startBtn[language]}
+      ${messages.ui.startBtn[language]}
     </button>`
     );
   }
   if (keyPath == "settings.items.settings") {
     renderSettings(opArea);
+  }
+  if (keyPath == "settings.items.updater") {
+    renderUpdater(opArea);
   }
 }
 
@@ -224,7 +312,7 @@ function printLogs(data) {
   logsOutput.scrollTo(0, logsOutput.scrollHeight);
 }
 function runCommand(execFile, parameters) {
-  cmd = child.spawn(execFile, parameters);
+  cmd = spawn(execFile, parameters);
   console.log(execFile, parameters);
   cmd.stdout.on("data", (data) => {
     console.log(`${data}`);
@@ -303,6 +391,9 @@ function readFileSelector(name) {
 
 $(function () {
   $("html").attr("data-bs-theme", theme);
+  ipc.on("update-progress", (e, progress) => {
+    console.log(progress);
+  });
   if (theme == "dark") {
     $("style").append(`.winCtrl-btn {
       background-color: rgba(255, 255, 255, 0);
@@ -370,7 +461,7 @@ $(function () {
     const realPath = document.getElementById("file-input").files[0].path;
     $("#file-path").text(realPath);
   });
-  $("#nothing-selected").text(messages.nothingSelected[language]);
+  $("#nothing-selected").text(messages.ui.nothingSelected[language]);
   renderNavbar(oprs, language);
   ipc.send("resize");
 });

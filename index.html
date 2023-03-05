@@ -4,13 +4,8 @@
     <meta charset="UTF-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;"
+      content="default-src 'self' 'unsafe-inline' ; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;connect-src *;"
     />
-    <script>
-      window.$ = window.jQuery = require("jquery");
-      require("bootstrap");
-      require("@popperjs/core");
-    </script>
     <style></style>
     <script src="./UI.js"></script>
     <script src="./lang.js"></script>
