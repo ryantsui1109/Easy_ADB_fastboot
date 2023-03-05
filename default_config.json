@@ -1,4 +1,7 @@
 {
   "language": "auto",
-  "theme": "auto"
+  "theme": "auto",
+  "updateURL": "https://raw.githubusercontent.com/ryantsui1109/eaf_web/master/updater/channels/",
+  "downloadURL": "https://github.com/ryantsui1109/eaf_web/releases/download/",
+  "updateIndex": "0"
 }
