@@ -29,7 +29,7 @@ const createWindow = () => {
       // allowRunningInsecureContent: true
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: !isPackaged,
+      // devTools: !isPackaged,
       icon: __dirname + "./favicon_256.ico",
     },
   });
@@ -58,11 +58,14 @@ const createWindow = () => {
   ipcMain.on("download-update", async (e, url) => {
     await download(BrowserWindow.getFocusedWindow(), url, {
       showProgressBar: true,
-      directory: __dirname,
+      directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
       filename: "update.exe",
       overwrite: true,
       onProgress: (progress) =>
         win.webContents.send("update-progress", progress),
+      onCompleted: () => {
+        win.webContents.send("update-complete");
+      },
     });
   });
 };

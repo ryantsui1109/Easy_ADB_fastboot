@@ -20,6 +20,7 @@ if (isPackaged) {
 } else {
   config = require("./config.json");
 }
+
 const currentUpdateIndex = config.updateIndex;
 const updateURL = config.updateURL + config.channel + "/";
 console.log(config.updateURL + config.channel);
@@ -35,6 +36,7 @@ if (config.language === "auto") {
       language = "en-US";
   }
 }
+
 if (config.theme === "auto") {
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
     theme = "dark";
@@ -42,6 +44,10 @@ if (config.theme === "auto") {
     theme = "light";
   }
 }
+let checkUpdateClicked = false;
+let updaterCreated = false;
+let progressBarCreated = false;
+let updatePending = false;
 function renderNavbar(elements, language) {
   const locale = lang[language];
   $("#navbar").empty();
@@ -132,6 +138,7 @@ function generateSettings(opArea) {
     const curSet = settings[e];
     switch (curSet.type) {
       case "dropdown":
+        console.log(curSet.name);
         opArea.append(`<h6>${messages.settings[curSet.name][language]}
         <div class="dropdown mb-2 d-inline">
           <button class="btn btn-secondary dropdown-toggle d-inline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -174,91 +181,128 @@ function renderAbouts(opArea) {
 function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
   writeFile("./config.json", JSON.stringify(config, null, "  "), (err) => {
-    alert(messages.alert.restartAlert[language]);
+    alert(
+      messages.alert.restartAlert[language],
+      messages.alert.restartAlertTitle[language]
+    );
   });
 }
-function downloadUpdates(channel, index) {
+function downloadUpdate(channel, index) {
   const downloadURL = config.downloadURL + channel + "-" + index + "/setup.exe";
+  $("#download-update-btn").addClass("disabled");
+  console.log(downloadURL);
   console.log(__dirname);
   ipc.send("download-update", downloadURL);
 }
-function showUpdates(opArea, newUpdateIndex) {
-  opArea.empty();
-  let changeLog;
-  const xhrCL = new XMLHttpRequest();
-  xhrCL.open("GET", updateURL + `changelog_${language}`);
-
-  xhrCL.onreadystatechange = () => {
-    if (xhrCL.readyState == XMLHttpRequest.DONE) {
-      if (xhrCL.responseText) {
-        changeLog = xhrCL.responseText;
-        xhrVer.send();
+let latestIndex = "";
+const checkUpdates = () =>
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      "GET",
+      `${config.updateURL}/${config.channel}/latestUpdateIndex?t=${Date.now()}`
+    );
+    xhr.onreadystatechange = (e) => {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.responseText) {
+          latestIndex = xhr.responseText;
+          resolve(Number(xhr.responseText) > config.updateIndex);
+        }
       }
-    }
-  };
-  xhrCL.send();
+    };
+    xhr.send();
+  });
 
+const getUpdateInfo = (url) =>
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url + `?t=${Date.now()}`);
+    xhr.onreadystatechange = (e) => {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.responseText) {
+          resolve(xhr.responseText);
+        }
+      }
+    };
+    xhr.send();
+  });
+async function showUpdates(updaterArea) {
+  progressBarCreated = false;
   const xhrVer = new XMLHttpRequest();
-  xhrVer.open("GET", updateURL + "latestVersion");
-  xhrVer.onreadystatechange = () => {
-    if (xhrVer.readyState == XMLHttpRequest.DONE) {
-      if (xhrVer.responseText) {
-        opArea.append(`<h5 class="card-title">${messages.update.newVerFound[language]}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">${_version} &rarr; ${xhrVer.responseText}</h6>
-        `);
-        opArea.append(`<p class="card-text">${changeLog}</p>`);
-        opArea.append(
-          `<button class="btn btn-primary" onclick="downloadUpdates('${config.channel}','${newUpdateIndex}')">${messages.update.downloadAndInstall[language]}</button>`
-        );
-      }
-    }
-  };
+  let latestVersion = await getUpdateInfo(
+    `${config.updateURL}/${config.channel}/latestVersion`
+  );
+  let changelog = await getUpdateInfo(
+    `${config.updateURL}/${config.channel}/changelog_${language}`
+  );
+  updaterArea.empty();
+  updaterArea.append(
+    `<h5 class="card-title ">${messages.update.updateFound[language]}</h5>`
+  );
+  updaterArea.append(
+    `<h6 class="card-title text-muted">${_version} &rarr; ${latestVersion}</h6>`
+  );
+  updaterArea.append(
+    `<p>
+      <a
+        data-bs-toggle="collapse"
+        href="#full-changelog"
+        aria-expanded="false"
+        aria-controls="collapseExample"
+      >
+        ${messages.update.viewFullChangelog[language]}
+      </a>
+    </p>
+    `
+  );
+  updaterArea.append(
+    `<div class="collapse" id="full-changelog">
+      <div>${changelog}</div>
+    </div>`
+  );
+  updaterArea.append(
+    `
+    <button class="btn btn-info" id="download-update-btn" onclick="downloadUpdate('${config.channel}','${latestIndex}')">
+      ${messages.update.downloadUpdate[language]}
+    </button>
+    `
+  );
+  checkUpdateClicked = false;
 }
-function checkUpdates(opArea) {
-  const xhr = new XMLHttpRequest();
 
-  console.log(currentUpdateIndex);
-  xhr.open("GET", updateURL + "latestUpdateIndex" + `?t=${Date.now()}`);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState == XMLHttpRequest.DONE) {
-      if (Number(xhr.responseText) > currentUpdateIndex) {
-        showUpdates(opArea, Number(xhr.responseText));
-      }else{
-        opArea.empty();
-        opArea.append(`<p class="mb-0">${messages.update.latestVersion[language]}</p>`);
-      }
-    }
-  };
-  xhr.send();
-}
-function checkUpdatesUI() {
-  $("#operation-area")
-    .append(`<div class="card mb-2">
+async function checkUpdatesUI() {
+  if (!checkUpdateClicked) {
+    if (!updaterCreated) {
+      $("#operation-area").append(`<div class="card mb-2">
     <div id="eaf-updater" class="card-body">
-      <h5 class="card-title">
-        ${messages.update.checkUpdatesHint[language]}
-      </h5>
-      </div>
-    </div>`);
-  const eafUpdater = $("#operation-area").find("#eaf-updater");
-  eafUpdater.empty();
-  eafUpdater.append(
-    `<div class="d-flex align-items-center m-2">
-      <p class="mb-0">${messages.update.checkingUpdates[language]}</p>
+    <div class="d-flex align-items-center m-2">
+      <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate[language]}</p>
       <div
-        class="spinner-border ms-auto"
+        class="spinner-border spinner-border-sm ms-auto"
         role="status"
         aria-hidden="true"
       ></div>
-    </div>`
-  );
-  checkUpdates(eafUpdater);
+    </div>
+    </div>`);
+    }
+    updaterCreated = true;
+    const hasUpdate = await checkUpdates();
+    const eafUpdater = $("#operation-area").find("#eaf-updater");
+    if (hasUpdate) {
+      showUpdates(eafUpdater);
+    } else {
+      eafUpdater.empty();
+      $(eafUpdater).append(
+        `<p class="mb-0 h5 text-muted">${messages.update.noUpdates[language]}</p>`
+      );
+    }
+  }
+  checkUpdateClicked = true;
 }
+
 function renderUpdater(opArea) {
   opArea.append(`
     <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn[language]}</button>
-    
-    
   `);
 }
 function renderSettings(opArea) {
@@ -304,6 +348,9 @@ function switchOpr(keyPath) {
   if (keyPath == "settings.items.updater") {
     renderUpdater(opArea);
   }
+  checkUpdateClicked = false;
+  updaterCreated = false;
+  progressBarCreated = false;
 }
 
 function printLogs(data) {
@@ -392,7 +439,50 @@ function readFileSelector(name) {
 $(function () {
   $("html").attr("data-bs-theme", theme);
   ipc.on("update-progress", (e, progress) => {
-    console.log(progress);
+    const eafUpdater = $("#eaf-updater");
+    eafUpdater.find("#download-update-btn").hide();
+    let progressBar;
+
+    if (!progressBarCreated) {
+      eafUpdater.append(
+        `<div
+          class="progress"
+          role="progressbar"
+          aria-label="Basic example"
+          aria-valuenow="0"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-bar" id="download-progress" style="width: 0%"></div>
+        </div>`
+      );
+      progressBarCreated = true;
+    }
+    $("#download-progress").css("width", progress.percent * 100 + "%");
+  });
+  ipc.on("update-complete", (e) => {
+    $("#close-btn").empty();
+    $("#close-btn").append(
+      `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-arrow-counterclockwise"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"
+        />
+        <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
+      </svg>`
+    );
+    updatePending = true;
+    alert(
+      messages.alert.updateCompleteAlert[language],
+      messages.alert.updateCompleteAlertTitle[language]
+    );
   });
   if (theme == "dark") {
     $("style").append(`.winCtrl-btn {
@@ -434,6 +524,14 @@ $(function () {
   }
   $("#close-btn").on("click", (e) => {
     e.preventDefault();
+
+    if (updatePending) {
+      const updater = spawn("update.exe", [], {
+        detached: true,
+        stdio: ["ignore", "ignore", "ignore"],
+      });
+      updater.unref();
+    }
     ipc.send("close-window");
   });
   $("#max-btn").on("click", (e) => {
@@ -463,5 +561,6 @@ $(function () {
   });
   $("#nothing-selected").text(messages.ui.nothingSelected[language]);
   renderNavbar(oprs, language);
+  console.log("resize");
   ipc.send("resize");
 });

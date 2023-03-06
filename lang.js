@@ -238,6 +238,10 @@ const lang = {
           title: "設定",
           content: [],
         },
+        updater: {
+          title: "線上更新",
+          content: [],
+        },
       },
     },
   },
@@ -480,66 +484,117 @@ const lang = {
 
           content: [],
         },
+        updater: {
+          title: "Online Updates",
+          content: [],
+        },
       },
     },
   },
 };
 
 const messages = {
-  settingsLang: {
-    "zh-TW": { language: "語言：", theme: "主題：" },
-    "en-US": { language: "Language:", theme: "Theme:" },
+  settings: {
+    language: {
+      "zh-TW": "語言：",
+      "en-US": "Language: ",
+    },
+    theme: {
+      "zh-TW": "主題：",
+      "en-US": "Theme: ",
+    },
   },
-  restartAlert: {
-    "zh-TW": "重啟 APP 以套用變更",
-    "en-US": "Restart the app to take effect",
+  alert: {
+    restartAlert: {
+      "zh-TW": "重啟 APP 以套用變更",
+      "en-US": "Restart the app to take effect",
+    },
+    restartAlertTitle: {
+      "zh-TW": "請重啟 APP",
+      "en-US": "Please restart the app",
+    },
+    updateCompleteAlert: {
+      "zh-TW": "請重啟 APP 以完成更新",
+      "en-US": "Restart the app to apply update",
+    },
+    updateCompleteAlertTitle: {
+      "zh-TW": "請重啟 APP",
+      "en-US": "Please restart the app",
+    },
   },
-  saveSettingsBtn: {
-    "zh-TW": "儲存",
-    "en-US": "Save",
+  ui: {
+    fileSelectorBtn: {
+      "zh-TW": "選擇檔案",
+      "en-US": "Select a file",
+    },
+    fileSelectorDefault: {
+      "zh-TW": "請選擇檔案",
+      "en-US": "Nothing selected...",
+    },
+    saveSettingsBtn: {
+      "zh-TW": "儲存",
+      "en-US": "Save",
+    },
+    nothingSelected: {
+      "zh-TW": "從側邊欄選取功能以開始",
+      "en-US": "Select any of the operations from the left to start.",
+    },
+    unlockAlertMsg: {
+      "zh-TW": "請在BL解鎖後再執行",
+      "en-US": "This operation needs bootloader to be unlocked first.",
+    },
+    startBtn: {
+      "zh-TW": "開始",
+      "en-US": "Start",
+    },
   },
-  nothingSelected: {
-    "zh-TW": "從側邊欄選取功能以開始",
-    "en-US": "Select any of the operations from the left to start.",
+  info: {
+    appVersion: {
+      "zh-TW": "版本：",
+      "en-US": "Version:",
+    },
+    chromeVersion: {
+      "zh-TW": "Chromium 版本：",
+      "en-US": "Chromium Version:",
+    },
+    osType: {
+      "zh-TW": "系統：",
+      "en-US": "OS:",
+    },
+    osVersion: {
+      "zh-TW": "系統版本：",
+      "en-US": "OS Version",
+    },
   },
-  unlockAlertMsg: {
-    "zh-TW": "請在BL解鎖後再執行",
-    "en-US": "This operation needs bootloader to be unlocked first.",
+  update: {
+    updaterTitle: {
+      "zh-TW": "線上更新",
+      "en-US": "Online Updates",
+    },
+    updateEafBtn: {
+      "zh-TW": "更新 EAF",
+      "en-US": "Update EAF",
+    },
+    checkingUpdate: {
+      "zh-TW": "正在檢查更新",
+      "en-US": "Checking for updates…",
+    },
+    updateFound: {
+      "zh-TW": "有可用的更新",
+      "en-US": "New update availiable",
+    },
+    viewFullChangelog: {
+      "zh-TW": "查看完整更新說明",
+      "en-US": "View full changelog",
+    },
+    downloadUpdate: {
+      "zh-TW": "下載更新",
+      "en-US": "Download update",
+    },
+    noUpdates: {
+      "zh-TW": "已在最新版本",
+      "en-US": "You are at the latest version",
+    },
   },
-  fileSelectorBtn: {
-    "zh-TW": "選擇檔案",
-    "en-US": "Select a file",
-  },
-  fileSelectorDefault: {
-    "zh-TW": "請選擇檔案",
-    "en-US": "Nothing selected...",
-  },
-  startBtn: {
-    "zh-TW": "開始",
-    "en-US": "Start",
-  },
-  appVersion: {
-    "zh-TW": "版本：",
-    "en-US": "Version:",
-  },
-  chromeVersion: {
-    "zh-TW": "Chromium 版本：",
-    "en-US": "Chromium Version:",
-  },
-  osType: {
-    "zh-TW": "系統：",
-    "en-US": "OS:",
-  },
-  osVersion: {
-    "zh-TW": "系統版本：",
-    "en-US": "OS Version",
-  },
-  updaterTitle: {
-    "zh-TW": "線上更新",
-    "en-US": "Online Updates",
-  },
-  updateEafBtn: {
-    "zh-TW": "更新 EAF",
-    "en-US": "Update EAF",
-  },
+  template: { "zh-TW": "", "en-US": "" },
 };

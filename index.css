@@ -23,12 +23,10 @@ body {
 
 #close-btn:hover {
   transition: 0.3s;
-  
 }
 #max-btn:hover,
 #min-btn:hover {
   transition: 0.3s;
-  
 }
 #logs-output {
   width: 85%;
