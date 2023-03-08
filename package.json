@@ -1,15 +1,12 @@
 {
   "name": "easy_adb_fastboot",
-  "version": "2.10.0",
+  "version": "2.10.1",
   "description": "A GUI tool for easier using ADB and fastboot",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist:release": "node scripts/before_build.js --update-channel=release&&electron-builder",
-    "dist:beta": "node scripts/before_build.js --update-channel=beta&&electron-builder",
-    "config:release": "node scripts/before_build.js --update-channel=release",
-    "config:beta": "node scripts/before_build.js --update-channel=beta",
+    "dist":"electron-builder",
     "clean": "modclean --ignore='platform-tools'"
   },
   "author": "ryantsui1109@github",
