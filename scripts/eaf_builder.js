@@ -11,9 +11,12 @@ function buildAPP(args) {
   } else {
     buildConfig.appId = args.a;
   }
-  builder.build({
-    config: buildConfig,
-  });
+  if (args.b) {
+    console.log("Start building.");
+    builder.build({
+      config: buildConfig,
+    });
+  }
 }
 function configure(args) {
   const config = require("../default_config.json");
@@ -56,6 +59,7 @@ function main() {
     console.log(
       "-a    Set AppID for this build (default: io.github.ryantsui1109.[channel])."
     );
+    console.log("-b    Build with configs.");
     console.log("-c    Set update channel for this build.");
     console.log("-i    Set update index for this build.");
     console.log("");
@@ -70,8 +74,7 @@ function main() {
       console.log("Start configuring.");
 
       configure(args);
-      
-      console.log("Start building.");
+
       buildAPP(args);
     }
   }
