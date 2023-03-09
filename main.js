@@ -29,7 +29,7 @@ const createWindow = () => {
       // allowRunningInsecureContent: true
       nodeIntegration: true,
       contextIsolation: false,
-      // devTools: !isPackaged,
+      devTools: !isPackaged,
       icon: __dirname + "./favicon_256.ico",
     },
   });

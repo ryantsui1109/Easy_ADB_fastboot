@@ -207,6 +207,7 @@ const checkUpdates = () =>
       if (xhr.readyState == XMLHttpRequest.DONE) {
         if (xhr.responseText) {
           latestIndex = xhr.responseText;
+
           resolve(Number(xhr.responseText) > config.updateIndex);
         }
       }
@@ -298,6 +299,7 @@ async function checkUpdatesUI() {
       );
     }
   }
+
   checkUpdateClicked = true;
 }
 
@@ -479,11 +481,13 @@ $(function () {
         <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
       </svg>`
     );
-    
+
     alert(
       messages.alert.updateCompleteAlert[language],
       messages.alert.updateCompleteAlertTitle[language]
-    )
+    );
+    printLogs(messages.update.beforeUpdateRemind1[language]);
+    printLogs(messages.update.beforeUpdateRemind2[language]);
     updatePending = true;
   });
   if (theme == "dark") {

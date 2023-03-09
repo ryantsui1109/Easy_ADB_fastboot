@@ -514,7 +514,7 @@ const messages = {
       "en-US": "Please restart the app",
     },
     updateCompleteAlert: {
-      "zh-TW": "請重啟 APP 以完成更新",
+      "zh-TW": "請點擊右上角的重啟 APP 以完成更新",
       "en-US": "Restart the app to apply update",
     },
     updateCompleteAlertTitle: {
@@ -594,6 +594,15 @@ const messages = {
     noUpdates: {
       "zh-TW": "已在最新版本",
       "en-US": "You are at the latest version",
+    },
+    beforeUpdateRemind1: {
+      "zh-TW": "點擊重啟APP後，畫面卡住無反應為正常現象，數秒後將會自動關閉",
+      "en-US": "If the window freezed after clicking the restart app button, please wait for few seconds, the app will close automatically",
+    },
+    beforeUpdateRemind2: {
+      "zh-TW":
+        "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新",
+      "en-US": 'If "Easy ADB and Fastboot is running" is seen, please click \"OK\" to continue the update process',
     },
   },
   template: { "zh-TW": "", "en-US": "" },
