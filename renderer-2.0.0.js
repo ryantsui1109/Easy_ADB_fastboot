@@ -7,6 +7,7 @@ const { cursorTo } = require("readline");
 const { writeFile } = require("fs");
 const { Z_ASCII } = require("zlib");
 const { PassThrough } = require("stream");
+const { resolve } = require("path");
 const _version = ipc.sendSync("get-version");
 window.$ = window.jQuery = require("jquery");
 require("bootstrap");
@@ -478,11 +479,12 @@ $(function () {
         <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
       </svg>`
     );
-    updatePending = true;
+    
     alert(
       messages.alert.updateCompleteAlert[language],
       messages.alert.updateCompleteAlertTitle[language]
-    );
+    )
+    updatePending = true;
   });
   if (theme == "dark") {
     $("style").append(`.winCtrl-btn {
