@@ -20,15 +20,20 @@ function buildAPP(args) {
 }
 function configure(args) {
   const config = require("../default_config.json");
-  if (existsSync("config.json")) {
-    rmSync("config.json");
-  }
-  if (existsSync("update.exe")) {
-    rmSync("update.exe");
-  }
+  const updaterStatus = require("../default_updaterStatus.json");
+  const cleanBeforeBuild = ["updaterStatus.json", "config.json", "update.exe"];
+  cleanBeforeBuild.forEach((e) => {
+    if (existsSync(e)) {
+      rmSync(e);
+    }
+  });
   config.channel = args.c;
   config.updateIndex = args.i;
   writeFileSync("config.json", JSON.stringify(config, null, "  "));
+  writeFileSync(
+    "updaterStatus.json",
+    JSON.stringify(updaterStatus, null, "  ")
+  );
 }
 
 function checkArgs(arguments) {

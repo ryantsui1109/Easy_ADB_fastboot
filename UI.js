@@ -1,4 +1,5 @@
 const { auto } = require("@popperjs/core");
+const { Dropdown } = require("bootstrap");
 
 const oprs = {
   system: {
@@ -228,6 +229,12 @@ const settings = {
     type: "dropdown",
     name: "theme",
     options: ["light", "dark", "auto"],
+  },
+  updateFrequency: {
+    title: "Update frequency (days):",
+    type: "dropdown",
+    name: "updateFrequency",
+    options: ["1", "2", "3", "7", "14"],
   },
 };
 

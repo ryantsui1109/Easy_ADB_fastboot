@@ -503,6 +503,10 @@ const messages = {
       "zh-TW": "主題：",
       "en-US": "Theme: ",
     },
+    updateFrequency: {
+      "zh-TW": "檢查更新頻率（天）：",
+      "en-US": "Update frequency (days): ",
+    },
   },
   alert: {
     restartAlert: {
@@ -512,6 +516,19 @@ const messages = {
     restartAlertTitle: {
       "zh-TW": "請重啟 APP",
       "en-US": "Please restart the app",
+    },
+    updateFoundAlert1: {
+      "zh-TW": "有可用的更新：",
+      "en-US": "New updates found: ",
+    },
+    updateFoundAlert2: {
+      "zh-TW": "是否更新？",
+      "en-US": "Do you want to install?",
+    },
+    updateStartedAlert: {
+      "zh-TW": "更新已經開始，欲查看下載進度，請見工作列的進度條",
+      "en-US":
+        "Update started, to view the download progress, please see at taskbar",
     },
     updateCompleteAlert: {
       "zh-TW": "請點擊右上角的重啟 APP 以完成更新",
@@ -597,12 +614,14 @@ const messages = {
     },
     beforeUpdateRemind1: {
       "zh-TW": "點擊重啟APP後，畫面卡住無反應為正常現象，數秒後將會自動關閉",
-      "en-US": "If the window freezed after clicking the restart app button, please wait for few seconds, the app will close automatically",
+      "en-US":
+        "If the window freezed after clicking the restart app button, please wait for few seconds, the app will close automatically",
     },
     beforeUpdateRemind2: {
       "zh-TW":
         "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新",
-      "en-US": 'If "Easy ADB and Fastboot is running" is seen, please click \"OK\" to continue the update process',
+      "en-US":
+        'If "Easy ADB and Fastboot is running" is seen, please click "OK" to continue the update process',
     },
   },
   template: { "zh-TW": "", "en-US": "" },

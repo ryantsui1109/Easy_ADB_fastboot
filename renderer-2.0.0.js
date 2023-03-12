@@ -21,7 +21,12 @@ if (isPackaged) {
 } else {
   config = require("./config.json");
 }
-
+let updaterStatus;
+if (isPackaged) {
+  updaterStatus = require("../../updaterStatus.json");
+} else {
+  updaterStatus = require("./updaterStatus.json");
+}
 const currentUpdateIndex = config.updateIndex;
 const updateURL = config.updateURL + config.channel + "/";
 console.log(config.updateURL + config.channel);
@@ -207,7 +212,12 @@ const checkUpdates = () =>
       if (xhr.readyState == XMLHttpRequest.DONE) {
         if (xhr.responseText) {
           latestIndex = xhr.responseText;
-
+          updaterStatus.lastUpdateCheck = Date.now();
+          writeFile(
+            "./updaterStatus.json",
+            JSON.stringify(updaterStatus, null, "  "),
+            () => {}
+          );
           resolve(Number(xhr.responseText) > config.updateIndex);
         }
       }
@@ -569,4 +579,29 @@ $(function () {
   renderNavbar(oprs, language);
   console.log("resize");
   ipc.send("resize");
+  setTimeout(() => {
+    if (
+      Date.now() - updaterStatus.lastUpdateCheck >=
+      Number(config.updateFrequency) * 24 * 60 * 60 * 1000
+    ) {
+      if (checkUpdates()) {
+        installUpdate = false;
+        getUpdateInfo(
+          `${config.updateURL}/${config.channel}/latestVersion`
+        ).then((latestVersion) => {
+          getUpdateInfo(
+            `${config.updateURL}/${config.channel}/latestUpdateIndex`
+          ).then((latestIndex) => {
+            installUpdate = confirm(
+              `${messages.alert.updateFoundAlert1[language]}\n${_version} → ${latestVersion}\n${messages.alert.updateFoundAlert2[language]}`
+            );
+            if (installUpdate) {
+              downloadUpdate(config.channel, latestIndex);
+              alert(messages.alert.updateStartedAlert[language]);
+            }
+          });
+        });
+      }
+    }
+  }, 5000);
 });
