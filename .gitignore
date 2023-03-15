@@ -7,3 +7,4 @@ package-lock.json
 yarn.lock
 config.json
 update.exe
+updaterStatus.json
