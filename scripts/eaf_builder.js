@@ -1,4 +1,6 @@
-const { existsSync, rmSync, writeFileSync } = require("fs");
+const { existsSync, rmSync, writeFileSync, createWriteStream } = require("fs");
+const { type } = require('os')
+const { get } = require('https')
 const builder = require("electron-builder");
 function buildAPP(args) {
   const buildConfig = require("./build.json");
@@ -51,7 +53,9 @@ function checkArgs(arguments) {
     );
   }
 }
-
+const downloadFile = (url, dest) => new Promise((resolve, reject) => {
+  get(url,res=>{})
+})
 function main() {
   const args = require("args-parser")(process.argv);
 
@@ -66,6 +70,7 @@ function main() {
     );
     console.log("-b    Build with configs.");
     console.log("-c    Set update channel for this build.");
+    console.log("-d    Download platform-tools")
     console.log("-i    Set update index for this build.");
     console.log("");
     console.log("Example: node .\\script\\eaf_builder.js -c=beta -i=6");
@@ -77,8 +82,20 @@ function main() {
       console.log("-----------------------------------------");
       console.log("");
       console.log("Start configuring.");
-
       configure(args);
+      if (args.d) {
+        console.log("Start downloading platform-tools")
+        switch (type()) {
+          case 'Linux':
+            break;
+          case "Windows_NT":
+
+            break;
+          default:
+            console.log('Platform currently not supported!')
+            break;
+        }
+      }
 
       buildAPP(args);
     }
