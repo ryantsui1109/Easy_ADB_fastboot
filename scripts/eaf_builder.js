@@ -1,4 +1,6 @@
-const { existsSync, rmSync, writeFileSync } = require("fs");
+const { existsSync, rmSync, writeFileSync, createWriteStream } = require("fs");
+const { type } = require('os')
+const { https } = require('follow-redirects')
 const builder = require("electron-builder");
 function buildAPP(args) {
   const buildConfig = require("./build.json");
@@ -37,21 +39,34 @@ function configure(args) {
 }
 
 function checkArgs(arguments) {
-  let conditions = 0;
-  arguments.c ? conditions++ : console.error("Update channel must be set.");
-  Number.isInteger(Number(arguments.i))
-    ? conditions++
-    : console.error("Update index must be set as an integer.");
 
-  if (conditions == 2) {
-    return true;
-  } else {
-    console.log(
-      '\nFor more help, please type "node .\\scripts\\eaf_builder.js -h".'
-    );
+  if (!arguments.d) {
+    let conditions = 0;
+    arguments.c ? conditions++ : console.error("Update channel must be set.");
+    Number.isInteger(Number(arguments.i))
+      ? conditions++
+      : console.error("Update index must be set as an integer.");
+
+    if (conditions == 2) {
+      return true;
+    } else {
+      console.log(
+        '\nFor more help, please type "node .\\scripts\\eaf_builder.js -h".'
+      );
+    }
   }
 }
+const downloadFile = (url, dest) => new Promise((resolve, reject) => {
+  const file = createWriteStream(dest)
+  https.get(url, res => {
+    console.log(`Downloading from ${url}`)
+    res.pipe(file)
 
+    file.on('finish', () => {
+      resolve('done!')
+    })
+  })
+})
 function main() {
   const args = require("args-parser")(process.argv);
 
@@ -66,10 +81,24 @@ function main() {
     );
     console.log("-b    Build with configs.");
     console.log("-c    Set update channel for this build.");
+    console.log("-d    Download platform-tools")
     console.log("-i    Set update index for this build.");
     console.log("");
     console.log("Example: node .\\script\\eaf_builder.js -c=beta -i=6");
   } else {
+    if (args.d) {
+      console.log("Start downloading platform-tools")
+      switch (type()) {
+        case 'Linux':
+          break;
+        case "Windows_NT":
+          downloadFile('https://dl.google.com/android/repository/platform-tools-latest-windows.zip', 'platform-tools-windows.zip')
+          break;
+        default:
+          console.log('Platform currently not supported!')
+          break;
+      }
+    }
     if (checkArgs(args)) {
       console.log("");
       console.log("Update channel: " + args.c);
@@ -77,8 +106,8 @@ function main() {
       console.log("-----------------------------------------");
       console.log("");
       console.log("Start configuring.");
-
       configure(args);
+
 
       buildAPP(args);
     }
