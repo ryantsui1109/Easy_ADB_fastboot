@@ -584,24 +584,26 @@ $(function () {
       Date.now() - updaterStatus.lastUpdateCheck >=
       Number(config.updateFrequency) * 24 * 60 * 60 * 1000
     ) {
-      if (checkUpdates()) {
-        installUpdate = false;
-        getUpdateInfo(
-          `${config.updateURL}/${config.channel}/latestVersion`
-        ).then((latestVersion) => {
+      checkUpdates().then((hasUpdate) => {
+        if(hasUpdate){
+          installUpdate = false;
           getUpdateInfo(
-            `${config.updateURL}/${config.channel}/latestUpdateIndex`
-          ).then((latestIndex) => {
-            installUpdate = confirm(
-              `${messages.alert.updateFoundAlert1[language]}\n${_version} → ${latestVersion}\n${messages.alert.updateFoundAlert2[language]}`
-            );
-            if (installUpdate) {
-              downloadUpdate(config.channel, latestIndex);
-              alert(messages.alert.updateStartedAlert[language]);
-            }
+            `${config.updateURL}/${config.channel}/latestVersion`
+          ).then((latestVersion) => {
+            getUpdateInfo(
+              `${config.updateURL}/${config.channel}/latestUpdateIndex`
+            ).then((latestIndex) => {
+              installUpdate = confirm(
+                `${messages.alert.updateFoundAlert1[language]}\n${_version} → ${latestVersion}\n${messages.alert.updateFoundAlert2[language]}`
+              );
+              if (installUpdate) {
+                downloadUpdate(config.channel, latestIndex);
+                alert(messages.alert.updateStartedAlert[language]);
+              }
+            });
           });
-        });
-      }
+        }
+      });
     }
   }, 5000);
 });
