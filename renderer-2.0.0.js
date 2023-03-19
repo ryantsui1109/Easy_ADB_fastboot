@@ -169,10 +169,10 @@ function generateSettings(opArea) {
     }
   });
 }
+const osInfo = ipc.sendSync("get-osInfo");
 function renderAbouts(opArea) {
   var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 
-  const osInfo = ipc.sendSync("get-osInfo");
   const crVersion = parseInt(raw[2], 10);
   opArea.append(`<div class="card mb-2">
     <div class="card-body">
@@ -203,7 +203,9 @@ function downloadUpdate(channel, index) {
   };
   osInfo[0] == "Windows_NT"
     ? ipc.send("download-update", downloadURL)
-    : openInBroser("https://github.com/ryantsui1109/eaf-binary/releases/latest");
+    : openInBroser(
+        "https://github.com/ryantsui1109/eaf-binary/releases/latest"
+      );
 }
 let latestIndex = "";
 const checkUpdates = () =>
