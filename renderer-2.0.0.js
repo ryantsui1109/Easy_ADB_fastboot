@@ -199,6 +199,7 @@ function downloadUpdate(channel, index) {
   console.log(downloadURL);
   console.log(__dirname);
   const openInBroser = (url) => {
+    alert(messages.alert.windowsOnlyAlert[language])
     require("electron").shell.openExternal(url);
   };
   osInfo[0] == "Windows_NT"
