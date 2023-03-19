@@ -3,9 +3,12 @@ const {
   rmSync,
   writeFileSync,
   createWriteStream,
+  createReadStream,
   mkdirSync,
   write,
+  renameSync,
 } = require("fs");
+const unzipper = require("unzipper");
 const { type } = require("os");
 const { https } = require("follow-redirects");
 const builder = require("electron-builder");
@@ -106,19 +109,53 @@ function main() {
   } else {
     if (args.d) {
       console.log("Start downloading platform-tools");
-      switch (type()) {
+      let downloadProcess;
+      const platform = type();
+      switch (platform) {
         case "Linux":
+          downloadProcess = downloadFile(
+            "https://dl.google.com/android/repository/platform-tools-latest-linux.zip",
+            "platform-tools.zip"
+          );
           break;
         case "Windows_NT":
-          downloadFile(
+          downloadProcess = downloadFile(
             "https://dl.google.com/android/repository/platform-tools-latest-windows.zip",
-            "platform-tools-windows.zip"
+            "platform-tools.zip"
           );
           break;
         default:
           console.log("Platform currently not supported!");
           break;
       }
+      downloadProcess.then(() => {
+        if (existsSync("platform-tools.zip")) {
+          console.log('Unzipping platform-tools.zip')
+          const unzipProgress = createReadStream("platform-tools.zip").pipe(
+            unzipper.Extract({ path: "." })
+          );
+          unzipProgress.on("close", () => {
+            switch (platform) {
+              case "Linux":
+                rmSync("platform-tools-linux", {
+                  recursive: true,
+                  force: true,
+                });
+                renameSync("platform-tools", "platform-tools-linux");
+                break;
+              case "Windows_NT":
+                rmSync("platform-tools-win", {
+                  recursive: true,
+                  force: true,
+                });
+                renameSync("platform-tools", "platform-tools-win");
+                break;
+              default:
+                break;
+            }
+          });
+        }
+      });
     }
     if (checkArgs(args)) {
       console.log("");
