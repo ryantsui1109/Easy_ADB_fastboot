@@ -198,7 +198,12 @@ function downloadUpdate(channel, index) {
   $("#download-update-btn").addClass("disabled");
   console.log(downloadURL);
   console.log(__dirname);
-  ipc.send("download-update", downloadURL);
+  const openInBroser = (url) => {
+    require("electron").shell.openExternal(url);
+  };
+  osInfo[0] == "Windows_NT"
+    ? ipc.send("download-update", downloadURL)
+    : openInBroser("https://github.com/ryantsui1109/eaf-binary/releases/latest");
 }
 let latestIndex = "";
 const checkUpdates = () =>
@@ -585,7 +590,7 @@ $(function () {
       Number(config.updateFrequency) * 24 * 60 * 60 * 1000
     ) {
       checkUpdates().then((hasUpdate) => {
-        if(hasUpdate){
+        if (hasUpdate) {
           installUpdate = false;
           getUpdateInfo(
             `${config.updateURL}/${config.channel}/latestVersion`

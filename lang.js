@@ -538,6 +538,10 @@ const messages = {
       "zh-TW": "請重啟 APP",
       "en-US": "Please restart the app",
     },
+    windowsOnlyAlert: {
+      "zh-TW": "非 Windows 無法自動更新，將開啟 release 頁面，請自行下載",
+      "en-US": "Downloading updates is only availiable in Windows, now opening release page of EAF in browser",
+    },
   },
   ui: {
     fileSelectorBtn: {
