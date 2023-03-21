@@ -2,7 +2,7 @@
     "appId": "io.github.ryantsui1109.eaf",
     "productName": "Easy ADB and fastboot",
     "files": [
-        "!{TODO.txt,.github,updaterStatus.json,scripts,default_*.json,platform-tools.zip}"
+        "!{TODO.txt,.github,updaterStatus.json,scripts,default_*.json,platform-tools*}"
     ],
     "extraFiles": [
         "updaterStatus.json",
