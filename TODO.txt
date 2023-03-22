@@ -13,6 +13,5 @@ operation hint
 add init_boot option
 input box improvement
 smaller file selector text
-show scroll bar if main content is longer than window
 fastboot unlock critical
 use github workflow
