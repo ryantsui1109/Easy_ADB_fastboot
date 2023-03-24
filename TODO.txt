@@ -16,3 +16,4 @@ smaller file selector text
 fastboot unlock critical
 use github workflow
 flash vbmeta disable verity
+enable devtools in beta channel
