@@ -26,7 +26,6 @@ const createWindow = () => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      // allowRunningInsecureContent: true
       nodeIntegration: true,
       contextIsolation: false,
       devTools: !isPackaged,
