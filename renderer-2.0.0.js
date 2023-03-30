@@ -1,13 +1,7 @@
 const ipc = require("electron").ipcRenderer;
 const getPlatform = require("os").platform;
 const { spawn } = require("child_process");
-const { KeyObject } = require("crypto");
-const { stdout, stderr, connected } = require("process");
-const { cursorTo } = require("readline");
 const { writeFile } = require("fs");
-const { Z_ASCII } = require("zlib");
-const { PassThrough } = require("stream");
-const { resolve } = require("path");
 const _version = ipc.sendSync("get-version");
 window.$ = window.jQuery = require("jquery");
 require("bootstrap");
@@ -120,7 +114,7 @@ function generateContents(opArea, operation, operationLang) {
             ${messages.ui.fileSelectorBtn[language]}
           </label>
           <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" accept="${content[i][2]}"/>
-          <h5 id="file-path">${messages.ui.fileSelectorDefault[language]}</h5>
+          <h5 id="file-path" class="user-select-none">${messages.ui.fileSelectorDefault[language]}</h5>
         </div>`);
         break;
       default:
@@ -344,7 +338,7 @@ function switchOpr(keyPath) {
   generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
-      `<div class="alert alert-info">${messages.ui.unlockAlertMsg[language]}</div>`
+      `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg[language]}</div>`
     );
   } else {
     opArea.append(`<div style="width:100%"></div>`);
