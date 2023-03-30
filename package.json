@@ -6,7 +6,6 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder",
     "clean": "modclean --ignore='platform-tools'"
   },
   "author": "ryantsui1109@github",
