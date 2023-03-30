@@ -553,8 +553,8 @@ const messages = {
       "en-US": "Nothing selected...",
     },
     saveSettingsBtn: {
-      "zh-TW": "儲存",
-      "en-US": "Save",
+      "zh-TW": "儲存設定",
+      "en-US": "Save settings",
     },
     nothingSelected: {
       "zh-TW": "從側邊欄選取功能以開始",
