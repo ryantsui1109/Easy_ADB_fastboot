@@ -3,7 +3,7 @@ const getPlatform = require("os").platform;
 const { spawn } = require("child_process");
 const { writeFile } = require("fs");
 const _version = ipc.sendSync("get-version");
-window.$ = window.jQuery = require("jquery");
+
 require("bootstrap");
 require("@popperjs/core");
 
