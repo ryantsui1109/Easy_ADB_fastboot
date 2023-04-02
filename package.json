@@ -18,7 +18,7 @@
     "electron-dl": "^3.5.0",
     "electron-is-packaged": "^1.0.2",
     "got": "^11.8.5",
-    "jquery": "^3.6.1",
+    "jquery": "^3.6.4",
     "popper.js": "^1.16.1",
     "react": "^18.2.0",
     "upath": "^2.0.1"
