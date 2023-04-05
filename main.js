@@ -1,20 +1,26 @@
-const { exec } = require("child_process");
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
-const { execFile } = require("child_process");
 const { download } = require("electron-dl");
-
+const child_process = require("child_process");
+const fs = require("fs");
 const os = require("os");
-const getPlatform = require("os").platform;
+const platform = os.platform();
+const config = require("./config.json");
+const updaterStatus = require("./updaterStatus.json");
+let hasDevtools = false;
 let adbPath = "";
 
-if (getPlatform() == "win32") {
+if (platform == "win32") {
   adbPath = ".\\platform-tools-win\\adb.exe";
 }
 
-if (getPlatform() == "linux") {
+if (platform == "linux") {
   adbPath = "./platform-tools-linux/adb";
+}
+
+if (!isPackaged || config.channel == "beta") {
+  hasDevtools = true;
 }
 
 let indexFile;
@@ -26,9 +32,9 @@ const createWindow = () => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
-      contextIsolation: false,
-      devTools: !isPackaged,
+      // nodeIntegration: true,
+      // contextIsolation: false,
+      devTools: hasDevtools,
       icon: __dirname + "./favicon_256.ico",
     },
   });
@@ -67,38 +73,57 @@ const createWindow = () => {
       },
     });
   });
+  ipcMain.on("run-command", (e, command, params) => {
+    const process = child_process.spawn(command, params);
+    process.stderr.on("data", (data) =>
+      win.webContents.send("print-log", `${data}`)
+    );
+  });
 };
 
-ipcMain.on("get-version", (e) => {
-  e.returnValue = app.getVersion();
+ipcMain.handle("get-platform", async () => {
+  return platform;
 });
-ipcMain.on("get-osInfo", (e) => {
-  e.returnValue = [os.type(), os.release()];
+ipcMain.handle("get-version", async () => {
+  return app.getVersion();
 });
-ipcMain.on("is-packaged", (e) => {
-  e.returnValue = isPackaged;
+ipcMain.handle("get-os-type", async () => {
+  console.log(os.type());
+  return os.type();
+});
+ipcMain.handle("get-os-release", async () => {
+  return os.release();
+});
+ipcMain.handle("get-config", async () => {
+  return config;
+});
+ipcMain.handle("get-updater-status", async () => {
+  return updaterStatus;
+});
+ipcMain.handle("is-packaged", async () => {
+  return isPackaged;
 });
 
 app.whenReady().then(() => {
   createWindow();
 
   console.log("starting ADB server");
-  execFile(adbPath, ["start-server"], (error, stdout, stderr) => {
-    if (error) {
-      throw error;
-    }
-    console.log(stderr);
-  });
+  const adbServer = child_process.spawn(adbPath, ["start-server"]);
+  adbServer.stderr.on("data", (data) => console.log(`${data}`.split("\n")[0]));
 
   app.on("before-quit", () => {
     console.log("Trying to kill adb server");
 
-    execFile(adbPath, ["kill-server"], (error, stdout, stderr) => {
-      if (error) {
-        throw error;
+    child_process.execFile(
+      adbPath,
+      ["kill-server"],
+      (error, stdout, stderr) => {
+        if (error) {
+          throw error;
+        }
+        console.log(stdout);
       }
-      console.log(stdout);
-    });
+    );
   });
 });
 app.on("window-all-closed", () => {

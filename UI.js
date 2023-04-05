@@ -1,6 +1,3 @@
-const { auto } = require("@popperjs/core");
-const { Dropdown } = require("bootstrap");
-
 const oprs = {
   system: {
     navbar: "System",

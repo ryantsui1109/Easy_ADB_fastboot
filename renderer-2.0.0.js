@@ -1,49 +1,22 @@
-const ipc = require("electron").ipcRenderer;
-const getPlatform = require("os").platform;
-const { spawn } = require("child_process");
-const { writeFile } = require("fs");
-const _version = ipc.sendSync("get-version");
+let getPlatform;
 
-require("bootstrap");
-require("@popperjs/core");
+const writeFile = () => api.writeFile;
+let _version;
+let osType;
+let osRelease;
+let isPackaged;
+api.invoke("get-os-type").then((result) => (osType = result));
+api.invoke("get-os-release").then((result) => (osRelease = result));
+api.invoke("get-platform").then((result) => (getPlatform = result));
+api.invoke("get-version").then((result) => (_version = result));
+api.invoke("is-packaged").then((result) => (isPackaged = result));
 
-// const { default: settings, set } = require("./settings");
-const isPackaged = ipc.sendSync("is-packaged");
 let config;
-if (isPackaged) {
-  config = require("../../config.json");
-} else {
-  config = require("./config.json");
-}
 let updaterStatus;
-if (isPackaged) {
-  updaterStatus = require("../../updaterStatus.json");
-} else {
-  updaterStatus = require("./updaterStatus.json");
-}
-const currentUpdateIndex = config.updateIndex;
-const updateURL = config.updateURL + config.channel + "/";
-console.log(config.updateURL + config.channel);
-let language = config.language;
-let theme = config.theme;
-if (config.language === "auto") {
-  switch (navigator.language) {
-    case "zh-TW":
-    case "en-US":
-      language = navigator.language;
-      break;
-    default:
-      language = "en-US";
-  }
-}
+let updateURL;
+let language;
+let theme;
 
-if (config.theme === "auto") {
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    theme = "dark";
-  } else {
-    theme = "light";
-  }
-}
 let checkUpdateClicked = false;
 let updaterCreated = false;
 let progressBarCreated = false;
@@ -163,7 +136,7 @@ function generateSettings(opArea) {
     }
   });
 }
-const osInfo = ipc.sendSync("get-osInfo");
+
 function renderAbouts(opArea) {
   var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 
@@ -172,8 +145,8 @@ function renderAbouts(opArea) {
     <div class="card-body">
       <h6 class="card-title">${messages.info.appVersion[language]}${_version}</h6>
       <h6 class="card-title">${messages.info.chromeVersion[language]}${crVersion}</h6>
-      <h6 class="card-title">${messages.info.osType[language]}${osInfo[0]}</h6>
-      <h6 class="card-title">${messages.info.osVersion[language]}${osInfo[1]}</h6>
+      <h6 class="card-title">${messages.info.osType[language]}${osType}</h6>
+      <h6 class="card-title">${messages.info.osVersion[language]}${osRelease}</h6>
     </div>
   </div>`);
 }
@@ -193,11 +166,11 @@ function downloadUpdate(channel, index) {
   console.log(downloadURL);
   console.log(__dirname);
   const openInBroser = (url) => {
-    alert(messages.alert.windowsOnlyAlert[language])
+    alert(messages.alert.windowsOnlyAlert[language]);
     require("electron").shell.openExternal(url);
   };
   osInfo[0] == "Windows_NT"
-    ? ipc.send("download-update", downloadURL)
+    ? api.send("download-update", downloadURL)
     : openInBroser(
         "https://github.com/ryantsui1109/eaf-binary/releases/latest"
       );
@@ -373,26 +346,14 @@ function printLogs(data) {
   $("#logs-output").append(`<p class="log-message font-monospace">${data}</p>`);
   logsOutput.scrollTo(0, logsOutput.scrollHeight);
 }
-function runCommand(execFile, parameters) {
-  cmd = spawn(execFile, parameters);
-  console.log(execFile, parameters);
-  cmd.stdout.on("data", (data) => {
-    console.log(`${data}`);
-    printLogs(data);
-  });
-  cmd.stderr.on("data", (data) => {
-    console.log(`${data}`);
-    printLogs(data);
-  });
-}
 function runScript(path, name) {
   let fileExtension = "";
   let execDir = "";
-  if (getPlatform() == "win32") {
+  if (getPlatform == "win32") {
     execDir = ".\\platform-tools-win\\";
     fileExtension = ".exe";
   }
-  if (getPlatform() == "linux") {
+  if (getPlatform == "linux") {
     execDir = "./platform-tools-linux/";
   }
   const scripts = keyPath2obj(path, oprs).script;
@@ -433,7 +394,7 @@ function runScript(path, name) {
         }
       }
     }
-    runCommand(execFile, params);
+    api.runCommand(execFile, params);
   }
 }
 function readRadio(name) {
@@ -447,63 +408,17 @@ function readRadio(name) {
   }
 }
 function readFileSelector(name) {
-  console.log(name);
   return document.getElementById(name).files[0].path;
 }
 
-$(function () {
-  $("html").attr("data-bs-theme", theme);
-  ipc.on("update-progress", (e, progress) => {
-    const eafUpdater = $("#eaf-updater");
-    eafUpdater.find("#download-update-btn").hide();
-    let progressBar;
-
-    if (!progressBarCreated) {
-      eafUpdater.append(
-        `<div
-          class="progress"
-          role="progressbar"
-          aria-label="Basic example"
-          aria-valuenow="0"
-          aria-valuemin="0"
-          aria-valuemax="100"
-        >
-          <div class="progress-bar" id="download-progress" style="width: 0%"></div>
-        </div>`
-      );
-      progressBarCreated = true;
-    }
-    $("#download-progress").css("width", progress.percent * 100 + "%");
-  });
-  ipc.on("update-complete", (e) => {
-    $("#close-btn").empty();
-    $("#close-btn").append(
-      `<svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-arrow-counterclockwise"
-        viewBox="0 0 16 16"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"
-        />
-        <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
-      </svg>`
-    );
-
-    alert(
-      messages.alert.updateCompleteAlert[language],
-      messages.alert.updateCompleteAlertTitle[language]
-    );
-    printLogs(messages.update.beforeUpdateRemind1[language]);
-    printLogs(messages.update.beforeUpdateRemind2[language]);
-    updatePending = true;
-  });
-  if (theme == "dark") {
-    $("style").append(`.winCtrl-btn {
+const renderUI = () =>
+  $(function () {
+    api.handle("print-log", (text) => {
+      printLogs(text);
+    });
+    $("html").attr("data-bs-theme", theme);
+    if (theme == "dark") {
+      $("style").append(`.winCtrl-btn {
       background-color: rgba(255, 255, 255, 0);
       color: white;
     }
@@ -520,8 +435,8 @@ $(function () {
     .operations:hover {
       color: white;
   }`);
-  } else {
-    $("style").append(`
+    } else {
+      $("style").append(`
     .winCtrl-btn {
     background-color: white;
   }
@@ -539,73 +454,96 @@ $(function () {
     color: black;
   }
     `);
-  }
-  $("#close-btn").on("click", (e) => {
-    e.preventDefault();
-
-    if (updatePending) {
-      const updater = spawn("update.exe", [], {
-        detached: true,
-        stdio: ["ignore", "ignore", "ignore"],
-      });
-      updater.unref();
     }
-    ipc.send("close-window");
-  });
-  $("#max-btn").on("click", (e) => {
-    e.preventDefault();
-    ipc.send("maximize-window");
-  });
-  $("#min-btn").on("click", (e) => {
-    e.preventDefault();
-    ipc.send("minimize-window");
-  });
+    $("#close-btn").on("click", (e) => {
+      e.preventDefault();
+      api.send("close-window");
+    });
+    $("#max-btn").on("click", (e) => {
+      e.preventDefault();
+      api.send("maximize-window");
+    });
+    $("#min-btn").on("click", (e) => {
+      e.preventDefault();
+      api.send("minimize-window");
+    });
 
-  $("#sidebar").width(screen.width / 5);
-  $("#logs").width((screen.width / 5) * 2.5);
-  // $("#operation-area").width(
-  //   window.width - $("#sidebar").width() - $("#logs").width()
-  // );
-  $("#operation-area").width($("#operation-area").width() / 1.2);
-  $(window).on("resize", function () {
-    $("#main-content").css(
-      "height",
-      `calc(100vh - ${$("#winCtrl-bar").height()}px)`
-    );
-  });
-  $("#operation-area").on("change", "#file-input", function () {
-    const realPath = document.getElementById("file-input").files[0].path;
-    $("#file-path").text(realPath);
-  });
-  $("#nothing-selected").text(messages.ui.nothingSelected[language]);
-  renderNavbar(oprs, language);
-  console.log("resize");
-  ipc.send("resize");
-  setTimeout(() => {
-    if (
-      Date.now() - updaterStatus.lastUpdateCheck >=
-      Number(config.updateFrequency) * 24 * 60 * 60 * 1000
-    ) {
-      checkUpdates().then((hasUpdate) => {
-        if (hasUpdate) {
-          installUpdate = false;
-          getUpdateInfo(
-            `${config.updateURL}/${config.channel}/latestVersion`
-          ).then((latestVersion) => {
+    $("#sidebar").width(screen.width / 5);
+    $("#logs").width((screen.width / 5) * 2.5);
+    // $("#operation-area").width(
+    //   window.width - $("#sidebar").width() - $("#logs").width()
+    // );
+    $("#operation-area").width($("#operation-area").width() / 1.2);
+    $(window).on("resize", function () {
+      $("#main-content").css(
+        "height",
+        `calc(100vh - ${$("#winCtrl-bar").height()}px)`
+      );
+    });
+    $("#operation-area").on("change", "#file-input", function () {
+      const realPath = document.getElementById("file-input").files[0].path;
+      $("#file-path").text(realPath);
+    });
+    $("#nothing-selected").text(messages.ui.nothingSelected[language]);
+    renderNavbar(oprs, language);
+
+    api.send("resize");
+    setTimeout(() => {
+      if (
+        Date.now() - updaterStatus.lastUpdateCheck >=
+        Number(config.updateFrequency) * 24 * 60 * 60 * 1000
+      ) {
+        checkUpdates().then((hasUpdate) => {
+          if (hasUpdate) {
+            installUpdate = false;
             getUpdateInfo(
-              `${config.updateURL}/${config.channel}/latestUpdateIndex`
-            ).then((latestIndex) => {
-              installUpdate = confirm(
-                `${messages.alert.updateFoundAlert1[language]}\n${_version} → ${latestVersion}\n${messages.alert.updateFoundAlert2[language]}`
-              );
-              if (installUpdate) {
-                downloadUpdate(config.channel, latestIndex);
-                alert(messages.alert.updateStartedAlert[language]);
-              }
+              `${config.updateURL}/${config.channel}/latestVersion`
+            ).then((latestVersion) => {
+              getUpdateInfo(
+                `${config.updateURL}/${config.channel}/latestUpdateIndex`
+              ).then((latestIndex) => {
+                installUpdate = confirm(
+                  `${messages.alert.updateFoundAlert1[language]}\n${_version} → ${latestVersion}\n${messages.alert.updateFoundAlert2[language]}`
+                );
+                if (installUpdate) {
+                  downloadUpdate(config.channel, latestIndex);
+                  alert(messages.alert.updateStartedAlert[language]);
+                }
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      }
+    }, 5000);
+  });
+
+Promise.all([api.invoke("get-config"), api.invoke("get-updater-status")]).then(
+  (resultArr) => {
+    config = resultArr[0];
+    updaterStatus = resultArr[1];
+
+    updateURL = config.updateURL + config.channel + "/";
+    console.log(config.updateURL + config.channel);
+    language = config.language;
+    theme = config.theme;
+    if (config.language === "auto") {
+      switch (navigator.language) {
+        case "zh-TW":
+        case "en-US":
+          language = navigator.language;
+          break;
+        default:
+          language = "en-US";
+      }
     }
-  }, 5000);
-});
+
+    if (config.theme === "auto") {
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        theme = "dark";
+      } else {
+        theme = "light";
+      }
+    }
+    renderUI();
+  }
+);
