@@ -18,3 +18,4 @@ use github workflow
 flash vbmeta disable verity
 enable devtools in beta channel
 chinese simplified
+seperate languages
