@@ -160,59 +160,9 @@ function saveSettings() {
     );
   });
 }
-function downloadUpdate(channel, index) {
-  const downloadURL = config.downloadURL + channel + "-" + index + "/setup.exe";
-  $("#download-update-btn").addClass("disabled");
-  console.log(downloadURL);
-  console.log(__dirname);
-  const openInBroser = (url) => {
-    alert(messages.alert.windowsOnlyAlert[language]);
-    require("electron").shell.openExternal(url);
-  };
-  osInfo[0] == "Windows_NT"
-    ? api.send("download-update", downloadURL)
-    : openInBroser(
-        "https://github.com/ryantsui1109/eaf-binary/releases/latest"
-      );
-}
-let latestIndex = "";
-const checkUpdates = () =>
-  new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(
-      "GET",
-      `${config.updateURL}/${config.channel}/latestUpdateIndex?t=${Date.now()}`
-    );
-    xhr.onreadystatechange = (e) => {
-      if (xhr.readyState == XMLHttpRequest.DONE) {
-        if (xhr.responseText) {
-          latestIndex = xhr.responseText;
-          updaterStatus.lastUpdateCheck = Date.now();
-          writeFile(
-            "./updaterStatus.json",
-            JSON.stringify(updaterStatus, null, "  "),
-            () => {}
-          );
-          resolve(Number(xhr.responseText) > config.updateIndex);
-        }
-      }
-    };
-    xhr.send();
-  });
 
-const getUpdateInfo = (url) =>
-  new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url + `?t=${Date.now()}`);
-    xhr.onreadystatechange = (e) => {
-      if (xhr.readyState == XMLHttpRequest.DONE) {
-        if (xhr.responseText) {
-          resolve(xhr.responseText);
-        }
-      }
-    };
-    xhr.send();
-  });
+let latestIndex = "";
+
 async function showUpdates(updaterArea) {
   progressBarCreated = false;
   const xhrVer = new XMLHttpRequest();
@@ -257,34 +207,43 @@ async function showUpdates(updaterArea) {
   checkUpdateClicked = false;
 }
 
-async function checkUpdatesUI() {
-  if (!checkUpdateClicked) {
-    if (!updaterCreated) {
-      $("#operation-area").append(`<div class="card mb-2">
-    <div id="eaf-updater" class="card-body">
-    <div class="d-flex align-items-center m-2">
-      <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate[language]}</p>
-      <div
-        class="spinner-border spinner-border-sm ms-auto"
-        role="status"
-        aria-hidden="true"
-      ></div>
-    </div>
-    </div>`);
-    }
-    updaterCreated = true;
-    const hasUpdate = await checkUpdates();
-    const eafUpdater = $("#operation-area").find("#eaf-updater");
-    if (hasUpdate) {
-      showUpdates(eafUpdater);
-    } else {
-      eafUpdater.empty();
-      $(eafUpdater).append(
-        `<p class="mb-0 h5 text-muted">${messages.update.noUpdates[language]}</p>`
-      );
-    }
-  }
+async function getURL(url) {
+  let response = await fetch(url);
+  let text = await response.text();
+  return text;
+}
 
+async function checkUpdatesUI() {
+  // if (!checkUpdateClicked) {
+  //   if (!updaterCreated) {
+  //     $("#operation-area").append(`<div class="card mb-2">
+  //   <div id="eaf-updater" class="card-body">
+  //   <div class="d-flex align-items-center m-2">
+  //     <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate[language]}</p>
+  //     <div
+  //       class="spinner-border spinner-border-sm ms-auto"
+  //       role="status"
+  //       aria-hidden="true"
+  //     ></div>
+  //   </div>
+  //   </div>`);
+  //   }
+  //   updaterCreated = true;
+  //   api.invoke('check-updates');
+  //   const hasUpdate = await checkUpdates();
+  //   const eafUpdater = $("#operation-area").find("#eaf-updater");
+  //   if (hasUpdate) {
+  //     showUpdates(eafUpdater);
+  //   } else {
+  //     eafUpdater.empty();
+  //     $(eafUpdater).append(
+  //       `<p class="mb-0 h5 text-muted">${messages.update.noUpdates[language]}</p>`
+  //     );
+  //   }
+  // }
+  const indexURL = config.updateURL + config.channel + "/latestUpdateIndex";
+  const newIndex = await getURL(indexURL);
+  console.log(newIndex);
   checkUpdateClicked = true;
 }
 
@@ -488,33 +447,6 @@ const renderUI = () =>
     renderNavbar(oprs, language);
 
     api.send("resize");
-    setTimeout(() => {
-      if (
-        Date.now() - updaterStatus.lastUpdateCheck >=
-        Number(config.updateFrequency) * 24 * 60 * 60 * 1000
-      ) {
-        checkUpdates().then((hasUpdate) => {
-          if (hasUpdate) {
-            installUpdate = false;
-            getUpdateInfo(
-              `${config.updateURL}/${config.channel}/latestVersion`
-            ).then((latestVersion) => {
-              getUpdateInfo(
-                `${config.updateURL}/${config.channel}/latestUpdateIndex`
-              ).then((latestIndex) => {
-                installUpdate = confirm(
-                  `${messages.alert.updateFoundAlert1[language]}\n${_version} → ${latestVersion}\n${messages.alert.updateFoundAlert2[language]}`
-                );
-                if (installUpdate) {
-                  downloadUpdate(config.channel, latestIndex);
-                  alert(messages.alert.updateStartedAlert[language]);
-                }
-              });
-            });
-          }
-        });
-      }
-    }, 5000);
   });
 
 Promise.all([api.invoke("get-config"), api.invoke("get-updater-status")]).then(

@@ -8,6 +8,7 @@ const os = require("os");
 const platform = os.platform();
 const config = require("./config.json");
 const updaterStatus = require("./updaterStatus.json");
+const { https } = require("follow-redirects");
 let hasDevtools = false;
 let adbPath = "";
 
@@ -106,6 +107,18 @@ ipcMain.handle("is-packaged", async () => {
 
 app.whenReady().then(() => {
   createWindow();
+  let processedLang;
+  let lang = app.getLocale();
+  if (config.language === "auto") {
+    switch (lang) {
+      case "zh-TW":
+      case "en-US":
+        processedLang = lang;
+        break;
+      default:
+        processedLang = "en-US";
+    }
+  }
 
   console.log("starting ADB server");
   const adbServer = child_process.spawn(adbPath, ["start-server"]);
