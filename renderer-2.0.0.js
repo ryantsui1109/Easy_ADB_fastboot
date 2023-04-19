@@ -163,15 +163,24 @@ function saveSettings() {
 
 let latestIndex = "";
 
-async function showUpdates(updaterArea) {
+async function showUpdates(updaterArea, newIndex) {
   progressBarCreated = false;
   const xhrVer = new XMLHttpRequest();
-  let latestVersion = await getUpdateInfo(
+  let latestVersion = await getURL(
     `${config.updateURL}/${config.channel}/latestVersion`
   );
-  let changelog = await getUpdateInfo(
+  let changelog = await getURL(
     `${config.updateURL}/${config.channel}/changelog_${language}`
   );
+  let finalURL = `${config.updateURL}${config.channel}-${newIndex}/`
+  switch (osType) {
+    case 'Windows_NT':
+      finalURL += 'setup.exe'
+      break;
+    case 'Linux':
+      finalURL += 'easy_adb_fastboot-linux.tar.gz'
+  }
+
   updaterArea.empty();
   updaterArea.append(
     `<h5 class="card-title ">${messages.update.updateFound[language]}</h5>`
@@ -198,8 +207,9 @@ async function showUpdates(updaterArea) {
     </div>`
   );
   updaterArea.append(
+
     `
-    <button class="btn btn-info" id="download-update-btn" onclick="downloadUpdate('${config.channel}','${latestIndex}')">
+    <button class="btn btn-info" id="download-update-btn" onclick="api.send('download','${finalURL}')">
       ${messages.update.downloadUpdate[language]}
     </button>
     `
@@ -214,36 +224,34 @@ async function getURL(url) {
 }
 
 async function checkUpdatesUI() {
-  // if (!checkUpdateClicked) {
-  //   if (!updaterCreated) {
-  //     $("#operation-area").append(`<div class="card mb-2">
-  //   <div id="eaf-updater" class="card-body">
-  //   <div class="d-flex align-items-center m-2">
-  //     <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate[language]}</p>
-  //     <div
-  //       class="spinner-border spinner-border-sm ms-auto"
-  //       role="status"
-  //       aria-hidden="true"
-  //     ></div>
-  //   </div>
-  //   </div>`);
-  //   }
-  //   updaterCreated = true;
-  //   api.invoke('check-updates');
-  //   const hasUpdate = await checkUpdates();
-  //   const eafUpdater = $("#operation-area").find("#eaf-updater");
-  //   if (hasUpdate) {
-  //     showUpdates(eafUpdater);
-  //   } else {
-  //     eafUpdater.empty();
-  //     $(eafUpdater).append(
-  //       `<p class="mb-0 h5 text-muted">${messages.update.noUpdates[language]}</p>`
-  //     );
-  //   }
-  // }
+  if (!checkUpdateClicked) {
+    if (!updaterCreated) {
+      $("#operation-area").append(`<div class="card mb-2">
+    <div id="eaf-updater" class="card-body">
+    <div class="d-flex align-items-center m-2">
+      <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate[language]}</p>
+      <div
+        class="spinner-border spinner-border-sm ms-auto"
+        role="status"
+        aria-hidden="true"
+      ></div>
+    </div>
+    </div>`);
+    }
+    updaterCreated = true;
+  }
   const indexURL = config.updateURL + config.channel + "/latestUpdateIndex";
-  const newIndex = await getURL(indexURL);
-  console.log(newIndex);
+  const newIndex = Number(await getURL(indexURL));
+  const eafUpdater = $("#operation-area").find("#eaf-updater");
+  console.log(newIndex, config.updateIndex)
+  if (newIndex > config.updateIndex) {
+    showUpdates(eafUpdater, newIndex);
+  } else {
+    eafUpdater.empty();
+    $(eafUpdater).append(
+      `<p class="mb-0 h5 text-muted">${messages.update.noUpdates[language]}</p>`
+    );
+  }
   checkUpdateClicked = true;
 }
 

@@ -61,8 +61,10 @@ const createWindow = () => {
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
-  ipcMain.on("download-update", async (e, url) => {
-    await download(BrowserWindow.getFocusedWindow(), url, {
+  ipcMain.on("download", async (e, url) => {
+    console.log(url)
+    console.log(typeof download)
+    console.log(await download(win, url, {
       showProgressBar: true,
       directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
       filename: "update.exe",
@@ -72,7 +74,18 @@ const createWindow = () => {
       onCompleted: () => {
         win.webContents.send("update-complete");
       },
-    });
+    }))
+    // await download(BrowserWindow.getFocusedWindow(), url, {
+    //   showProgressBar: true,
+    //   directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
+    //   filename: "update.exe",
+    //   overwrite: true,
+    // onProgress: (progress) =>
+    //   win.webContents.send("update-progress", progress),
+    // onCompleted: () => {
+    //   win.webContents.send("update-complete");
+    // },
+    // });
   });
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
