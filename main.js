@@ -62,8 +62,7 @@ const createWindow = () => {
     win.setSize(1080, 500);
   });
   ipcMain.on("download-update", async (e, url) => {
-    console.log(url)
-    console.log(typeof download)
+    
     await download(win, url, {
       showProgressBar: true,
       directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
