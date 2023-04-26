@@ -163,9 +163,11 @@ function saveSettings() {
 
 let latestIndex = "";
 
-function downloadUpdate(url) {
+function downloadingUI(url) {
   console.log(url)
-  api.send('download-update',url)
+  api.send('download-update', url);
+  const updater = $("#operation-area").find("#eaf-updater");
+
 }
 
 async function showUpdates(updaterArea, newIndex) {
@@ -214,7 +216,7 @@ async function showUpdates(updaterArea, newIndex) {
   updaterArea.append(
 
     `
-    <button class="btn btn-info" id="download-update-btn" onclick="downloadUpdate('${finalURL}')">
+    <button class="btn btn-info" id="download-update-btn" onclick="downloadingUI('${finalURL}');">
       ${messages.update.downloadUpdate[language]}
     </button>
     `
