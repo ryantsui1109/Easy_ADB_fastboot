@@ -163,6 +163,11 @@ function saveSettings() {
 
 let latestIndex = "";
 
+function downloadUpdate(url) {
+  console.log(url)
+  api.send('download-update',url)
+}
+
 async function showUpdates(updaterArea, newIndex) {
   progressBarCreated = false;
   const xhrVer = new XMLHttpRequest();
@@ -172,7 +177,7 @@ async function showUpdates(updaterArea, newIndex) {
   let changelog = await getURL(
     `${config.updateURL}/${config.channel}/changelog_${language}`
   );
-  let finalURL = `${config.updateURL}${config.channel}-${newIndex}/`
+  let finalURL = `${config.downloadURL}${config.channel}-${newIndex}/`
   switch (osType) {
     case 'Windows_NT':
       finalURL += 'setup.exe'
@@ -209,7 +214,7 @@ async function showUpdates(updaterArea, newIndex) {
   updaterArea.append(
 
     `
-    <button class="btn btn-info" id="download-update-btn" onclick="api.send('download','${finalURL}')">
+    <button class="btn btn-info" id="download-update-btn" onclick="downloadUpdate('${finalURL}')">
       ${messages.update.downloadUpdate[language]}
     </button>
     `

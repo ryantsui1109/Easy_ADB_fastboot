@@ -61,10 +61,10 @@ const createWindow = () => {
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
-  ipcMain.on("download", async (e, url) => {
+  ipcMain.on("download-update", async (e, url) => {
     console.log(url)
     console.log(typeof download)
-    console.log(await download(win, url, {
+    await download(win, url, {
       showProgressBar: true,
       directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
       filename: "update.exe",
@@ -74,7 +74,9 @@ const createWindow = () => {
       onCompleted: () => {
         win.webContents.send("update-complete");
       },
-    }))
+    }).catch(err=>{
+      console.log(err)
+    })
     // await download(BrowserWindow.getFocusedWindow(), url, {
     //   showProgressBar: true,
     //   directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
