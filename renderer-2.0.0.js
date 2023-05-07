@@ -21,6 +21,7 @@ let checkUpdateClicked = false;
 let updaterCreated = false;
 let progressBarCreated = false;
 let updatePending = false;
+
 function renderNavbar(elements, language) {
   const locale = lang[language];
   $("#navbar").empty();
@@ -164,28 +165,41 @@ function saveSettings() {
 let latestIndex = "";
 
 function downloadingUI(url) {
-  console.log(url)
-  api.send('download-update', url);
+  console.log(url);
+  api.send("download-update", url);
   const updater = $("#operation-area").find("#eaf-updater");
-
 }
 
 async function showUpdates(updaterArea, newIndex) {
   progressBarCreated = false;
-  const xhrVer = new XMLHttpRequest();
-  let latestVersion = await getURL(
-    `${config.updateURL}/${config.channel}/latestVersion`
-  );
-  let changelog = await getURL(
-    `${config.updateURL}/${config.channel}/changelog_${language}`
-  );
-  let finalURL = `${config.downloadURL}${config.channel}-${newIndex}/`
+
+  let latestVersion;
+  let changelog;
+  if (!localStorage.getItem("newVer")) {
+    latestVersion = await getURL(
+      `${config.updateURL}/${config.channel}/latestVersion`
+    );
+    localStorage.setItem("newVer", latestVersion);
+  } else {
+    latestVersion = localStorage.getItem("newVer");
+  }
+
+  if (!localStorage.getItem("changelog")) {
+    changelog = await getURL(
+      `${config.updateURL}/${config.channel}/changelog_${language}`
+    );
+    localStorage.setItem("changelog", changelog);
+  } else {
+    changelog = localStorage.getItem("changelog");
+  }
+
+  let finalURL = `${config.downloadURL}${config.channel}-${newIndex}/`;
   switch (osType) {
-    case 'Windows_NT':
-      finalURL += 'setup.exe'
+    case "Windows_NT":
+      finalURL += "setup.exe";
       break;
-    case 'Linux':
-      finalURL += 'easy_adb_fastboot-linux.tar.gz'
+    case "Linux":
+      finalURL += "easy_adb_fastboot-linux.tar.gz";
   }
 
   updaterArea.empty();
@@ -214,7 +228,6 @@ async function showUpdates(updaterArea, newIndex) {
     </div>`
   );
   updaterArea.append(
-
     `
     <button class="btn btn-info" id="download-update-btn" onclick="downloadingUI('${finalURL}');">
       ${messages.update.downloadUpdate[language]}
@@ -250,7 +263,7 @@ async function checkUpdatesUI() {
   const indexURL = config.updateURL + config.channel + "/latestUpdateIndex";
   const newIndex = Number(await getURL(indexURL));
   const eafUpdater = $("#operation-area").find("#eaf-updater");
-  console.log(newIndex, config.updateIndex)
+  console.log(newIndex, config.updateIndex);
   if (newIndex > config.updateIndex) {
     showUpdates(eafUpdater, newIndex);
   } else {
@@ -390,6 +403,15 @@ const renderUI = () =>
     api.handle("print-log", (text) => {
       printLogs(text);
     });
+
+    api.handle("update-progress", (progress) => {
+      console.log(progress);
+    });
+
+    api.handle("update-complete", () => {
+      console.log("download complete!");
+    });
+
     $("html").attr("data-bs-theme", theme);
     if (theme == "dark") {
       $("style").append(`.winCtrl-btn {

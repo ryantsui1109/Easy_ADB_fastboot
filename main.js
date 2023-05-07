@@ -68,13 +68,16 @@ const createWindow = () => {
       filename: "update.exe",
       overwrite: true,
       onProgress: (progress) =>
-        win.webContents.send("update-progress", progress),
+        win.webContents.send(
+          "update-progress",
+          Math.floor(progress.percent * 100)
+        ),
       onCompleted: () => {
         win.webContents.send("update-complete");
       },
-    }).catch(err=>{
-      console.log(err)
-    })
+    }).catch((err) => {
+      console.log(err);
+    });
   });
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
