@@ -168,30 +168,29 @@ function downloadingUI(url) {
   console.log(url);
   api.send("download-update", url);
   const updater = $("#operation-area").find("#eaf-updater");
+
 }
 
-async function showUpdates(updaterArea, newIndex) {
+async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
   progressBarCreated = false;
 
   let latestVersion;
   let changelog;
-  if (!localStorage.getItem("newVer")) {
+
+  if (updateLocalStorage) {
     latestVersion = await getURL(
       `${config.updateURL}/${config.channel}/latestVersion`
     );
-    localStorage.setItem("newVer", latestVersion);
-  } else {
-    latestVersion = localStorage.getItem("newVer");
-  }
-
-  if (!localStorage.getItem("changelog")) {
     changelog = await getURL(
       `${config.updateURL}/${config.channel}/changelog_${language}`
     );
     localStorage.setItem("changelog", changelog);
-  } else {
-    changelog = localStorage.getItem("changelog");
+    localStorage.setItem("newVer", latestVersion);
   }
+
+  latestVersion = localStorage.getItem("newVer");
+  changelog = localStorage.getItem("changelog");
+
 
   let finalURL = `${config.downloadURL}${config.channel}-${newIndex}/`;
   switch (osType) {
@@ -262,10 +261,21 @@ async function checkUpdatesUI() {
   }
   const indexURL = config.updateURL + config.channel + "/latestUpdateIndex";
   const newIndex = Number(await getURL(indexURL));
+  console.log(localStorage.getItem('newIndex'))
+  let updateLocalStorage = false
+  
+
+  if (!localStorage.getItem('newIndex')) {
+    if (newIndex > Number(localStorage.getItem('newIndex'))) {
+      localStorage.setItem('newIndex', newIndex);
+      updateLocalStorage = true;
+    }
+  }
+
   const eafUpdater = $("#operation-area").find("#eaf-updater");
   console.log(newIndex, config.updateIndex);
   if (newIndex > config.updateIndex) {
-    showUpdates(eafUpdater, newIndex);
+    showUpdates(eafUpdater, newIndex, updateLocalStorage);
   } else {
     eafUpdater.empty();
     $(eafUpdater).append(
