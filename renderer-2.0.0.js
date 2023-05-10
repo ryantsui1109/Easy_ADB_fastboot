@@ -168,7 +168,7 @@ function downloadingUI(url) {
   console.log(url);
   api.send("download-update", url);
   const updater = $("#operation-area").find("#eaf-updater");
-
+  updater.find('#download-update-btn').addClass('disabled');
 }
 
 async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
@@ -263,7 +263,7 @@ async function checkUpdatesUI() {
   const newIndex = Number(await getURL(indexURL));
   console.log(localStorage.getItem('newIndex'))
   let updateLocalStorage = false
-  
+
 
   if (!localStorage.getItem('newIndex')) {
     if (newIndex > Number(localStorage.getItem('newIndex'))) {
@@ -291,13 +291,13 @@ function renderUpdater(opArea) {
   `);
 }
 
-function clearUpdateCache(){
+function clearUpdateCache() {
   localStorage.removeItem('newIndex');
   localStorage.removeItem('newVer');
   localStorage.removeItem('changelog')
 }
 
-function generateClearCacheBtn(opArea){
+function generateClearCacheBtn(opArea) {
   opArea.append(`
     <button class="btn btn-secondary mb-2" onclick="clearUpdateCache();">${messages.settings.clearCache[language]}</button>
   `)
@@ -420,6 +420,19 @@ function readRadio(name) {
 function readFileSelector(name) {
   return document.getElementById(name).files[0].path;
 }
+function updateProgress(progress) {
+  const updater = $("#operation-area").find("#eaf-updater");
+  updater.find('#download-update-btn').hide();
+  if (!progressBarCreated) {
+    updater.append(
+      `<div class="progress">
+        <div id="download-progress" class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>`)
+    progressBarCreated = true
+  }
+  updater.find('#download-progress').css('width', progress + '%');
+
+}
 
 const renderUI = () =>
   $(function () {
@@ -429,6 +442,7 @@ const renderUI = () =>
 
     api.handle("update-progress", (progress) => {
       console.log(progress);
+      updateProgress(progress)
     });
 
     api.handle("update-complete", () => {
