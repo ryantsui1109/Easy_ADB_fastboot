@@ -506,7 +506,10 @@ const messages = {
     updateFrequency: {
       "zh-TW": "檢查更新頻率（天）：",
       "en-US": "Update frequency (days): ",
-    },
+    }, clearCache: {
+      "zh-TW": "清理更新快取",
+      "en-US": "Clear Update Cache"
+    }
   },
   alert: {
     restartAlert: {

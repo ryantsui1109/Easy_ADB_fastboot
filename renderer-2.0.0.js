@@ -290,8 +290,21 @@ function renderUpdater(opArea) {
     <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn[language]}</button>
   `);
 }
+
+function clearUpdateCache(){
+  localStorage.removeItem('newIndex');
+  localStorage.removeItem('newVer');
+  localStorage.removeItem('changelog')
+}
+
+function generateClearCacheBtn(opArea){
+  opArea.append(`
+    <button class="btn btn-secondary mb-2" onclick="clearUpdateCache();">${messages.settings.clearCache[language]}</button>
+  `)
+}
 function renderSettings(opArea) {
   generateSettings(opArea);
+  generateClearCacheBtn(opArea)
   renderAbouts(opArea);
 
   opArea.append(`<button class="btn btn-primary" onclick="saveSettings()">
