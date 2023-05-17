@@ -575,19 +575,19 @@ const messages = {
   info: {
     appVersion: {
       "zh-TW": "版本：",
-      "en-US": "Version:",
+      "en-US": "Version: ",
     },
     chromeVersion: {
       "zh-TW": "Chromium 版本：",
-      "en-US": "Chromium Version:",
+      "en-US": "Chromium Version: ",
     },
     osType: {
       "zh-TW": "系統：",
-      "en-US": "OS:",
+      "en-US": "OS: ",
     },
     osVersion: {
       "zh-TW": "系統版本：",
-      "en-US": "OS Version",
+      "en-US": "OS Version: ",
     },
   },
   update: {
