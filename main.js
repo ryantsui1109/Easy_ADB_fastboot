@@ -74,6 +74,7 @@ const createWindow = () => {
         ),
       onCompleted: () => {
         win.webContents.send("update-complete");
+        updaterStatus.downloadComplete = true;
       },
     }).catch((err) => {
       console.log(err);
@@ -131,7 +132,6 @@ app.whenReady().then(() => {
 
   app.on("before-quit", () => {
     console.log("Trying to kill adb server");
-
     child_process.execFile(
       adbPath,
       ["kill-server"],
@@ -142,9 +142,19 @@ app.whenReady().then(() => {
         console.log(stdout);
       }
     );
+
+    if (updaterStatus.downloadComplete) {
+      console.log("Update found, installing");
+      const cp = child_process.spawn('.\\update.exe', [], {
+        detached: true,
+        stdio: ['ignore', 'ignore', 'ignore']
+      })
+      cp.unref();
+    }
   });
 });
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin");
-  app.quit();
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });

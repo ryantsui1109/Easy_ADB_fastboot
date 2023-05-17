@@ -446,6 +446,7 @@ const renderUI = () =>
     });
 
     api.handle("update-complete", () => {
+      printLogs(messages.alert.updateCompleteAlert[language])
       console.log("download complete!");
     });
 
