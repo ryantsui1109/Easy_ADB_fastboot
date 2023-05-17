@@ -29,6 +29,8 @@ const downloadFile = (url, dest) =>
     });
   });
 
+const decompress = require("decompress");
+
 async function main() {
   if (args.h) {
     console.log("");
@@ -70,31 +72,32 @@ async function main() {
           console.log(result);
           if (existsSync("platform-tools.zip")) {
             console.log("Unzipping platform-tools.zip");
-            const unzipProgress = createReadStream("platform-tools.zip").pipe(
-              unzipper.Extract({ path: "." })
-            );
-            unzipProgress.on("close", () => {
-              switch (platform) {
-                case "Linux":
-                  rmSync("platform-tools-linux", {
-                    recursive: true,
-                    force: true,
-                  });
-                  renameSync("platform-tools", "platform-tools-linux");
-                  break;
-                case "Windows_NT":
-                  rmSync("platform-tools-win", {
-                    recursive: true,
-                    force: true,
-                  });
-                  renameSync("platform-tools", "platform-tools-win");
-                  break;
-                default:
-                  break;
-              }
-            });
+            decompress("platform-tools.zip", ".")
+              .then((files) => {
+                switch (platform) {
+                  case "Linux":
+                    rmSync("platform-tools-linux", {
+                      recursive: true,
+                      force: true,
+                    });
+                    renameSync("platform-tools", "platform-tools-linux");
+                    break;
+                  case "Windows_NT":
+                    rmSync("platform-tools-win", {
+                      recursive: true,
+                      force: true,
+                    });
+                    renameSync("platform-tools", "platform-tools-win");
+                    break;
+                  default:
+                    break;
+                }
+                resolve("Unzip finished");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }
-          resolve("Unzip finished");
         });
       });
       await downloadPT
