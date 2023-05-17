@@ -8,7 +8,6 @@ const {
   write,
   renameSync,
 } = require("fs");
-const unzipper = require("unzipper");
 const { type } = require("os");
 const { https } = require("follow-redirects");
 const builder = require("electron-builder");
