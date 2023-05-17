@@ -154,12 +154,15 @@ function renderAbouts(opArea) {
 
 function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
-  writeFile("./config.json", JSON.stringify(config, null, "  "), (err) => {
-    alert(
-      messages.alert.restartAlert[language],
-      messages.alert.restartAlertTitle[language]
-    );
-  });
+  
+  api.writeFile( "./config.json", JSON.stringify(config, null, "  "));
+  printLogs(messages.alert.restartAlert[language]);
+  // (err) => {
+  //   alert(
+  //     messages.alert.restartAlert[language],
+  //     messages.alert.restartAlertTitle[language]
+  //   );
+  // }
 }
 
 let latestIndex = "";

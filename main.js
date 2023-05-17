@@ -86,7 +86,17 @@ const createWindow = () => {
       win.webContents.send("print-log", `${data}`)
     );
   });
+  ipcMain.on('write-file', (e, fileName, data) => {
+    try {
+      fs.writeFile(fileName, data,err=>{});
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
 };
+
+
 
 ipcMain.handle("get-platform", async () => {
   return platform;
