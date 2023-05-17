@@ -86,17 +86,14 @@ const createWindow = () => {
       win.webContents.send("print-log", `${data}`)
     );
   });
-  ipcMain.on('write-file', (e, fileName, data) => {
+  ipcMain.on("write-file", (e, fileName, data) => {
     try {
-      fs.writeFile(fileName, data,err=>{});
+      fs.writeFile(fileName, data, (err) => {});
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  })
-
+  });
 };
-
-
 
 ipcMain.handle("get-platform", async () => {
   return platform;
@@ -137,6 +134,7 @@ app.whenReady().then(() => {
   }
 
   console.log("starting ADB server");
+
   const adbServer = child_process.spawn(adbPath, ["start-server"]);
   adbServer.stderr.on("data", (data) => console.log(`${data}`.split("\n")[0]));
 
@@ -155,10 +153,10 @@ app.whenReady().then(() => {
 
     if (updaterStatus.downloadComplete) {
       console.log("Update found, installing");
-      const cp = child_process.spawn('.\\update.exe', [], {
+      const cp = child_process.spawn(".\\update.exe", [], {
         detached: true,
-        stdio: ['ignore', 'ignore', 'ignore']
-      })
+        stdio: ["ignore", "ignore", "ignore"],
+      });
       cp.unref();
     }
   });
