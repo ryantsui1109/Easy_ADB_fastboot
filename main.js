@@ -6,9 +6,16 @@ const child_process = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
-const config = require("./config.json");
-const updaterStatus = require("./updaterStatus.json");
-const { https } = require("follow-redirects");
+let config;
+let updaterStatus
+if (isPackaged) {
+  config = require("../../config.json");
+  updaterStatus = require("../../updaterStatus.json");
+} else {
+  config = require("./config.json");
+  updaterStatus = require("./updaterStatus.json");
+}
+ 
 let hasDevtools = false;
 let adbPath = "";
 
