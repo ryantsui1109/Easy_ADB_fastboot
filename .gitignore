@@ -5,6 +5,7 @@
 *obfuscated.js*
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
 config.json
 update.exe
 updaterStatus.json

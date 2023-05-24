@@ -168,8 +168,15 @@ function saveSettings() {
 let latestIndex = "";
 
 function downloadingUI(url) {
-  console.log(url);
-  api.send("download-update", url);
+  const newIndex = localStorage.getItem("newIndex");
+  if(getPlatform=="linux"){
+    if (alert(messages.alert.windowsOnlyAlert[lang])) {
+      api.send("download-update", [config.channel,newIndex]);
+    }
+  }else{
+    api.send("download-update", [config.channel, newIndex]);
+  }
+  
   const updater = $("#operation-area").find("#eaf-updater");
   updater.find('#download-update-btn').addClass('disabled');
 }
