@@ -1,21 +1,16 @@
-preload.js
 adb network
 adb pull
 auto update
-need unlocking
 slot selection in flashing/erasing
 adb uninstall
 adb disable
 adb list installed packages
-download adb at start
-emulation mode
 operation hint
 add init_boot option
-input box improvement
-smaller file selector text
 fastboot unlock critical
 use github workflow
 flash vbmeta disable verity
 enable devtools in beta channel
 chinese simplified
 seperate languages
+self-test 
