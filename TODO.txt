@@ -14,3 +14,4 @@ enable devtools in beta channel
 chinese simplified
 seperate languages
 self-test 
+fastboot flash bootloader
