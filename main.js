@@ -6,8 +6,7 @@ const child_process = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
-let config;
-let updaterStatus
+let config, updaterStatus, lang, messages;
 if (isPackaged) {
   config = require("../../config.json");
   updaterStatus = require("../../updaterStatus.json");
@@ -15,6 +14,16 @@ if (isPackaged) {
   config = require("./config.json");
   updaterStatus = require("./updaterStatus.json");
 }
+
+console.log(__dirname)
+// console.log(navigator.language)
+// if (isPackaged) {
+//   lang = require(`../../json/lang/${config.lang}/lang.json`);
+//   messages = require(`../../json/lang/${config.lang}/messages.json`);
+// }else{
+//   lang = require(`./json/lang/${config.lang}/lang.json`);
+//   messages = require(`./json/lang/${config.lang}/messages.json`);
+// }
 
 let hasDevtools = false;
 let adbPath = "";
@@ -49,8 +58,8 @@ const createWindow = () => {
   if (isPackaged) {
     win.setMenu(null);
   }
+  win.test = "a";
   win.webContents.openDevTools({ mode: "undocked" });
-  indexFile = "index.html";
   win.loadFile("index.html");
   ipcMain.on("close-window", () => {
     win.close();
@@ -69,12 +78,14 @@ const createWindow = () => {
     win.setSize(1080, 500);
   });
   ipcMain.on("download-update", async (e, args) => {
-    const channel=args[0];
-    const newIndex=args[1];
-    if (platform == 'linux') {
-      shell.openExternal(`https://github.com/ryantsui1109/eaf-binary/releases/tag/${channel}-${newIndex}`)
+    const channel = args[0];
+    const newIndex = args[1];
+    if (platform == "linux") {
+      shell.openExternal(
+        `https://github.com/ryantsui1109/eaf-binary/releases/tag/${channel}-${newIndex}`
+      );
     } else {
-      const url = `${config.downloadURL}${channel}-${newIndex}/setup.exe`
+      const url = `${config.downloadURL}${channel}-${newIndex}/setup.exe`;
       await download(win, url, {
         showProgressBar: true,
         directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
@@ -102,7 +113,7 @@ const createWindow = () => {
   });
   ipcMain.on("write-file", (e, fileName, data) => {
     try {
-      fs.writeFile(fileName, data, (err) => { });
+      fs.writeFile(fileName, data, (err) => {});
     } catch (err) {
       console.log(err);
     }
@@ -132,9 +143,7 @@ ipcMain.handle("is-packaged", async () => {
   return isPackaged;
 });
 
-app.whenReady().then(() => {
-  createWindow();
-  let processedLang;
+app.on("ready", () => {
   let lang = app.getLocale();
   if (config.language === "auto") {
     switch (lang) {
@@ -146,6 +155,19 @@ app.whenReady().then(() => {
         processedLang = "en-US";
     }
   }
+  if (isPackaged) {
+    lang = require(`${__dirname}/res/json/lang/${processedLang}/lang.json`);
+    messages = require(`${__dirname}/res/json/lang/${processedLang}/messages.json`);
+  } else {
+    lang = require(`${__dirname}/res/json/lang/${processedLang}/lang.json`);
+    messages = require(`${__dirname}/res/json/lang/${processedLang}/messages.json`);
+    
+  }
+});
+
+app.whenReady().then(() => {
+  createWindow();
+  let processedLang;
 
   console.log("starting ADB server");
 

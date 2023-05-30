@@ -1,0 +1,44 @@
+{
+  "settings": {
+    "language": "Language: ",
+    "theme": "Theme: ",
+    "updateFrequency": "Update frequency (days): ",
+    "clearCache": "Clear Update Cache"
+  },
+  "alert": {
+    "restartAlert": "Restart the app to take effect",
+    "restartAlertTitle": "Please restart the app",
+    "updateFoundAlert1": "New updates found: ",
+    "updateFoundAlert2": "Do you want to install?",
+    "updateStartedAlert": "Update started, to view the download progress, please see at taskbar",
+    "updateCompleteAlert": "Restart the app to apply update",
+    "updateCompleteAlertTitle": "Please restart the app",
+    "windowsOnlyAlert": "Downloading updates is only availiable in Windows, now opening release page of EAF in browser"
+  },
+  "ui": {
+    "fileSelectorBtn": "Select a file",
+    "fileSelectorDefault": "Nothing selected...",
+    "saveSettingsBtn": "Save settings",
+    "nothingSelected": "Select any of the operations from the left to start.",
+    "unlockAlertMsg": "This operation needs bootloader to be unlocked first.",
+    "startBtn": "Start"
+  },
+  "info": {
+    "appVersion": "Version: ",
+    "chromeVersion": "Chromium Version: ",
+    "osType": "OS: ",
+    "osVersion": "OS Version: "
+  },
+  "update": {
+    "updaterTitle": "Online Updates",
+    "updateEafBtn": "Update EAF",
+    "checkingUpdate": "Checking for updates…",
+    "updateFound": "New update availiable",
+    "viewFullChangelog": "View full changelog",
+    "downloadUpdate": "Download update",
+    "noUpdates": "You are at the latest version",
+    "beforeUpdateRemind1": "If the window freezed after clicking the restart app button, please wait for few seconds, the app will close automatically",
+    "beforeUpdateRemind2": "If \"Easy ADB and Fastboot is running\" is seen, please click \"OK\" to continue the update process"
+  },
+  "template": {}
+}

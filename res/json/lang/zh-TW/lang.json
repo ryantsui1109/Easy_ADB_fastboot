@@ -1,0 +1,611 @@
+{
+  "system": {
+    "navbar": "ADB 操作 - 系統",
+    "items": {
+      "power": {
+        "title": "重啟",
+        "name": "system-power-menu",
+        "script": [
+          [
+            "adb",
+            "reboot",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "bootloader",
+            "checked"
+          ],
+          [
+            "radio",
+            "recovery"
+          ],
+          [
+            "radio",
+            "fastbootd"
+          ],
+          [
+            "radio",
+            "system"
+          ],
+          [
+            "radio",
+            "sideload"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他模式"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "push": {
+        "title": "將檔案推送到 /sdcard",
+        "name": "push-menu",
+        "operation": "push",
+        "script": [
+          [
+            "adb",
+            "push",
+            "$file",
+            "/sdcard"
+          ]
+        ],
+        "content": [
+          [
+            "file",
+            "file"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "install": {
+        "title": "安裝 APK",
+        "subtitle": "安裝 APK 用，非用於刷入 Magisk",
+        "name": "install-menu",
+        "operation": "install",
+        "script": [
+          [
+            "adb",
+            "install",
+            "$file"
+          ]
+        ],
+        "content": [
+          [
+            "file",
+            "file",
+            ".apk,application/zip"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "recovery": {
+    "navbar": "ADB 操作 - Recovery",
+    "items": {
+      "sideload": {
+        "title": "安裝 Zip",
+        "subtitle": "請在此刷入 Magisk.apk",
+        "name": "sideload-menu",
+        "operation": "sideload",
+        "script": [
+          [
+            "adb",
+            "sideload",
+            "$file"
+          ]
+        ],
+        "content": [
+          [
+            "file",
+            "file",
+            "application/zip,.apk"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "fastboot": {
+    "navbar": "Fastboot 操作",
+    "items": {
+      "power": {
+        "title": "重啟",
+        "name": "power-menu",
+        "needUnlock": false,
+        "script": [
+          [
+            "fastboot",
+            "reboot",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "bootloader",
+            "checked"
+          ],
+          [
+            "radio",
+            "recovery"
+          ],
+          [
+            "radio",
+            "fastbootd"
+          ],
+          [
+            "radio",
+            "system"
+          ],
+          [
+            "radio",
+            "sideload"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他模式"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "boot": {
+        "title": "啟動鏡像",
+        "subtitle": "部分機型不支援",
+        "name": "boot-menu",
+        "needUnlock": true,
+        "script": [
+          [
+            "fastboot",
+            "boot",
+            "$file"
+          ]
+        ],
+        "content": [
+          [
+            "file",
+            "file",
+            ".img,.bin"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "flash": {
+        "title": "刷入鏡像",
+        "name": "flash-menu",
+        "needUnlock": true,
+        "script": [
+          [
+            "fastboot",
+            "flash",
+            "$radio",
+            "$file"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "boot",
+            "checked"
+          ],
+          [
+            "radio",
+            "recovery"
+          ],
+          [
+            "radio",
+            "super"
+          ],
+          [
+            "radio",
+            "system"
+          ],
+          [
+            "radio",
+            "vendor"
+          ],
+          [
+            "radio",
+            "data"
+          ],
+          [
+            "radio",
+            "cache"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他分區"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "file",
+            "file",
+            ".img,.bin,.mbn,.txt,.zip"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "erase": {
+        "title": "擦除分區",
+        "name": "erase-menu",
+        "needUnlock": true,
+        "script": [
+          [
+            "fastboot",
+            "erase",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "boot",
+            "checked"
+          ],
+          [
+            "radio",
+            "recovery"
+          ],
+          [
+            "radio",
+            "super"
+          ],
+          [
+            "radio",
+            "system"
+          ],
+          [
+            "radio",
+            "vendor"
+          ],
+          [
+            "radio",
+            "cache"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他分區"
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "format": {
+        "title": "格式化分區",
+        "name": "format-menu",
+        "needUnlock": true,
+        "script": [
+          [
+            "fastboot",
+            "format",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "super"
+          ],
+          [
+            "radio",
+            "system"
+          ],
+          [
+            "radio",
+            "vendor"
+          ],
+          [
+            "radio",
+            "cache"
+          ],
+          [
+            "radio",
+            "userdata"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他分區"
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "flashing": {
+        "title": "flashing 指令",
+        "name": "flashing-menu",
+        "needUnlock": false,
+        "script": [
+          [
+            "fastboot",
+            "flashing",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "unlock",
+            "checked"
+          ],
+          [
+            "radio",
+            "lock"
+          ],
+          [
+            "radio",
+            "unlock-critical"
+          ],
+          [
+            "radio",
+            "lock-critical"
+          ],
+          [
+            "radio",
+            "get-unlock-ability"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他指令"
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "oem": {
+        "title": "oem 指令",
+        "name": "oem-menu",
+        "needUnlock": true,
+        "script": [],
+        "content": [
+          [
+            "radio",
+            "unlock",
+            "checked"
+          ],
+          [
+            "radio",
+            "lock"
+          ],
+          [
+            "radio",
+            "unlock-critical"
+          ],
+          [
+            "radio",
+            "lock-critical"
+          ],
+          [
+            "radio",
+            "device-info"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他指令"
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "update": {
+        "title": "Fastboot update",
+        "name": "update-menu",
+        "needUnlock": true,
+        "script": [],
+        "content": [
+          [
+            "file",
+            "file",
+            "application/zip"
+          ],
+          [
+            "br",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "getvar": {
+        "title": "取得變數",
+        "name": "getvar-menu",
+        "needUnlock": false,
+        "script": [
+          [
+            "fastboot",
+            "getvar",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "all",
+            "checked"
+          ],
+          [
+            "radio",
+            "（AB分區專用）current-slot"
+          ],
+          [
+            "radio",
+            "unlocked"
+          ],
+          [
+            "radio",
+            "（VAB分區專用）is-userspace"
+          ],
+          [
+            "radio",
+            "（小米專用）anti"
+          ],
+          [
+            "radio",
+            "other"
+          ],
+          [
+            "input",
+            "input",
+            "其他變數"
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      },
+      "active": {
+        "title": "切換AB分區",
+        "name": "active-menu",
+        "needUnlock": true,
+        "script": [
+          [
+            "fastboot",
+            "set_active",
+            "$radio"
+          ]
+        ],
+        "content": [
+          [
+            "radio",
+            "a",
+            "",
+            "checked"
+          ],
+          [
+            "radio",
+            "b",
+            ""
+          ],
+          [
+            "br",
+            ""
+          ]
+        ]
+      }
+    }
+  },
+  "devices": {
+    "navbar": "裝置",
+    "items": {
+      "devices": {
+        "title": "敬請期待",
+        "subtitle": "敬請期待",
+        "content": []
+      }
+    }
+  },
+  "settings": {
+    "navbar": "設定",
+    "items": {
+      "settings": {
+        "title": "設定",
+        "content": []
+      },
+      "updater": {
+        "title": "線上更新",
+        "content": []
+      }
+    }
+  }
+}
