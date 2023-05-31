@@ -4,12 +4,13 @@
 本次更新：
 後台更新：
 拆分語言資源，便於維護
+修復 fastboot update 無法執行的問題
 
 UI更新：
-新增 init_boot 選項
+新增 init_boot、bootloader、radio、vbmeta、metadata 選項
 修正錯誤的指令
 文字修正
-移除 fastboot oem unlock_critical 和 fastboot oem lock_critical
+移除 fastboot oem unlock_critical 和 lock_critical
 
 2.10.5
 本次更新：
