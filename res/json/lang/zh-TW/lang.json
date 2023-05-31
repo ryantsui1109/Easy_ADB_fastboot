@@ -12,8 +12,8 @@
           ["radio", "fastbootd"],
           ["radio", "system"],
           ["radio", "sideload"],
-          ["radio", "other"],
-          ["input", "input", "其他模式"],
+          ["radio", "其他"],
+          ["input", "input", "自訂模式"],
           ["br", ""],
           ["br", ""]
         ]
@@ -106,8 +106,8 @@
           ["radio", "vendor"],
           ["radio", "data"],
           ["radio", "cache"],
-          ["radio", "other"],
-          ["input", "input", "其他分區"],
+          ["radio", "其他"],
+          ["input", "input", "自訂分區"],
           ["br", ""],
           ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
           ["br", ""],
@@ -127,8 +127,8 @@
           ["radio", "system"],
           ["radio", "vendor"],
           ["radio", "cache"],
-          ["radio", "other"],
-          ["input", "input", "其他分區"],
+          ["radio", "其他"],
+          ["input", "input", "自訂分區"],
           ["br", ""]
         ]
       },
@@ -143,8 +143,8 @@
           ["radio", "vendor"],
           ["radio", "cache"],
           ["radio", "userdata"],
-          ["radio", "other"],
-          ["input", "input", "其他分區"],
+          ["radio", "其他"],
+          ["input", "input", "自定分區"],
           ["br", ""]
         ]
       },
@@ -159,8 +159,8 @@
           ["radio", "unlock-critical"],
           ["radio", "lock-critical"],
           ["radio", "get-unlock-ability"],
-          ["radio", "other"],
-          ["input", "input", "其他指令"],
+          ["radio", "其他"],
+          ["input", "input", "自定指令"],
           ["br", ""]
         ]
       },
@@ -173,8 +173,8 @@
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
           ["radio", "device-info"],
-          ["radio", "other"],
-          ["input", "input", "其他指令"],
+          ["radio", "其他"],
+          ["input", "input", "自定指令"],
           ["br", ""]
         ]
       },
@@ -200,8 +200,8 @@
           ["radio", "unlocked"],
           ["radio", "（VAB分區專用）is-userspace"],
           ["radio", "（小米專用）anti"],
-          ["radio", "other"],
-          ["input", "input", "其他變數"],
+          ["radio", "其他"],
+          ["input", "input", "自訂變數"],
           ["br", ""]
         ]
       },
