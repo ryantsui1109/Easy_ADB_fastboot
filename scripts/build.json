@@ -31,7 +31,6 @@
     "linux": {
         "extraFiles": "platform-tools-linux",
         "target": [
-            "tar.gz",
             "tar.xz"
         ]
     }
