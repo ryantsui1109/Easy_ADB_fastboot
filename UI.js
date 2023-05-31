@@ -79,6 +79,7 @@ const oprs = {
         script: [["fastboot", "flash", "$radio", "$file"]],
         content: [
           ["radio", "boot", "checked"],
+          ["radio", "init_boot"],
           ["radio", "recovery"],
           ["radio", "super"],
           ["radio", "system"],
@@ -98,6 +99,7 @@ const oprs = {
         script: [["fastboot", "erase", "$radio"]],
         content: [
           ["radio", "boot", "checked"],
+          ["radio", "init_boot"],
           ["radio", "recovery"],
           ["radio", "super"],
           ["radio", "system"],
