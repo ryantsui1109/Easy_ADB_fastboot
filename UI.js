@@ -132,9 +132,9 @@ const oprs = {
         content: [
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
-          ["radio", "unlock-critical"],
-          ["radio", "lock-critical"],
-          ["radio", "get-unlock-ability"],
+          ["radio", "unlock_critical"],
+          ["radio", "lock_critical"],
+          ["radio", "get_unlock_ability"],
           ["radio", "other"],
           ["input", "input", "Custom command"],
         ],

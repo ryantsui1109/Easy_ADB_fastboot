@@ -6,7 +6,6 @@ adb uninstall
 adb disable
 adb list installed packages
 operation hint
-add init_boot option
 fastboot unlock critical
 use github workflow
 flash vbmeta disable verity
