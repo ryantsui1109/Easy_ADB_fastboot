@@ -1,5 +1,16 @@
 版本說明：UI版本.功能版本.功能修正號.更新索引
 
+2.10.6
+本次更新：
+後台更新：
+拆分語言資源，便於維護
+
+UI更新：
+新增 init_boot 選項
+修正錯誤的指令
+文字修正
+移除 fastboot oem unlock_critical 和 fastboot oem lock_critical
+
 2.10.5
 本次更新：
 
