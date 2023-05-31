@@ -83,7 +83,7 @@ const oprs = {
           ["radio", "init_boot"],
           ["radio", "vbmeta"],
           ["radio", "recovery"],
-          ["radio", "radio"]
+          ["radio", "radio"],
           ["radio", "super"],
           ["radio", "system"],
           ["radio", "vendor"],
