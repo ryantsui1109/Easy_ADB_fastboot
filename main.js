@@ -150,6 +150,7 @@ ipcMain.handle("language", async () => {
 })
 
 app.on("ready", () => {
+  let processedLang;
   let locale = app.getLocale();
   if (config.language === "auto") {
     switch (locale) {
@@ -160,6 +161,8 @@ app.on("ready", () => {
       default:
         processedLang = "en-US";
     }
+  }else{
+    processedLang=config.language
   }
   if (isPackaged) {
     lang = require(`${__dirname}/res/json/lang/${processedLang}/lang.json`);
@@ -173,7 +176,7 @@ app.on("ready", () => {
 
 app.whenReady().then(() => {
   createWindow();
-  let processedLang;
+  // let processedLang;
 
   console.log("starting ADB server");
 
