@@ -11,6 +11,7 @@ UI更新：
 修正錯誤的指令
 文字修正
 移除 fastboot oem unlock_critical 和 lock_critical
+更新依賴
 
 2.10.5
 本次更新：
