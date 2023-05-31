@@ -15,7 +15,6 @@ if (isPackaged) {
   updaterStatus = require("./updaterStatus.json");
 }
 
-console.log(__dirname)
 // console.log(navigator.language)
 // if (isPackaged) {
 //   lang = require(`../../json/lang/${config.lang}/lang.json`);
@@ -55,12 +54,13 @@ const createWindow = () => {
       icon: __dirname + "./favicon_256.ico",
     },
   });
+  
   if (isPackaged) {
     win.setMenu(null);
   }
-  win.test = "a";
   win.webContents.openDevTools({ mode: "undocked" });
   win.loadFile("index.html");
+  
   ipcMain.on("close-window", () => {
     win.close();
   });
@@ -105,6 +105,7 @@ const createWindow = () => {
       });
     }
   });
+  
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) =>
@@ -127,7 +128,6 @@ ipcMain.handle("get-version", async () => {
   return app.getVersion();
 });
 ipcMain.handle("get-os-type", async () => {
-  console.log(os.type());
   return os.type();
 });
 ipcMain.handle("get-os-release", async () => {
@@ -142,14 +142,20 @@ ipcMain.handle("get-updater-status", async () => {
 ipcMain.handle("is-packaged", async () => {
   return isPackaged;
 });
+ipcMain.handle("messages",async ()=>{
+  return messages
+})
+ipcMain.handle("language", async () => {
+  return lang
+})
 
 app.on("ready", () => {
-  let lang = app.getLocale();
+  let locale = app.getLocale();
   if (config.language === "auto") {
-    switch (lang) {
+    switch (locale) {
       case "zh-TW":
       case "en-US":
-        processedLang = lang;
+        processedLang = locale;
         break;
       default:
         processedLang = "en-US";

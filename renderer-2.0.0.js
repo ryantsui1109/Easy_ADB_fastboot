@@ -10,6 +10,14 @@ api.invoke("get-os-release").then((result) => (osRelease = result));
 api.invoke("get-platform").then((result) => (getPlatform = result));
 api.invoke("get-version").then((result) => (_version = result));
 api.invoke("is-packaged").then((result) => (isPackaged = result));
+api.invoke("messages").then((res) => {
+  messages = res
+})
+api.invoke('language').then((res) => {
+  lang = res
+})
+
+
 
 let config;
 let updaterStatus;
@@ -23,7 +31,7 @@ let progressBarCreated = false;
 let updatePending = false;
 
 function renderNavbar(elements, language) {
-  const locale = lang[language];
+  const locale = lang;
   $("#navbar").empty();
   Object.keys(elements).forEach((element) => {
     $("#navbar").append(
@@ -85,10 +93,10 @@ function generateContents(opArea, operation, operationLang) {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
             <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
           </svg>
-            ${messages.ui.fileSelectorBtn[language]}
+            ${messages.ui.fileSelectorBtn}
           </label>
           <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" accept="${content[i][2]}"/>
-          <h5 id="file-path" class="user-select-none">${messages.ui.fileSelectorDefault[language]}</h5>
+          <h5 id="file-path" class="user-select-none">${messages.ui.fileSelectorDefault}</h5>
         </div>`);
         break;
       default:
@@ -113,7 +121,7 @@ function generateSettings(opArea) {
     switch (curSet.type) {
       case "dropdown":
         console.log(curSet.name);
-        opArea.append(`<h6>${messages.settings[curSet.name][language]}
+        opArea.append(`<h6>${messages.settings[curSet.name]}
         <div class="dropdown mb-2 d-inline">
           <button class="btn btn-secondary dropdown-toggle d-inline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             ${config[curSet.name]}
@@ -144,10 +152,10 @@ function renderAbouts(opArea) {
   const crVersion = parseInt(raw[2], 10);
   opArea.append(`<div class="card mb-2">
     <div class="card-body">
-      <h6 class="card-title">${messages.info.appVersion[language]}${_version}</h6>
-      <h6 class="card-title">${messages.info.chromeVersion[language]}${crVersion}</h6>
-      <h6 class="card-title">${messages.info.osType[language]}${osType}</h6>
-      <h6 class="card-title">${messages.info.osVersion[language]}${osRelease}</h6>
+      <h6 class="card-title">${messages.info.appVersion}${_version}</h6>
+      <h6 class="card-title">${messages.info.chromeVersion}${crVersion}</h6>
+      <h6 class="card-title">${messages.info.osType}${osType}</h6>
+      <h6 class="card-title">${messages.info.osVersion}${osRelease}</h6>
     </div>
   </div>`);
 }
@@ -156,7 +164,7 @@ function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
   
   api.writeFile( "./config.json", JSON.stringify(config, null, "  "));
-  printLogs(messages.alert.restartAlert[language]);
+  printLogs(messages.alert.restartAlert);
   // (err) => {
   //   alert(
   //     messages.alert.restartAlert[language],
@@ -213,7 +221,7 @@ async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
 
   updaterArea.empty();
   updaterArea.append(
-    `<h5 class="card-title ">${messages.update.updateFound[language]}</h5>`
+    `<h5 class="card-title ">${messages.update.updateFound}</h5>`
   );
   updaterArea.append(
     `<h6 class="card-title text-muted">${_version} &rarr; ${latestVersion}</h6>`
@@ -226,7 +234,7 @@ async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
         aria-expanded="false"
         aria-controls="collapseExample"
       >
-        ${messages.update.viewFullChangelog[language]}
+        ${messages.update.viewFullChangelog}
       </a>
     </p>
     `
@@ -239,7 +247,7 @@ async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
   updaterArea.append(
     `
     <button class="btn btn-info" id="download-update-btn" onclick="downloadingUI('${finalURL}');">
-      ${messages.update.downloadUpdate[language]}
+      ${messages.update.downloadUpdate}
     </button>
     `
   );
@@ -258,7 +266,7 @@ async function checkUpdatesUI() {
       $("#operation-area").append(`<div class="card mb-2">
     <div id="eaf-updater" class="card-body">
     <div class="d-flex align-items-center m-2">
-      <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate[language]}</p>
+      <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate}</p>
       <div
         class="spinner-border spinner-border-sm ms-auto"
         role="status"
@@ -289,7 +297,7 @@ async function checkUpdatesUI() {
   } else {
     eafUpdater.empty();
     $(eafUpdater).append(
-      `<p class="mb-0 h5 text-muted">${messages.update.noUpdates[language]}</p>`
+      `<p class="mb-0 h5 text-muted">${messages.update.noUpdates}</p>`
     );
   }
   checkUpdateClicked = true;
@@ -297,7 +305,7 @@ async function checkUpdatesUI() {
 
 function renderUpdater(opArea) {
   opArea.append(`
-    <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn[language]}</button>
+    <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn}</button>
   `);
 }
 
@@ -309,7 +317,7 @@ function clearUpdateCache() {
 
 function generateClearCacheBtn(opArea) {
   opArea.append(`
-    <button class="btn btn-secondary mb-2" onclick="clearUpdateCache();">${messages.settings.clearCache[language]}</button>
+    <button class="btn btn-secondary mb-2" onclick="clearUpdateCache();">${messages.settings.clearCache}</button>
   `)
 }
 function renderSettings(opArea) {
@@ -318,20 +326,20 @@ function renderSettings(opArea) {
   renderAbouts(opArea);
 
   opArea.append(`<button class="btn btn-primary" onclick="saveSettings()">
-    ${messages.ui.saveSettingsBtn[language]}
+    ${messages.ui.saveSettingsBtn}
   </button>`);
 }
 
 function switchOpr(keyPath) {
   const target = keyPath2obj(keyPath, oprs);
-  const langTarget = keyPath2obj(keyPath, lang[language]);
+  const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
   opArea.empty();
 
   generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
-      `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg[language]}</div>`
+      `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
     );
   } else {
     opArea.append(`<div style="width:100%"></div>`);
@@ -346,7 +354,7 @@ function switchOpr(keyPath) {
       id="${target.name}-btn"
       onclick="runScript('${keyPath}','${target.name}')"
     >
-      ${messages.ui.startBtn[language]}
+      ${messages.ui.startBtn}
     </button>`
     );
   }
@@ -456,7 +464,7 @@ const renderUI = () =>
     });
 
     api.handle("update-complete", () => {
-      printLogs(messages.alert.updateCompleteAlert[language])
+      printLogs(messages.alert.updateCompleteAlert)
       console.log("download complete!");
       $('#close-btn').empty();
       $('#close-btn').append(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -533,7 +541,7 @@ const renderUI = () =>
       const realPath = document.getElementById("file-input").files[0].path;
       $("#file-path").text(realPath);
     });
-    $("#nothing-selected").text(messages.ui.nothingSelected[language]);
+    $("#nothing-selected").text(messages.ui.nothingSelected);
     renderNavbar(oprs, language);
 
     api.send("resize");
