@@ -17,7 +17,7 @@ body {
 }
 #close-btn,
 #max-btn,
-#min-btn {
+#min-btn,#devices-btn {
   -webkit-app-region: none;
 }
 
@@ -28,7 +28,7 @@ body {
 #min-btn:hover {
   transition: 0.3s;
 }
-#logs-output {
+#log-box {
   width: 85%;
   padding: 0.5rem;
   overflow: auto;

@@ -11,13 +11,11 @@ api.invoke("get-platform").then((result) => (getPlatform = result));
 api.invoke("get-version").then((result) => (_version = result));
 api.invoke("is-packaged").then((result) => (isPackaged = result));
 api.invoke("messages").then((res) => {
-  messages = res
-})
-api.invoke('language').then((res) => {
-  lang = res
-})
-
-
+  messages = res;
+});
+api.invoke("language").then((res) => {
+  lang = res;
+});
 
 let config;
 let updaterStatus;
@@ -162,8 +160,8 @@ function renderAbouts(opArea) {
 
 function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
-  
-  api.writeFile( "./config.json", JSON.stringify(config, null, "  "));
+
+  api.writeFile("./config.json", JSON.stringify(config, null, "  "));
   printLogs(messages.alert.restartAlert);
   // (err) => {
   //   alert(
@@ -177,16 +175,16 @@ let latestIndex = "";
 
 function downloadingUI(url) {
   const newIndex = localStorage.getItem("newIndex");
-  if(getPlatform=="linux"){
+  if (getPlatform == "linux") {
     if (alert(messages.alert.windowsOnlyAlert[lang])) {
-      api.send("download-update", [config.channel,newIndex]);
+      api.send("download-update", [config.channel, newIndex]);
     }
-  }else{
+  } else {
     api.send("download-update", [config.channel, newIndex]);
   }
-  
+
   const updater = $("#operation-area").find("#eaf-updater");
-  updater.find('#download-update-btn').addClass('disabled');
+  updater.find("#download-update-btn").addClass("disabled");
 }
 
 async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
@@ -208,7 +206,6 @@ async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
 
   latestVersion = localStorage.getItem("newVer");
   changelog = localStorage.getItem("changelog");
-
 
   let finalURL = `${config.downloadURL}${config.channel}-${newIndex}/`;
   switch (osType) {
@@ -279,13 +276,12 @@ async function checkUpdatesUI() {
   }
   const indexURL = config.updateURL + config.channel + "/latestUpdateIndex";
   const newIndex = Number(await getURL(indexURL));
-  console.log(localStorage.getItem('newIndex'))
-  let updateLocalStorage = false
+  console.log(localStorage.getItem("newIndex"));
+  let updateLocalStorage = false;
 
-
-  if (!localStorage.getItem('newIndex')) {
-    if (newIndex > Number(localStorage.getItem('newIndex'))) {
-      localStorage.setItem('newIndex', newIndex);
+  if (!localStorage.getItem("newIndex")) {
+    if (newIndex > Number(localStorage.getItem("newIndex"))) {
+      localStorage.setItem("newIndex", newIndex);
       updateLocalStorage = true;
     }
   }
@@ -310,19 +306,19 @@ function renderUpdater(opArea) {
 }
 
 function clearUpdateCache() {
-  localStorage.removeItem('newIndex');
-  localStorage.removeItem('newVer');
-  localStorage.removeItem('changelog')
+  localStorage.removeItem("newIndex");
+  localStorage.removeItem("newVer");
+  localStorage.removeItem("changelog");
 }
 
 function generateClearCacheBtn(opArea) {
   opArea.append(`
     <button class="btn btn-secondary mb-2" onclick="clearUpdateCache();">${messages.settings.clearCache}</button>
-  `)
+  `);
 }
 function renderSettings(opArea) {
   generateSettings(opArea);
-  generateClearCacheBtn(opArea)
+  generateClearCacheBtn(opArea);
   renderAbouts(opArea);
 
   opArea.append(`<button class="btn btn-primary" onclick="saveSettings()">
@@ -371,7 +367,9 @@ function switchOpr(keyPath) {
 
 function printLogs(data) {
   const logsOutput = document.getElementById("logs-output");
-  $("#logs-output").append(`<p class="log-message font-monospace">${data}</p>`);
+  console.log(data)
+  $("#logs-output").append(data);
+
   logsOutput.scrollTo(0, logsOutput.scrollHeight);
 }
 function runScript(path, name) {
@@ -440,37 +438,39 @@ function readFileSelector(name) {
 }
 function updateProgress(progress) {
   const updater = $("#operation-area").find("#eaf-updater");
-  updater.find('#download-update-btn').hide();
+  updater.find("#download-update-btn").hide();
   if (!progressBarCreated) {
     updater.append(
       `<div class="progress">
         <div id="download-progress" class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>`)
-    progressBarCreated = true
+      </div>`
+    );
+    progressBarCreated = true;
   }
-  updater.find('#download-progress').css('width', progress + '%');
-
+  updater.find("#download-progress").css("width", progress + "%");
 }
 
 const renderUI = () =>
   $(function () {
     api.handle("print-log", (text) => {
-      printLogs(text);
+      printLogs(text.replace(/\n/g, "</br>").replace(/ /g,"\u00a0"));
+      // console.log(JSON.stringify(text))
     });
 
     api.handle("update-progress", (progress) => {
       console.log(progress);
-      updateProgress(progress)
+      updateProgress(progress);
     });
 
     api.handle("update-complete", () => {
-      printLogs(messages.alert.updateCompleteAlert)
+      printLogs(messages.alert.updateCompleteAlert);
       console.log("download complete!");
-      $('#close-btn').empty();
-      $('#close-btn').append(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+      $("#close-btn").empty();
+      $("#close-btn")
+        .append(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-      </svg>`)
+      </svg>`);
     });
 
     $("html").attr("data-bs-theme", theme);
@@ -486,7 +486,7 @@ const renderUI = () =>
     #min-btn:hover {
       background-color: #3c3642;
     }
-    #logs-output {
+    #log-box {
       background-color: black;
     }
     .operations:hover {
@@ -504,7 +504,7 @@ const renderUI = () =>
   #min-btn:hover {
     background-color: darkgray;
   }
-  #logs-output {
+  #log-box {
     background-color: gray;
   }
   .operations:hover {
@@ -544,6 +544,10 @@ const renderUI = () =>
     $("#nothing-selected").text(messages.ui.nothingSelected);
     renderNavbar(oprs, language);
 
+    $('#devices-btn').on('click', function (e) {
+      e.preventDefault();
+      printLogs(messages.ui.todo)
+    });
     api.send("resize");
   });
 
