@@ -223,16 +223,7 @@
       }
     }
   },
-  "devices": {
-    "navbar": "裝置",
-    "items": {
-      "devices": {
-        "title": "敬請期待",
-        "subtitle": "敬請期待",
-        "content": []
-      }
-    }
-  },
+  
   "settings": {
     "navbar": "設定",
     "items": {

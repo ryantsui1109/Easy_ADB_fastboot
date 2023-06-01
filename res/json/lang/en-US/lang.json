@@ -223,16 +223,6 @@
       }
     }
   },
-  "devices": {
-    "navbar": "Devices",
-    "items": {
-      "devices": {
-        "title": "TODO",
-        "subtitle": "TODO",
-        "content": []
-      }
-    }
-  },
   "settings": {
     "navbar": "Settings",
     "items": {

@@ -190,17 +190,7 @@ const oprs = {
       },
     },
   },
-  devices: {
-    navbar: "Devices",
-    items: {
-      devices: {
-        title: "TODO",
-        subtitle: "TODO",
-
-        noStartButton: true,
-      },
-    },
-  },
+  
   settings: {
     navbar: "Settings",
     items: {
