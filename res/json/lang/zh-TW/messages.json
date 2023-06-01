@@ -6,12 +6,12 @@
     "clearCache": "清理更新快取"
   },
   "alert": {
-    "restartAlert": "重啟 APP 以套用變更",
+    "restartAlert": "重啟 APP 以套用變更</br>",
     "restartAlertTitle": "請重啟 APP",
     "updateFoundAlert1": "有可用的更新：",
     "updateFoundAlert2": "是否更新？",
     "updateStartedAlert": "更新已經開始，欲查看下載進度，請見工作列的進度條",
-    "updateCompleteAlert": "請點擊右上角的重啟 APP 以完成更新",
+    "updateCompleteAlert": "請點擊右上角的重啟 APP 以完成更新</br>",
     "updateCompleteAlertTitle": "請重啟 APP",
     "windowsOnlyAlert": "非 Windows 無法自動更新，將開啟 release 頁面，請自行下載"
   },
@@ -21,7 +21,8 @@
     "saveSettingsBtn": "儲存設定",
     "nothingSelected": "從側邊欄選取功能以開始",
     "unlockAlertMsg": "請在BL解鎖後再執行",
-    "startBtn": "開始"
+    "startBtn": "開始",
+    "todo": "敬請期待</br>"
   },
   "info": {
     "appVersion": "版本：",
@@ -39,6 +40,5 @@
     "noUpdates": "已在最新版本",
     "beforeUpdateRemind1": "點擊重啟APP後，畫面卡住無反應為正常現象，數秒後將會自動關閉",
     "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新"
-  },
-  "template": {}
+  }
 }
