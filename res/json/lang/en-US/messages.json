@@ -16,6 +16,7 @@
     "windowsOnlyAlert": "Downloading updates is only availiable in Windows, now opening release page of EAF in browser"
   },
   "ui": {
+    "deviceSelectorBtn":"Devices",
     "fileSelectorBtn": "Select a file",
     "fileSelectorDefault": "Nothing selected...",
     "saveSettingsBtn": "Save settings",

@@ -16,6 +16,7 @@
     "windowsOnlyAlert": "非 Windows 無法自動更新，將開啟 release 頁面，請自行下載"
   },
   "ui": {
+    "deviceSelectorBtn": "裝置",
     "fileSelectorBtn": "選擇檔案",
     "fileSelectorDefault": "請選擇檔案",
     "saveSettingsBtn": "儲存設定",
