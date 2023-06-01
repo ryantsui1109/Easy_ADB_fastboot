@@ -543,7 +543,7 @@ const renderUI = () =>
     });
     $("#nothing-selected").text(messages.ui.nothingSelected);
     renderNavbar(oprs, language);
-
+    $('#devices-btn').text(messages.ui.deviceSelectorBtn);    
     $('#devices-btn').on('click', function (e) {
       e.preventDefault();
       printLogs(messages.ui.todo)
