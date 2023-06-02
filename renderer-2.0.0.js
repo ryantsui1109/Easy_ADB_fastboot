@@ -527,9 +527,6 @@ const renderUI = () =>
 
     $("#sidebar").width(screen.width / 5);
     $("#logs").width((screen.width / 5) * 2.5);
-    // $("#operation-area").width(
-    //   window.width - $("#sidebar").width() - $("#logs").width()
-    // );
     $("#operation-area").width($("#operation-area").width() / 1.2);
     $(window).on("resize", function () {
       $("#main-content").css(
