@@ -15,14 +15,7 @@ if (isPackaged) {
   updaterStatus = require("./updaterStatus.json");
 }
 
-// console.log(navigator.language)
-// if (isPackaged) {
-//   lang = require(`../../json/lang/${config.lang}/lang.json`);
-//   messages = require(`../../json/lang/${config.lang}/messages.json`);
-// }else{
-//   lang = require(`./json/lang/${config.lang}/lang.json`);
-//   messages = require(`./json/lang/${config.lang}/messages.json`);
-// }
+console.log(app.getPath("home"));
 
 let hasDevtools = false;
 let adbPath = "";
@@ -54,13 +47,13 @@ const createWindow = () => {
       icon: __dirname + "./favicon_256.ico",
     },
   });
-  
+
   if (isPackaged) {
     win.setMenu(null);
   }
   win.webContents.openDevTools({ mode: "undocked" });
   win.loadFile("index.html");
-  
+
   ipcMain.on("close-window", () => {
     win.close();
   });
@@ -78,6 +71,9 @@ const createWindow = () => {
     win.setSize(1080, 500);
   });
   ipcMain.on("download-update", async (e, args) => {
+    if (!fs.existsSync(app.getPath("home") + "/.eaf")) {
+      fs.mkdirSync(app.getPath("home") + "/.eaf");
+    }
     const channel = args[0];
     const newIndex = args[1];
     if (platform == "linux") {
@@ -88,7 +84,7 @@ const createWindow = () => {
       const url = `${config.downloadURL}${channel}-${newIndex}/setup.exe`;
       await download(win, url, {
         showProgressBar: true,
-        directory: isPackaged ? __dirname + "\\..\\.." : __dirname,
+        directory: app.getPath("home") + "/.eaf",
         filename: "update.exe",
         overwrite: true,
         onProgress: (progress) =>
@@ -105,7 +101,7 @@ const createWindow = () => {
       });
     }
   });
-  
+
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) =>
@@ -142,12 +138,12 @@ ipcMain.handle("get-updater-status", async () => {
 ipcMain.handle("is-packaged", async () => {
   return isPackaged;
 });
-ipcMain.handle("messages",async ()=>{
-  return messages
-})
+ipcMain.handle("messages", async () => {
+  return messages;
+});
 ipcMain.handle("language", async () => {
-  return lang
-})
+  return lang;
+});
 
 app.on("ready", () => {
   let processedLang;
@@ -161,8 +157,8 @@ app.on("ready", () => {
       default:
         processedLang = "en-US";
     }
-  }else{
-    processedLang=config.language
+  } else {
+    processedLang = config.language;
   }
   if (isPackaged) {
     lang = require(`${__dirname}/res/json/lang/${processedLang}/lang.json`);
@@ -170,7 +166,6 @@ app.on("ready", () => {
   } else {
     lang = require(`${__dirname}/res/json/lang/${processedLang}/lang.json`);
     messages = require(`${__dirname}/res/json/lang/${processedLang}/messages.json`);
-    
   }
 });
 
@@ -198,10 +193,14 @@ app.whenReady().then(() => {
 
     if (updaterStatus.downloadComplete) {
       console.log("Update found, installing");
-      const cp = child_process.spawn(".\\update.exe", [], {
-        detached: true,
-        stdio: ["ignore", "ignore", "ignore"],
-      });
+      const cp = child_process.spawn(
+        app.getPath("home") + "/.eaf" + "/update.exe",
+        [],
+        {
+          detached: true,
+          stdio: ["ignore", "ignore", "ignore"],
+        }
+      );
       cp.unref();
     }
   });
