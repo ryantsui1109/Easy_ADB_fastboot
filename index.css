@@ -29,7 +29,7 @@ body {
   transition: 0.3s;
 }
 #log-box {
-  width: 85%;
+  width: 60%;
   padding: 0.5rem;
   overflow: auto;
 }

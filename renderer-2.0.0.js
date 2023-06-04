@@ -525,7 +525,7 @@ const renderUI = () =>
       api.send("minimize-window");
     });
 
-    $("#sidebar").width(screen.width / 5);
+    $("#sidebar").width(screen.width / 7);
     $("#logs").width((screen.width / 5) * 2.5);
     $("#operation-area").width($("#operation-area").width() / 1.2);
     $(window).on("resize", function () {
