@@ -104,9 +104,14 @@ const createWindow = () => {
 
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
-    process.stderr.on("data", (data) =>
-      win.webContents.send("print-log", `${data}`)
-    );
+    process.stderr.on("data", (data) => {
+      console.log(`${data}`);
+      win.webContents.send("print-log", `${data}`);
+    });
+    process.stdout.on("data", (data) => {
+      console.log(`${data}`);
+      win.webContents.send("print-log", `${data}`);
+    });
   });
   ipcMain.on("write-file", (e, fileName, data) => {
     try {
