@@ -11,3 +11,4 @@ flash vbmeta disable verity
 chinese simplified
 self-test 
 fastboot oem cdms
+automatically foucus on other options
