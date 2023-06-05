@@ -12,3 +12,4 @@ chinese simplified
 self-test 
 fastboot oem cdms
 automatically foucus on other options
+optimize append on startup
