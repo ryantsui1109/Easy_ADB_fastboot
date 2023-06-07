@@ -34,7 +34,6 @@ jobs:
     
       - name: Install dependencies for EAF
         run: |
-              cd $GITHUB_WORKSPACE/Easy_ADB_fastboot
               npm i
         shell: bash
 
