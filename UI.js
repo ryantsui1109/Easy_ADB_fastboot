@@ -207,7 +207,7 @@ const oprs = {
     },
   },
 };
-const availableLanguages = ["zh-TW", "en-US"];
+const availableLanguages = ["zh-TW", "zh-CN","en-US"];
 const settings = {
   language: {
     title: "Language:",

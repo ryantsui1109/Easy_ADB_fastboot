@@ -1,0 +1,240 @@
+{
+  "system": {
+    "navbar": "ADB 操作 - 系统",
+    "items": {
+      "power": {
+        "title": "重启",
+        "name": "system-power-menu",
+        "script": [["adb", "reboot", "$radio"]],
+        "content": [
+          ["radio", "bootloader", "checked"],
+          ["radio", "recovery"],
+          ["radio", "fastbootd"],
+          ["radio", "system"],
+          ["radio", "sideload"],
+          ["radio", "其它"],
+          ["input", "input", "自定义"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      },
+      "push": {
+        "title": "将档案推送到 /sdcard",
+        "name": "push-menu",
+        "operation": "push",
+        "script": [["adb", "push", "$file", "/sdcard"]],
+        "content": [
+          ["file", "file"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      },
+      "install": {
+        "title": "安装 APK",
+        "subtitle": "用于安装 apk，不可刷入 Magisk",
+        "name": "install-menu",
+        "operation": "install",
+        "script": [["adb", "install", "$file"]],
+        "content": [
+          ["file", "file", ".apk,application/zip"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      }
+    }
+  },
+  "recovery": {
+    "navbar": "ADB 操作 - Recovery",
+    "items": {
+      "sideload": {
+        "title": "安装 Zip",
+        "subtitle": "此处可选 Magisk.apk 以刷入",
+        "name": "sideload-menu",
+        "operation": "sideload",
+        "script": [["adb", "sideload", "$file"]],
+        "content": [
+          ["file", "file", "application/zip,.apk"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      }
+    }
+  },
+  "fastboot": {
+    "navbar": "Fastboot 操作",
+    "items": {
+      "power": {
+        "title": "重启",
+        "name": "power-menu",
+        "needUnlock": false,
+        "script": [["fastboot", "reboot", "$radio"]],
+        "content": [
+          ["radio", "bootloader", "checked"],
+          ["radio", "recovery"],
+          ["radio", "fastbootd"],
+          ["radio", "system"],
+          ["radio", "sideload"],
+          ["radio", "other"],
+          ["input", "input", "自定义"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      },
+      "boot": {
+        "title": "临时启动镜像",
+        "subtitle": "部分机型不支持",
+        "name": "boot-menu",
+        "needUnlock": true,
+        "script": [["fastboot", "boot", "$file"]],
+        "content": [
+          ["file", "file", ".img,.bin"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      },
+      "flash": {
+        "title": "刷入镜像",
+        "name": "flash-menu",
+        "needUnlock": true,
+        "script": [["fastboot", "flash", "$radio", "$file"]],
+        "content": [
+          ["radio", "boot", "checked"],
+          ["radio", "bootloader"],
+          ["radio", "init_boot"],
+          ["radio", "vbmeta"],
+          ["radio", "recovery"],
+          ["radio", "radio"],
+          ["radio", "super"],
+          ["radio", "system"],
+          ["radio", "vendor"],
+          ["radio", "userdata"],
+          ["radio", "其他"],
+          ["input", "input", "自定义"],
+          ["br", ""],
+          ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      },
+      "erase": {
+        "title": "擦除分区",
+        "name": "erase-menu",
+        "needUnlock": true,
+        "script": [["fastboot", "erase", "$radio"]],
+        "content": [
+          ["radio", "boot", "checked"],
+          ["radio", "init_boot"],
+          ["radio", "vbmeta"],
+          ["radio", "recovery"],
+          ["radio", "super"],
+          ["radio", "system"],
+          ["radio", "vendor"],
+          ["radio", "cache"],
+          ["radio", "userdata"],
+          ["radio", "metadata"],
+          ["radio", "其它"],
+          ["input", "input", "自定义"],
+          ["br", ""]
+        ]
+      },
+      "format": {
+        "title": "格式化分区",
+        "name": "format-menu",
+        "needUnlock": true,
+        "script": [["fastboot", "format", "$radio"]],
+        "content": [
+          ["radio", "super"],
+          ["radio", "system"],
+          ["radio", "vendor"],
+          ["radio", "cache"],
+          ["radio", "userdata"],
+          ["radio", "其它"],
+          ["input", "input", "自定义"],
+          ["br", ""]
+        ]
+      },
+      "flashing": {
+        "title": "运行 flashing 指令",
+        "name": "flashing-menu",
+        "needUnlock": false,
+        "script": [["fastboot", "flashing", "$radio"]],
+        "content": [
+          ["radio", "unlock", "checked"],
+          ["radio", "lock"],
+          ["radio", "unlock_critical"],
+          ["radio", "lock_critical"],
+          ["radio", "get_unlock_ability"],
+          ["radio", "其它"],
+          ["input", "input", "自定义"],
+          ["br", ""]
+        ]
+      },
+      "oem": {
+        "title": "运行 oem 指令",
+        "name": "oem-menu",
+        "needUnlock": true,
+        "script": [],
+        "content": [
+          ["radio", "unlock", "checked"],
+          ["radio", "lock"],
+          ["radio", "device-info"],
+          ["radio", "其它"],
+          ["input", "input", "自定义"],
+          ["br", ""]
+        ]
+      },
+      "update": {
+        "title": "Fastboot update",
+        "name": "update-menu",
+        "needUnlock": true,
+        "script": [],
+        "content": [
+          ["file", "file", "application/zip"],
+          ["br", ""],
+          ["br", ""]
+        ]
+      },
+      "getvar": {
+        "title": "取得 fastboot 中储存的变数",
+        "name": "getvar-menu",
+        "needUnlock": false,
+        "script": [["fastboot", "getvar", "$radio"]],
+        "content": [
+          ["radio", "所有变数", "checked"],
+          ["radio", "（AB 分区专用）current-slot"],
+          ["radio", "unlocked"],
+          ["radio", "（虚拟 AB 分区专用）is-userspace"],
+          ["radio", "小米防降级索引值"],
+          ["radio", "其他"],
+          ["input", "input", "自訂變數"],
+          ["br", ""]
+        ]
+      },
+      "active": {
+        "title": "切换 AB 分区",
+        "name": "active-menu",
+        "needUnlock": true,
+        "script": [["fastboot", "set_active", "$radio"]],
+        "content": [
+          ["radio", "a", "", "checked"],
+          ["radio", "b", ""],
+          ["br", ""]
+        ]
+      }
+    }
+  },
+  
+  "settings": {
+    "navbar": "设置",
+    "items": {
+      "settings": {
+        "title": "设置",
+        "content": []
+      },
+      "updater": {
+        "title": "线上更新",
+        "content": []
+      }
+    }
+  }
+}

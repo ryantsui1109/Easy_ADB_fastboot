@@ -1,0 +1,45 @@
+{
+  "settings": {
+    "language": "语言",
+    "theme": "主题",
+    "updateFrequency": "检查更新频率（天）",
+    "clearCache": "清理更新快取"
+  },
+  "alert": {
+    "restartAlert": "重启应用以套用变更</br>",
+    "restartAlertTitle": "请重启应用",
+    "updateFoundAlert1": "发现更新：",
+    "updateFoundAlert2": "是否更新？？",
+    "updateStartedAlert": "已经开始下载更新，查看进度请见工作列的进度条",
+    "updateCompleteAlert": "请点击右上角的重启按钮以完成更新</br>",
+    "updateCompleteAlertTitle": "请重启应用",
+    "windowsOnlyAlert": "当前仅限 Windows 支持自动更新，将开启 release 页面"
+  },
+  "ui": {
+    "deviceSelectorBtn": "装置",
+    "fileSelectorBtn": "选择档案",
+    "fileSelectorDefault": "请选择档案",
+    "saveSettingsBtn": "储存设置",
+    "nothingSelected": "从侧栏选取功能以开始",
+    "unlockAlertMsg": "需先解锁 BL",
+    "startBtn": "开始",
+    "todo": "敬请期待</br>"
+  },
+  "info": {
+    "appVersion": "版本：",
+    "chromeVersion": "Chromium 版本：",
+    "osType": "系统：",
+    "osVersion": "系统版本："
+  },
+  "update": {
+    "updaterTitle": "线上更新",
+    "updateEafBtn": "更新 EAF",
+    "checkingUpdate": "正在检查更新",
+    "updateFound": "有可用的更新",
+    "viewFullChangelog": "查看完整更新说明",
+    "downloadUpdate": "下载更新",
+    "noUpdates": "已经是最新版",
+    "beforeUpdateRemind1": "点击重启按钮后画面可能会无反应，几秒后将自动关闭",
+    "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新"
+  }
+}
