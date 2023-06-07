@@ -1,4 +1,4 @@
-name: "Build EAF (for Windows)"
+name: "Build EAF"
 run-name: ${{github.event.inputs.release_channel}}-${{github.event.inputs.update_index}}
 
 on:
@@ -32,7 +32,7 @@ jobs:
               apt update
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
           elif [ "$RUNNER_OS" == "Windows" ]; then
-              powershell -c Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+              powershell -c "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
           else
               echo "$RUNNER_OS not supported"
               exit 1
