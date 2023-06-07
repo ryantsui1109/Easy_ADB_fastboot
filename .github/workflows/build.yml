@@ -26,28 +26,11 @@ jobs:
       - name: Get the source code.
         uses: actions/checkout@master
 
-      - name: Install dependencies for nvm
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-              sudo apt-get update
-              sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-              powershell -c "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-          else
-              echo "$RUNNER_OS not supported"
-              exit 1
-          fi
-        shell: bash
-
-      - if: runner.os=='Windows'
-        run: choco install nvm
 
       - name: Setup Node.js
-        run: | 
-              if [ "$RUNNER_OS" == "Linux" ]; then
-                  source ~/.bashrc
-              fi
-              nvm use 18.16
+        uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: lts/*
     
       - name: Install dependencies for EAF
         run: |
