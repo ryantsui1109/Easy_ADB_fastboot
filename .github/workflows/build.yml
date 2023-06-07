@@ -43,7 +43,11 @@ jobs:
         run: choco install nvm
 
       - name: Setup Node.js
-        run: nvm use 18.16
+        run: | 
+              if [ "$RUNNER_OS" == "Linux" ]; then
+                  source ~/.bashrc
+              fi
+              nvm use 18.16
     
       - name: Install dependencies for EAF
         run: |
