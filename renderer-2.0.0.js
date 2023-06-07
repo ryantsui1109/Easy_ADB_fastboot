@@ -77,7 +77,7 @@ function generateContents(opArea, operation, operationLang) {
                       </div>`;
         opArea.append(radio);
         if (content[i][2] == "checked") {
-          opArea.find(`#${content[i][1]}`).attr("checked", "checked");
+          opArea.find(`#${content[i][1]}`).prop("checked", true);
         }
         break;
       case "input":
@@ -363,6 +363,18 @@ function switchOpr(keyPath) {
   checkUpdateClicked = false;
   updaterCreated = false;
   progressBarCreated = false;
+
+  $("#operation-area").find('#input').on('focus', function (e) {
+    e.stopPropagation();
+    console.log(document.querySelector(
+      `input:checked`
+    ))
+    $('#other').prop('checked', true);
+  });
+  $("#operation-area").find('#other').on('click', function (e) {
+    e.stopPropagation();
+    $('#input').trigger('focus');
+  });
 }
 
 function printLogs(data) {
@@ -453,7 +465,7 @@ function updateProgress(progress) {
 const renderUI = () =>
   $(function () {
     api.handle("print-log", (text) => {
-      printLogs(text.replace(/\n/g, "</br>").replace(/ /g,"\u00a0"));
+      printLogs(text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
       // console.log(JSON.stringify(text))
     });
 
@@ -540,7 +552,7 @@ const renderUI = () =>
     });
     $("#nothing-selected").text(messages.ui.nothingSelected);
     renderNavbar(oprs, language);
-    $('#devices-btn').text(messages.ui.deviceSelectorBtn);    
+    $('#devices-btn').text(messages.ui.deviceSelectorBtn);
     $('#devices-btn').on('click', function (e) {
       e.preventDefault();
       printLogs(messages.ui.todo)
