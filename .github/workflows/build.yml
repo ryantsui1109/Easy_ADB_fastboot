@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies for nvm
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
-              apt update
+              sudo apt-get update
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
           elif [ "$RUNNER_OS" == "Windows" ]; then
               powershell -c "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
