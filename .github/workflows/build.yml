@@ -33,11 +33,8 @@ jobs:
           node-version: lts/*
     
       - name: Install dependencies for EAF
-        run: |
-              npm i
+        run: npm i
         shell: bash
 
       - name: Build EAF
-        run: |
-              cd $GITHUB_WORKSPACE/Easy_ADB_fastboot
-              node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d -b
+        run: node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d -b
