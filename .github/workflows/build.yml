@@ -38,3 +38,5 @@ jobs:
 
       - name: Build EAF
         run: node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d -b
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
