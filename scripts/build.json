@@ -18,11 +18,11 @@
         "arch": ["x64"]
       }
     ],
-    "publish": "never"
+    "publish": ["github"]
   },
   "linux": {
     "extraFiles": "platform-tools-linux",
     "target": ["tar.xz"],
-    "publish": "never"
+    "publish": ["github"]
   }
 }
