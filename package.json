@@ -6,7 +6,9 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "clean": "modclean --ignore='platform-tools'"
+    "clean": "modclean --ignore='platform-tools'",
+    "publish": "electron-builder build --publish always",
+    "build": "electron-builder build --publish never"
   },
   "author": "ryantsui1109@github",
   "license": "Apache-2.0",
@@ -34,5 +36,48 @@
   "bugs": {
     "url": "https://github.com/ryantsui1109/Easy_ADB_fastboot/issues"
   },
-  "homepage": "https://github.com/ryantsui1109/Easy_ADB_fastboot#readme"
+  "homepage": "https://github.com/ryantsui1109/Easy_ADB_fastboot#readme",
+  "build": {
+    "appId": "io.github.ryantsui1109.eaf",
+    "productName": "Easy ADB and fastboot",
+    "files": [
+      "!{TODO.txt,.github,updaterStatus.json,scripts,default_*.json,platform-tools*,update.exe}"
+    ],
+    "extraFiles": [
+      "updaterStatus.json",
+      "config.json"
+    ],
+    "win": {
+      "icon": "./favicon_256.ico",
+      "extraFiles": [
+        "platform-tools-win"
+      ],
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "publish": [
+        "github"
+      ]
+    },
+    "linux": {
+      "extraFiles": "platform-tools-linux",
+      "target": [
+        "tar.xz"
+      ],
+      "publish": [
+        "github"
+      ]
+    }
+  }
 }

@@ -36,7 +36,10 @@ jobs:
         run: npm i
         shell: bash
 
+      - name: Configute EAF
+        run: node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d
+      
       - name: Build EAF
-        run: node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d -b
+        run: npm run publish
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
