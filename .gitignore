@@ -3,9 +3,6 @@
 *dist/*
 *easy_adb_fastboot-win32-x64/*
 *obfuscated.js*
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
 config.json
 update.exe
 updaterStatus.json
