@@ -6,6 +6,8 @@ const child_process = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
+const { autoUpdater } = require("electron-updater");
+
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
   config = require("../../config.json");
@@ -176,7 +178,7 @@ app.on("ready", () => {
 
 app.whenReady().then(() => {
   createWindow();
-  // let processedLang;
+  autoUpdater.checkForUpdatesAndNotify();
 
   console.log("starting ADB server");
 
