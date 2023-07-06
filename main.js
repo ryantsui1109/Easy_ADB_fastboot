@@ -8,6 +8,15 @@ const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
 
+let channel=app.getVersion().split('-')[1]
+
+if(!channel){
+  channel='latest'
+}
+
+autoUpdater.channel=channel;
+console.log(autoUpdater.channel)
+
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
   config = require("../../config.json");

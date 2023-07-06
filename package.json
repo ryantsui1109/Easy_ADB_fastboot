@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/ryantsui1109/Easy_ADB_fastboot#readme",
   "build": {
+    "generateUpdatesFilesForAllChannels": true,
     "appId": "io.github.ryantsui1109.eaf",
     "productName": "Easy ADB and fastboot",
     "files": [
