@@ -12,3 +12,4 @@ chinese simplified
 self-test 
 optimize append on startup
 english text message improvement
+move to offcanvas
