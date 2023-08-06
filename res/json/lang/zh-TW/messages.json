@@ -40,6 +40,7 @@
     "downloadUpdate": "下載更新",
     "noUpdates": "已在最新版本",
     "beforeUpdateRemind1": "點擊重啟APP後，畫面卡住無反應為正常現象，數秒後將會自動關閉",
-    "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新"
+    "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新",
+    "deprecated":"偷偷告訴你，現在可以自動在背景更新囉"
   }
 }
