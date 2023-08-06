@@ -178,6 +178,7 @@
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
           ["radio", "device-info"],
+          ["radio", "cdms"],
           ["radio", "other"],
           ["input", "input", "Custom command"],
           ["br", ""]

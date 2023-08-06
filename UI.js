@@ -152,6 +152,7 @@ const oprs = {
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
           ["radio", "device-info"],
+          ["radio", "cdms"],
           ["radio", "other"],
           ["input", "input", "Custom command"],
         ],
@@ -190,7 +191,7 @@ const oprs = {
       },
     },
   },
-  
+
   settings: {
     navbar: "Settings",
     items: {

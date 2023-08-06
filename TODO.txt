@@ -10,6 +10,5 @@ use github workflow
 flash vbmeta disable verity
 chinese simplified
 self-test 
-fastboot oem cdms
 optimize append on startup
 english text message improvement

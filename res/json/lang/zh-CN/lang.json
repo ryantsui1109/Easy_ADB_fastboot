@@ -178,6 +178,7 @@
           ["radio", "unlock", "checked"],
           ["radio", "lock"],
           ["radio", "device-info"],
+          ["radio", "cdms"],
           ["radio", "其它"],
           ["input", "input", "自定义"],
           ["br", ""]
