@@ -302,7 +302,7 @@ async function checkUpdatesUI() {
 function renderUpdater(opArea) {
   opArea.append(`
     <div class="alert alert-info" role="alert">
-      A simple info alert—check it out!
+      ${messages.update.deprecated}
     </div>
     <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn}</button>
   `);
