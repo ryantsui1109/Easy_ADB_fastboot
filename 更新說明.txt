@@ -15,7 +15,7 @@ radio 和文字框的雙向奔赴（？？
 
 2.10.10
 後台更新：
-使用 stdout 捕捉 adb 的vlog
+使用 stdout 捕捉 adb 的 log
 
 2.10.9
 本次更新：
