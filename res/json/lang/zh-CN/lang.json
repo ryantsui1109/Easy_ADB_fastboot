@@ -81,7 +81,7 @@
         ]
       },
       "boot": {
-        "title": "临时启动镜像",
+        "title": "临时启动镜像（推荐使用）",
         "subtitle": "部分机型不支持",
         "name": "boot-menu",
         "needUnlock": true,

@@ -42,5 +42,7 @@
     "beforeUpdateRemind1": "点击重启按钮后画面可能会无反应，几秒后将自动关闭",
     "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新",
     "deprecated":"偷偷告诉你，现在可以自动在背景更新啰"
+  },"tips":{
+    "boot":"<p class=\"fw-bold\">为什么要使用临时启动而非刷入镜像？</p>临时启动仅把镜像下载到运行内存中，对于无单独 Recovery 分区的 AB 槽位机型而言，可以维持原来的 boot 分区不被第三方 Recovery 取代"
   }
 }

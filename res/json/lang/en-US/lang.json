@@ -81,7 +81,7 @@
         ]
       },
       "boot": {
-        "title": "Boot a image",
+        "title": "Boot a image (suggested)",
         "subtitle": "Some models are not supported",
         "name": "boot-menu",
         "needUnlock": true,

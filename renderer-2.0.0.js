@@ -330,11 +330,13 @@ function renderSettings(opArea) {
 }
 
 function switchOpr(keyPath) {
+  console.log(keyPath)
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
   opArea.empty();
 
+  
   generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
@@ -342,6 +344,9 @@ function switchOpr(keyPath) {
     );
   } else {
     opArea.append(`<div style="width:100%"></div>`);
+  }
+  if(keyPath=="fastboot.items.boot"){
+    opArea.append(`<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`);
   }
   generateContents(opArea, target, langTarget);
   opArea.append(`<div></div>`);

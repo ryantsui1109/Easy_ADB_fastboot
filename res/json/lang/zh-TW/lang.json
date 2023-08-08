@@ -81,7 +81,7 @@
         ]
       },
       "boot": {
-        "title": "啟動鏡像",
+        "title": "臨時啟動鏡像（推薦使用）",
         "subtitle": "部分機型不支援",
         "name": "boot-menu",
         "needUnlock": true,
