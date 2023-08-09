@@ -6,10 +6,8 @@ adb uninstall
 adb disable
 adb list installed packages
 operation hint
-use github workflow
 flash vbmeta disable verity
-chinese simplified
-self-test 
+self-test  
 optimize append on startup
 english text message improvement
 move to offcanvas
