@@ -5,10 +5,8 @@ slot selection in flashing/erasing
 adb uninstall
 adb disable
 adb list installed packages
-operation hint
 flash vbmeta disable verity
-self-test  
 optimize append on startup
 english text message improvement
 move to offcanvas
-separate sidebar and title
+multiple devices support
