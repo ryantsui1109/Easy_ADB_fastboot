@@ -10,3 +10,4 @@ optimize append on startup
 english text message improvement
 move to offcanvas
 multiple devices support
+commonly used commands
