@@ -15,6 +15,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Other target"],
         ],
+        navbar: "Reboot to",
       },
       push: {
         title: "Push file to /sdcard",
@@ -22,6 +23,7 @@ const oprs = {
         operation: "push",
         script: [["adb", "push", "$file", "/sdcard"]],
         content: [["file", "file"]],
+        navbar: "Push file to /sdcard",
       },
       install: {
         title: "Install apk file",
@@ -30,6 +32,7 @@ const oprs = {
         operation: "install",
         script: [["adb", "install", "$file"]],
         content: [["file", "file", ".apk,application/zip"]],
+        navbar: "Install apk file",
       },
     },
   },
@@ -43,6 +46,7 @@ const oprs = {
         operation: "sideload",
         script: [["adb", "sideload", "$file"]],
         content: [["file", "file", "application/zip,.apk"]],
+        navbar: "Sideload flashable zip",
       },
     },
   },
@@ -63,6 +67,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Other target"],
         ],
+        navbar: "Reboot to",
       },
       boot: {
         title: "Boot a image",
@@ -71,6 +76,7 @@ const oprs = {
         needUnlock: true,
         script: [["fastboot", "boot", "$file"]],
         content: [["file", "file", ".img,.bin"]],
+        navbar: "Boot a image",
       },
       flash: {
         title: "Flash image to partition",
@@ -92,6 +98,7 @@ const oprs = {
           ["input", "input", "Partition to flash"],
           ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
         ],
+        navbar: "Flash image to partition",
       },
       erase: {
         title: "Erase partition",
@@ -112,6 +119,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Partition to erase"],
         ],
+        navbar: "Erase partition",
       },
       format: {
         title: "Format partition",
@@ -127,6 +135,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Partition to format"],
         ],
+        navbar: "Format partition",
       },
       flashing: {
         title: "Fastboot flashing",
@@ -142,6 +151,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Custom command"],
         ],
+        navbar: "Fastboot flashing",
       },
       oem: {
         title: "Fastboot oem",
@@ -156,6 +166,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Custom command"],
         ],
+        navbar: "Fastboot oem",
       },
       update: {
         title: "Fastboot update",
@@ -163,6 +174,7 @@ const oprs = {
         needUnlock: true,
         script: ["fastboot", "update", "$file"],
         content: [["file", "file", "application/zip"]],
+        navbar: "Fastboot update",
       },
       getvar: {
         title: "Fastboot getvar",
@@ -178,6 +190,7 @@ const oprs = {
           ["radio", "other"],
           ["input", "input", "Custom variable"],
         ],
+        navbar: "Fastboot getvar",
       },
       active: {
         title: "Switch active slot to",
@@ -185,29 +198,31 @@ const oprs = {
         needUnlock: true,
         script: [["fastboot", "set_active", "$radio"]],
         content: [
-          ["radio", "a", "", "checked"],
+          ["radio", "a", "checked"],
           ["radio", "b", ""],
         ],
+        navbar: "Switch active slot to",
       },
     },
   },
-
   settings: {
     navbar: "Settings",
     items: {
       settings: {
         title: "TODO",
         subtitle: "TODO",
-
         noStartButton: true,
+        navbar: "TODO",
       },
       updater: {
         title: "Online Updates",
         noStartButton: true,
+        navbar: "Online Updates",
       },
     },
   },
 };
+
 const availableLanguages = ["zh-TW", "zh-CN","en-US"];
 const settings = {
   language: {

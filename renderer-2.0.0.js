@@ -48,7 +48,7 @@ function renderNavbar(elements, language) {
     );
     Object.keys(elements[element].items).forEach((e) => {
       $(`#${element}-categories-collapse`).append(
-        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="switchOpr($(this).attr('value'))">${locale[element].items[e].title}</p>`
+        `<p class="operations user-select-none" value="${element}.items.${e}" onclick="switchOpr($(this).attr('value'))">${locale[element].items[e].navbar}</p>`
       );
     });
   });
@@ -76,6 +76,8 @@ function generateContents(opArea, operation, operationLang) {
                         </label>
                       </div>`;
         opArea.append(radio);
+        console.log(content[i]);
+        // 若 UI.js 中 content 下第三項爲 checked 則將其設爲“已經勾選”
         if (content[i][2] == "checked") {
           opArea.find(`#${content[i][1]}`).prop("checked", true);
         }

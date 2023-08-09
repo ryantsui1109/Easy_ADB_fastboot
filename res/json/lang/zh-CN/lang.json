@@ -16,7 +16,8 @@
           ["input", "input", "自定义"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "重启"
       },
       "push": {
         "title": "将档案推送到 /sdcard",
@@ -27,7 +28,8 @@
           ["file", "file"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "将档案推送到 /sdcard"
       },
       "install": {
         "title": "安装 APK",
@@ -39,7 +41,8 @@
           ["file", "file", ".apk,application/zip"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "安装 APK"
       }
     }
   },
@@ -56,7 +59,8 @@
           ["file", "file", "application/zip,.apk"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "安装 Zip"
       }
     }
   },
@@ -78,10 +82,11 @@
           ["input", "input", "自定义"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "重启"
       },
       "boot": {
-        "title": "临时启动镜像（推荐使用）",
+        "title": "临时启动镜像",
         "subtitle": "部分机型不支持",
         "name": "boot-menu",
         "needUnlock": true,
@@ -90,7 +95,8 @@
           ["file", "file", ".img,.bin"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "临时启动镜像（推荐使用）"
       },
       "flash": {
         "title": "刷入镜像",
@@ -114,7 +120,8 @@
           ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "刷入镜像"
       },
       "erase": {
         "title": "擦除分区",
@@ -135,7 +142,8 @@
           ["radio", "其它"],
           ["input", "input", "自定义"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "擦除分区"
       },
       "format": {
         "title": "格式化分区",
@@ -151,7 +159,8 @@
           ["radio", "其它"],
           ["input", "input", "自定义"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "格式化分区"
       },
       "flashing": {
         "title": "运行 flashing 指令",
@@ -167,7 +176,8 @@
           ["radio", "其它"],
           ["input", "input", "自定义"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "运行 flashing 指令"
       },
       "oem": {
         "title": "运行 oem 指令",
@@ -182,7 +192,8 @@
           ["radio", "其它"],
           ["input", "input", "自定义"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "运行 oem 指令"
       },
       "update": {
         "title": "Fastboot update",
@@ -193,7 +204,8 @@
           ["file", "file", "application/zip"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Fastboot update"
       },
       "getvar": {
         "title": "取得 fastboot 中储存的变数",
@@ -209,7 +221,8 @@
           ["radio", "其他"],
           ["input", "input", "自訂變數"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "取得 fastboot 中储存的变数"
       },
       "active": {
         "title": "切换 AB 分区",
@@ -220,21 +233,23 @@
           ["radio", "a", "", "checked"],
           ["radio", "b", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "切换 AB 分区"
       }
     }
   },
-  
   "settings": {
     "navbar": "设置",
     "items": {
       "settings": {
         "title": "设置",
-        "content": []
+        "content": [],
+        "navbar": "设置"
       },
       "updater": {
         "title": "线上更新",
-        "content": []
+        "content": [],
+        "navbar": "线上更新"
       }
     }
   }

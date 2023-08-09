@@ -16,7 +16,8 @@
           ["input", "input", "Other target"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Reboot to"
       },
       "push": {
         "title": "Push file to /sdcard",
@@ -27,7 +28,8 @@
           ["file", "file"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Push file to /sdcard"
       },
       "install": {
         "title": "Install apk file",
@@ -39,7 +41,8 @@
           ["file", "file", ".apk,application/zip"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Install apk file"
       }
     }
   },
@@ -56,7 +59,8 @@
           ["file", "file", "application/zip,.apk"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Sideload flashable zip"
       }
     }
   },
@@ -78,10 +82,11 @@
           ["input", "input", "Other target"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Reboot to"
       },
       "boot": {
-        "title": "Boot a image (suggested)",
+        "title": "Boot a image",
         "subtitle": "Some models are not supported",
         "name": "boot-menu",
         "needUnlock": true,
@@ -90,7 +95,8 @@
           ["file", "file", ".img,.bin"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Boot a image (suggested)"
       },
       "flash": {
         "title": "Flash image to partition",
@@ -114,7 +120,8 @@
           ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Flash image to partition"
       },
       "erase": {
         "title": "Erase partition",
@@ -135,7 +142,8 @@
           ["radio", "other"],
           ["input", "input", "Partition to erase"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Erase partition"
       },
       "format": {
         "title": "Format partition",
@@ -151,7 +159,8 @@
           ["radio", "other"],
           ["input", "input", "Partition to format"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Format partition"
       },
       "flashing": {
         "title": "Fastboot flashing",
@@ -167,7 +176,8 @@
           ["radio", "other"],
           ["input", "input", "Custom command"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Fastboot flashing"
       },
       "oem": {
         "title": "Fastboot oem",
@@ -182,7 +192,8 @@
           ["radio", "other"],
           ["input", "input", "Custom command"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Fastboot oem"
       },
       "update": {
         "title": "Fastboot update",
@@ -193,7 +204,8 @@
           ["file", "file", "application/zip"],
           ["br", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Fastboot update"
       },
       "getvar": {
         "title": "Fastboot getvar",
@@ -209,7 +221,8 @@
           ["radio", "other"],
           ["input", "input", "Custom variable"],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Fastboot getvar"
       },
       "active": {
         "title": "Switch active slot to",
@@ -220,7 +233,8 @@
           ["radio", "a", "", "checked"],
           ["radio", "b", ""],
           ["br", ""]
-        ]
+        ],
+        "navbar": "Switch active slot to"
       }
     }
   },
@@ -229,11 +243,13 @@
     "items": {
       "settings": {
         "title": "Settings",
-        "content": []
+        "content": [],
+        "navbar": "Settings"
       },
       "updater": {
         "title": "Online Updates",
-        "content": []
+        "content": [],
+        "navbar": "Online Updates"
       }
     }
   }
