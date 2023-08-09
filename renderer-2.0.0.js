@@ -442,6 +442,11 @@ function runScript(path, name) {
         }
       }
     }
+
+    let hint="Running command: ";
+    hint += commandList[0];
+    params.forEach((param) => (hint += " " + param));
+    printLogs(hint + "</br>");
     api.runCommand(execFile, params);
   }
 }
