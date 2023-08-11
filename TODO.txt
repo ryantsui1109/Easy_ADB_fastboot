@@ -11,3 +11,4 @@ english text message improvement
 move to offcanvas
 multiple devices support
 commonly used commands
+android flash tool
