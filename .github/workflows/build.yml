@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
-          cache: 'package-lock.json'
+          cache: 'npm'
     
       - name: Install dependencies for EAF
         run: npm ci
