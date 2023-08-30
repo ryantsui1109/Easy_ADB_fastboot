@@ -121,11 +121,19 @@ const createWindow = () => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) => {
       console.log(`${data}`);
-      win.webContents.send("print-log", `${data}`);
+      if (params[0] == "-s") {
+        win.webContents.send("print-log", [params[1], `${data}`]);
+      }else{
+        win.webContents.send("print-log", ['main', `${data}`]);
+      }
     });
     process.stdout.on("data", (data) => {
       console.log(`${data}`);
-      win.webContents.send("print-log", `${data}`);
+      if (params[0] == "-s") {
+        win.webContents.send("print-log", [params[1], `${data}`]);
+      } else {
+        win.webContents.send("print-log", ["main", `${data}`]);
+      }
     });
   });
   ipcMain.on("write-file", (e, fileName, data) => {
@@ -150,13 +158,12 @@ const createWindow = () => {
     // console.log(exec)
     function findDevice() {
       child_process.execFile(exec, ["devices"], (error, stdout, stderr) => {
-        win.webContents.send("found-devices",[mode,stdout])
+        win.webContents.send("found-devices", [mode, stdout]);
       });
     }
     findDevice();
   });
 };
-
 
 ipcMain.handle("get-platform", async () => {
   return platform;

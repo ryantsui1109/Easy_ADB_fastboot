@@ -33,6 +33,11 @@ body {
   padding: 0.5rem;
   overflow: auto;
   font-size: 0.8rem;
+  overflow-x:hidden;
+}
+
+.logs-body{
+  overflow-x: auto;
 }
 
 .categories-div {

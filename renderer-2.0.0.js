@@ -168,7 +168,7 @@ function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
 
   api.writeFile("./config.json", JSON.stringify(config, null, "  "));
-  printLogs(messages.alert.restartAlert);
+  printLogs('main',messages.alert.restartAlert);
   // (err) => {
   //   alert(
   //     messages.alert.restartAlert[language],
@@ -393,12 +393,24 @@ function switchOpr(keyPath) {
     });
 }
 
-function printLogs(data) {
+function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
   console.log(data);
-  $("#logs-output").append(data);
-
-  logsOutput.scrollTo(0, logsOutput.scrollHeight);
+  if (!$(`#${channel}-logs`).length) {
+    $("#logs-with-channels").append(`<div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${channel}-logs" aria-expanded="true" aria-controls="collapseOne">
+        ${channel}
+      </button>
+    </h2>
+    <div id="${channel}-logs" class="accordion-collapse collapse show" data-bs-parent="#logs-with-channels">
+      <div class="accordion-body logs-body">
+      <p id="${channel}-logs-body" class="font-monospace"></p>
+      </div>
+    </div>
+  </div>`);
+  }
+  $(`#${channel}-logs-body`).append(data);
 }
 
 function runScript(path, name) {
@@ -454,12 +466,12 @@ function runScript(path, name) {
     let hint = "Running command: ";
     hint += commandList[0];
     params.forEach((param) => (hint += " " + param));
-    printLogs(hint + "</br>");
+    printLogs('main',hint + "</br>");
     switch (mode) {
       case "system":
       case "recovery":
         if (selectedADBDevices.size) {
-          printLogs(
+          printLogs('main',
             `Running on devices: ${Array.from(selectedADBDevices)}</br>`
           );
           for (let sn of selectedADBDevices) {
@@ -470,7 +482,7 @@ function runScript(path, name) {
         }
       case "fastboot":
         if (selectedFbDevices.size) {
-          printLogs(
+          printLogs('main',
             `Running on devices: ${Array.from(selectedFbDevices)}</br>`
           );
           for (let sn of selectedFbDevices) {
@@ -526,15 +538,16 @@ const renderUI = () =>
           console.log(`${text}`);
           devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
           devicesUnparsed.splice(-2, 2);
-          if(getPlatform=='linux'){devicesUnparsed 
-           = devicesUnparsed.flatMap((element,index) => {
-            if (index % 2) {
-              return [];
-            } else {
-              return element;
-            }
-          });}
-          console.log(devicesUnparsed)
+          if (getPlatform == "linux") {
+            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
+              if (index % 2) {
+                return [];
+              } else {
+                return element;
+              }
+            });
+          }
+          console.log(devicesUnparsed);
           break;
         default:
           break;
@@ -583,8 +596,8 @@ const renderUI = () =>
           break;
       }
     });
-    api.handle("print-log", (text) => {
-      printLogs(text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
+    api.handle("print-log", ([channel, text]) => {
+      printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
       // console.log(JSON.stringify(text))
     });
 
@@ -594,7 +607,7 @@ const renderUI = () =>
     });
 
     api.handle("update-complete", () => {
-      printLogs(messages.alert.updateCompleteAlert);
+      printLogs('main',messages.alert.updateCompleteAlert);
       console.log("download complete!");
       $("#close-btn").empty();
       $("#close-btn")
@@ -617,9 +630,6 @@ const renderUI = () =>
     #min-btn:hover {
       background-color: #3c3642;
     }
-    #log-box {
-      background-color: black;
-    }
     .operations:hover {
       color: white;
   }`);
@@ -634,9 +644,6 @@ const renderUI = () =>
   #max-btn:hover,
   #min-btn:hover {
     background-color: darkgray;
-  }
-  #log-box {
-    background-color: gray;
   }
   .operations:hover {
     color: black;
