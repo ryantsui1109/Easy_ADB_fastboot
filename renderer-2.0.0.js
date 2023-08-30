@@ -28,6 +28,10 @@ let updaterCreated = false;
 let progressBarCreated = false;
 let updatePending = false;
 
+let dsMode = "adb";
+const selectedADBDevices = new Set();
+const selectedFbDevices = new Set();
+
 function renderNavbar(elements, language) {
   const locale = lang;
   $("#navbar").empty();
@@ -219,9 +223,8 @@ async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
   }
 
   updaterArea.empty();
-  updaterArea.append(
-    `<h5 class="card-title ">${messages.update.updateFound}</h5>`
-  );
+  updaelement += "</tbody></table>";
+  terArea.append(`<h5 class="card-title ">${messages.update.updateFound}</h5>`);
   updaterArea.append(
     `<h6 class="card-title text-muted">${_version} &rarr; ${latestVersion}</h6>`
   );
@@ -332,13 +335,12 @@ function renderSettings(opArea) {
 }
 
 function switchOpr(keyPath) {
-  console.log(keyPath)
+  console.log(keyPath);
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
   opArea.empty();
 
-  
   generateTitle(opArea, langTarget.title, langTarget.subtitle);
   if (target.needUnlock) {
     opArea.append(
@@ -347,8 +349,10 @@ function switchOpr(keyPath) {
   } else {
     opArea.append(`<div style="width:100%"></div>`);
   }
-  if(keyPath=="fastboot.items.boot"){
-    opArea.append(`<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`);
+  if (keyPath == "fastboot.items.boot") {
+    opArea.append(
+      `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
+    );
   }
   generateContents(opArea, target, langTarget);
   opArea.append(`<div></div>`);
@@ -374,26 +378,29 @@ function switchOpr(keyPath) {
   updaterCreated = false;
   progressBarCreated = false;
 
-  $("#operation-area").find('#input').on('focus', function (e) {
-    e.stopPropagation();
-    console.log(document.querySelector(
-      `input:checked`
-    ))
-    $('#other').prop('checked', true);
-  });
-  $("#operation-area").find('#other').on('click', function (e) {
-    e.stopPropagation();
-    $('#input').trigger('focus');
-  });
+  $("#operation-area")
+    .find("#input")
+    .on("focus", function (e) {
+      e.stopPropagation();
+      console.log(document.querySelector(`input:checked`));
+      $("#other").prop("checked", true);
+    });
+  $("#operation-area")
+    .find("#other")
+    .on("click", function (e) {
+      e.stopPropagation();
+      $("#input").trigger("focus");
+    });
 }
 
 function printLogs(data) {
   const logsOutput = document.getElementById("logs-output");
-  console.log(data)
+  console.log(data);
   $("#logs-output").append(data);
 
   logsOutput.scrollTo(0, logsOutput.scrollHeight);
 }
+
 function runScript(path, name) {
   let fileExtension = "";
   let execDir = "";
@@ -414,6 +421,7 @@ function runScript(path, name) {
       if (j == 1) {
         operation = commandList[j];
       }
+
       if (j == 0) {
         switch (commandList[j]) {
           case "adb":
@@ -442,12 +450,36 @@ function runScript(path, name) {
         }
       }
     }
-
-    let hint="Running command: ";
+    let mode = path.split(".")[0];
+    let hint = "Running command: ";
     hint += commandList[0];
     params.forEach((param) => (hint += " " + param));
     printLogs(hint + "</br>");
-    api.runCommand(execFile, params);
+    switch (mode) {
+      case "system":
+      case "recovery":
+        if (selectedADBDevices.size) {
+          printLogs(
+            `Running on devices: ${Array.from(selectedADBDevices)}</br>`
+          );
+          for (let sn of selectedADBDevices) {
+            api.runCommand(execFile, ["-s", sn, ...params]);
+          }
+        } else {
+          api.runCommand(execFile, params);
+        }
+      case "fastboot":
+        if (selectedFbDevices.size) {
+          printLogs(
+            `Running on devices: ${Array.from(selectedFbDevices)}</br>`
+          );
+          for (let sn of selectedFbDevices) {
+            api.runCommand(execFile, ["-s", sn, ...params]);
+          }
+        } else {
+          api.runCommand(execFile, params);
+        }
+    }
   }
 }
 function readRadio(name) {
@@ -474,11 +506,83 @@ function updateProgress(progress) {
     );
     progressBarCreated = true;
   }
-  updater.find("#download-progress").css("width", progress + "%");
+  updaelement += "</tbody></table>";
+  ter.find("#download-progress").css("width", progress + "%");
 }
 
 const renderUI = () =>
   $(function () {
+    api.handle("found-devices", (result) => {
+      const mode = result[0];
+      const text = result[1];
+      let devicesUnparsed;
+      switch (mode) {
+        case "adb":
+          devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
+          devicesUnparsed.shift();
+          devicesUnparsed.splice(-2, 2);
+          break;
+        case "fb":
+          console.log(`${text}`);
+          devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
+          devicesUnparsed.splice(-2, 2);
+          if(getPlatform=='linux'){devicesUnparsed 
+           = devicesUnparsed.flatMap((element,index) => {
+            if (index % 2) {
+              return [];
+            } else {
+              return element;
+            }
+          });}
+          console.log(devicesUnparsed)
+          break;
+        default:
+          break;
+      }
+
+      const devices = devicesUnparsed.map((device) => device.split(/\t/));
+      function showDevices(id, mode) {
+        $(id).empty();
+        let element = ``;
+        devices.forEach(([sn, stat], index) => {
+          element += `<tr>
+            <th scope="row">${index + 1}</th>
+            <td>${sn}</td>
+            <td>${stat}</td>
+            <td><div class="form-check">
+            <input class="form-check-input select-device-${mode}" type="checkbox" value="" id="${sn}"`;
+
+          switch (mode) {
+            case "adb":
+              if (selectedADBDevices.has(sn)) {
+                element += "checked";
+              }
+              break;
+            case "fb":
+              if (selectedFbDevices.has(sn)) {
+                element += "checked";
+              }
+            default:
+              console.log("hi");
+              break;
+          }
+          element += `></div></td></tr>`;
+        });
+
+        $(id).append(element);
+      }
+
+      switch (mode) {
+        case "adb":
+          showDevices("#ds-adb-tbody", mode);
+          break;
+        case "fb":
+          showDevices("#ds-fb-tbody", mode);
+          break;
+        default:
+          break;
+      }
+    });
     api.handle("print-log", (text) => {
       printLogs(text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
       // console.log(JSON.stringify(text))
@@ -565,13 +669,49 @@ const renderUI = () =>
       const realPath = document.getElementById("file-input").files[0].path;
       $("#file-path").text(realPath);
     });
-    $("#nothing-selected").text(messages.ui.nothingSelected);
+
     renderNavbar(oprs, language);
-    $('#devices-btn').text(messages.ui.deviceSelectorBtn);
-    $('#devices-btn').on('click', function (e) {
-      e.preventDefault();
-      printLogs(messages.ui.todo)
+    $("#nothing-selected").text(messages.ui.nothingSelected);
+    $("#devices-btn").text(messages.ui.deviceSelectorBtn);
+    $("#ds-title").text(messages.devices.selectDevices);
+    $("#ds-close-btn").text(messages.devices.closeBtn);
+    $("#ds-save-btn").text(messages.devices.saveBtn);
+
+    $("#ds-adb-tab").on("click", function () {
+      dsMode = "adb";
     });
+    $("#ds-fb-tab").on("click", function () {
+      dsMode = "fb";
+    });
+
+    $("#ds-save-btn").on("click", function (e) {
+      e.preventDefault();
+      console.log();
+      switch (dsMode) {
+        case "adb":
+          selectedADBDevices.clear();
+          $(".select-device-adb:checked").each((index, element) => {
+            selectedADBDevices.add(element.id);
+          });
+          console.log(selectedADBDevices);
+          break;
+        case "fb":
+          selectedFbDevices.clear();
+          $(".select-device-fb:checked").each((index, element) => {
+            selectedFbDevices.add(element.id);
+          });
+
+          console.log(selectedFbDevices);
+          break;
+        default:
+          break;
+      }
+    });
+    $("#devices-btn,#reload-devices").on("click", () => {
+      api.send("get-devices", "fb");
+      api.send("get-devices", "adb");
+    });
+
     api.send("resize");
   });
 

@@ -41,9 +41,14 @@
     "noUpdates": "已在最新版本",
     "beforeUpdateRemind1": "點擊重啟APP後，畫面卡住無反應為正常現象，數秒後將會自動關閉",
     "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新",
-    "deprecated":"偷偷告訴你，現在可以自動在背景更新囉"
+    "deprecated": "偷偷告訴你，現在可以自動在背景更新囉"
   },
-  "tips":{
-    "boot":"<p class=\"fw-bold\">為什麼要使用臨時啓動而非刷入鏡像？</p>臨時啓動僅將鏡像下載到記憶體中，對於無獨立 Recovery 分區的 AB 槽位機型而言，可維持原本的 boot 分區不被第三方 Recovery 取代"
+  "tips": {
+    "boot": "<p class=\"fw-bold\">為什麼要使用臨時啓動而非刷入鏡像？</p>臨時啓動僅將鏡像下載到記憶體中，對於無獨立 Recovery 分區的 AB 槽位機型而言，可維持原本的 boot 分區不被第三方 Recovery 取代"
+  },
+  "devices": {
+    "selectDevices": "選擇裝置",
+    "closeBtn": "關閉",
+    "saveBtn": "儲存"
   }
 }

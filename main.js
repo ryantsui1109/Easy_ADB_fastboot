@@ -7,15 +7,16 @@ const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
+const { INSPECT_MAX_BYTES } = require("buffer");
 
-let channel=app.getVersion().split('-')[1]
+let channel = app.getVersion().split("-")[1];
 
-if(!channel){
-  channel='latest'
+if (!channel) {
+  channel = "latest";
 }
 
-autoUpdater.channel=channel;
-console.log(autoUpdater.channel)
+autoUpdater.channel = channel;
+console.log(autoUpdater.channel);
 
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
@@ -30,13 +31,16 @@ console.log(app.getPath("home"));
 
 let hasDevtools = false;
 let adbPath = "";
+let fbPath = "";
 
 if (platform == "win32") {
   adbPath = ".\\platform-tools-win\\adb.exe";
+  fbPath = ".\\platform-tools-win\\fastboot.exe";
 }
 
 if (platform == "linux") {
   adbPath = "./platform-tools-linux/adb";
+  fbPath = "./platform-tools-linux/fastboot";
 }
 
 if (!isPackaged || config.channel == "beta") {
@@ -131,7 +135,28 @@ const createWindow = () => {
       console.log(err);
     }
   });
+  ipcMain.on("get-devices", (e, mode) => {
+    let exec = "";
+    switch (mode) {
+      case "adb":
+        exec = adbPath;
+        break;
+      case "fb":
+        exec = fbPath;
+        break;
+      default:
+        break;
+    }
+    // console.log(exec)
+    function findDevice() {
+      child_process.execFile(exec, ["devices"], (error, stdout, stderr) => {
+        win.webContents.send("found-devices",[mode,stdout])
+      });
+    }
+    findDevice();
+  });
 };
+
 
 ipcMain.handle("get-platform", async () => {
   return platform;

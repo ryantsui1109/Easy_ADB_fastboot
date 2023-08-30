@@ -12,3 +12,5 @@ move to offcanvas
 multiple devices support
 commonly used commands
 android flash tool
+replace for using map
+appimage support
