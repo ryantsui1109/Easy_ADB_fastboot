@@ -58,7 +58,21 @@
       </h4>
     </div>
     <div id="log-box">
-      <div class="accordion" id="logs-with-channels"></div>
+      <div class="accordion" id="logs-with-channels">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#main-logs"
+              aria-expanded="true" aria-controls="collapseOne">
+              main
+            </button>
+          </h2>
+          <div id="main-logs" class="accordion-collapse collapse show" data-bs-parent="#logs-with-channels">
+            <div class="accordion-body logs-body">
+              <p id="$main-logs-body" class="font-monospace"></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

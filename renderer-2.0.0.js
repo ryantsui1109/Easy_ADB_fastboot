@@ -403,7 +403,7 @@ function printLogs(channel, data) {
         ${channel}
       </button>
     </h2>
-    <div id="${channel}-logs" class="accordion-collapse collapse show" data-bs-parent="#logs-with-channels">
+    <div id="${channel}-logs" class="accordion-collapse collapsed" data-bs-parent="#logs-with-channels">
       <div class="accordion-body logs-body">
       <p id="${channel}-logs-body" class="font-monospace"></p>
       </div>
