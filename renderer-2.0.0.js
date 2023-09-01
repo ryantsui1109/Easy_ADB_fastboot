@@ -168,7 +168,7 @@ function saveSettings() {
   console.log(JSON.stringify(config, null, "  "));
 
   api.writeFile("./config.json", JSON.stringify(config, null, "  "));
-  printLogs('main',messages.alert.restartAlert);
+  printLogs("main", messages.alert.restartAlert);
   // (err) => {
   //   alert(
   //     messages.alert.restartAlert[language],
@@ -397,18 +397,24 @@ function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
   console.log(data);
   if (!$(`#${channel}-logs`).length) {
-    $("#logs-with-channels").append(`<div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${channel}-logs" aria-expanded="true" aria-controls="collapseOne">
-        ${channel}
-      </button>
-    </h2>
-    <div id="${channel}-logs" class="accordion-collapse collapsed" data-bs-parent="#logs-with-channels">
-      <div class="accordion-body logs-body">
+    $("#logs-with-channels").append(`<div class="accordion-item" id="${channel}-logs-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${channel}-logs"
+      aria-expanded="true" aria-controls="collapseOne">
+      ${channel}
+    </button>
+  </h2>
+  <div id="${channel}-logs" class="accordion-collapse collapse">
+    <div class="accordion-body logs-body">
       <p id="${channel}-logs-body" class="font-monospace"></p>
-      </div>
+      <button class="btn btn-primary float-end" onclick="cleanLogs('${channel}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path
+            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+        </svg></button>
     </div>
-  </div>`);
+  </div>
+</div>`);
   }
   $(`#${channel}-logs-body`).append(data);
 }
@@ -466,12 +472,13 @@ function runScript(path, name) {
     let hint = "Running command: ";
     hint += commandList[0];
     params.forEach((param) => (hint += " " + param));
-    printLogs('main',hint + "</br>");
+    printLogs("main", hint + "</br>");
     switch (mode) {
       case "system":
       case "recovery":
         if (selectedADBDevices.size) {
-          printLogs('main',
+          printLogs(
+            "main",
             `Running on devices: ${Array.from(selectedADBDevices)}</br>`
           );
           for (let sn of selectedADBDevices) {
@@ -482,7 +489,8 @@ function runScript(path, name) {
         }
       case "fastboot":
         if (selectedFbDevices.size) {
-          printLogs('main',
+          printLogs(
+            "main",
             `Running on devices: ${Array.from(selectedFbDevices)}</br>`
           );
           for (let sn of selectedFbDevices) {
@@ -520,6 +528,11 @@ function updateProgress(progress) {
   }
   updaelement += "</tbody></table>";
   ter.find("#download-progress").css("width", progress + "%");
+}
+
+function cleanLogs(channel) {
+  $(`#${channel}-logs-item`).remove();
+
 }
 
 const renderUI = () =>
@@ -607,7 +620,7 @@ const renderUI = () =>
     });
 
     api.handle("update-complete", () => {
-      printLogs('main',messages.alert.updateCompleteAlert);
+      printLogs("main", messages.alert.updateCompleteAlert);
       console.log("download complete!");
       $("#close-btn").empty();
       $("#close-btn")
@@ -662,7 +675,6 @@ const renderUI = () =>
       e.preventDefault();
       api.send("minimize-window");
     });
-
     $("#sidebar").width(screen.width / 7);
     $("#logs").width((screen.width / 5) * 2.5);
     $("#operation-area").width($("#operation-area").width() / 1.2);
