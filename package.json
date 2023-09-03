@@ -1,6 +1,6 @@
 {
   "name": "easy_adb_fastboot",
-  "version": "2.12.3",
+  "version": "2.13.0-beta",
   "description": "A graphical ADB and fastboot manager",
   "main": "main.js",
   "scripts": {
