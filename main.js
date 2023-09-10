@@ -7,7 +7,7 @@ const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
-const { INSPECT_MAX_BYTES } = require("buffer");
+const { INSPECT_MAX_BYTES, constants } = require("buffer");
 
 let channel = app.getVersion().split("-")[1];
 
@@ -123,8 +123,8 @@ const createWindow = () => {
       console.log(`${data}`);
       if (params[0] == "-s") {
         win.webContents.send("print-log", [params[1], `${data}`]);
-      }else{
-        win.webContents.send("print-log", ['main', `${data}`]);
+      } else {
+        win.webContents.send("print-log", ["main", `${data}`]);
       }
     });
     process.stdout.on("data", (data) => {
@@ -137,11 +137,7 @@ const createWindow = () => {
     });
   });
   ipcMain.on("write-file", (e, fileName, data) => {
-    try {
-      fs.writeFile(fileName, data, (err) => {});
-    } catch (err) {
-      console.log(err);
-    }
+    writeFile(fileName, data);
   });
   ipcMain.on("get-devices", (e, mode) => {
     let exec = "";
@@ -162,6 +158,9 @@ const createWindow = () => {
       });
     }
     findDevice();
+  });
+  ipcMain.on("check-updates", (e) => {
+    autoUpdater.checkForUpdates();
   });
 };
 
@@ -218,9 +217,14 @@ app.on("ready", () => {
 });
 
 app.whenReady().then(() => {
+  const updateInterval = Date.now() - updaterStatus.lastChecked;
+  const updateFrequency = Number(config.updateFrequency) * 24 * 60 * 60 * 1000;
   createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
-
+  if (updateInterval >= updateFrequency) {
+    autoUpdater.checkForUpdatesAndNotify();
+    updaterStatus.lastChecked = Date.now();
+    writeFile("updaterStatus.json", JSON.stringify(updaterStatus, null, "  "));
+  }
   console.log("starting ADB server");
 
   const adbServer = child_process.spawn(adbPath, ["start-server"]);
@@ -257,4 +261,20 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+function writeFile(file, data) {
+  try {
+    fs.writeFile(file, data, (err) => {});
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+autoUpdater.on("update-not-available", (info) => {
+  console.log("update-not-available");
+});
+
+autoUpdater.on("update-available", (info) => {
+  console.log("update-available");
 });

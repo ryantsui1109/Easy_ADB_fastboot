@@ -266,41 +266,20 @@ async function checkUpdatesUI() {
   if (!checkUpdateClicked) {
     if (!updaterCreated) {
       $("#operation-area").append(`<div class="card mb-2">
-    <div id="eaf-updater" class="card-body">
-    <div class="d-flex align-items-center m-2">
-      <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate}</p>
-      <div
-        class="spinner-border spinner-border-sm ms-auto"
-        role="status"
-        aria-hidden="true"
-      ></div>
-    </div>
-    </div>`);
+  <div id="eaf-updater" class="card-body">
+  <div class="d-flex align-items-center m-2">
+    <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate}</p>
+    <div
+      class="spinner-border spinner-border-sm ms-auto"
+      role="status"
+      aria-hidden="true"
+    ></div>
+  </div>
+  </div>`);
     }
     updaterCreated = true;
   }
-  const indexURL = config.updateURL + config.channel + "/latestUpdateIndex";
-  const newIndex = Number(await getURL(indexURL));
-  console.log(localStorage.getItem("newIndex"));
-  let updateLocalStorage = false;
-
-  if (!localStorage.getItem("newIndex")) {
-    if (newIndex > Number(localStorage.getItem("newIndex"))) {
-      localStorage.setItem("newIndex", newIndex);
-      updateLocalStorage = true;
-    }
-  }
-
-  const eafUpdater = $("#operation-area").find("#eaf-updater");
-  console.log(newIndex, config.updateIndex);
-  if (newIndex > config.updateIndex) {
-    showUpdates(eafUpdater, newIndex, updateLocalStorage);
-  } else {
-    eafUpdater.empty();
-    $(eafUpdater).append(
-      `<p class="mb-0 h5 text-muted">${messages.update.noUpdates}</p>`
-    );
-  }
+  api.send('check-updates');
   checkUpdateClicked = true;
 }
 
@@ -397,7 +376,8 @@ function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
   console.log(data);
   if (!$(`#${channel}-logs`).length) {
-    $("#logs-with-channels").append(`<div class="accordion-item" id="${channel}-logs-item">
+    $("#logs-with-channels")
+      .append(`<div class="accordion-item" id="${channel}-logs-item">
   <h2 class="accordion-header">
     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${channel}-logs"
       aria-expanded="true" aria-controls="collapseOne">
@@ -532,7 +512,6 @@ function updateProgress(progress) {
 
 function cleanLogs(channel) {
   $(`#${channel}-logs-item`).remove();
-
 }
 
 const renderUI = () =>
