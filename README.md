@@ -1,6 +1,6 @@
 # Easy ADB and fastboot (EAF)
 
-### Notes: Settings > Online Updates is
+#### Note: Settings > Online Updates is still in progress, in order to update the app, see the instructions below
 
 ## What is EAF
 
