@@ -11,3 +11,4 @@ commonly used commands
 android flash tool
 replace for using map
 appimage support
+open correct tab in device manager
