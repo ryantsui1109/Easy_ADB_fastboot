@@ -47,7 +47,7 @@ If new version is released, open the app, and wait until notification send. Then
 
 #### Linux
 
-Currently not supported, download manually from the links below.
+Currently not supported, download manually from the links above.
 
 ## Building from source (For both platforms)
 
