@@ -21,6 +21,7 @@ EAF is a graphical manager of ADB (Android Debug Bridge) and fastboot.
 
 ![fastboot getvar function](./readme-imgs/fastboot_get_var.png)
 ![device manager](./readme-imgs/devices.png)
+![output by groups](./readme-imgs/multiple_devices.png)
 
 ## Supported platforms
 
