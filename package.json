@@ -56,12 +56,6 @@
       ],
       "target": [
         {
-          "target": "zip",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
           "target": "nsis",
           "arch": [
             "x64"
