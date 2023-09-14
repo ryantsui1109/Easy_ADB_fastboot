@@ -41,7 +41,8 @@
     "noUpdates": "You are at the latest version",
     "beforeUpdateRemind1": "If the window freezed after clicking the restart app button, please wait for few seconds, the app will close automatically",
     "beforeUpdateRemind2": "If \"Easy ADB and Fastboot is running\" is seen, please click \"OK\" to continue the update process",
-    "deprecated": "Now, new versions will be downloaded and installed automatically."
+    "deprecated": "Now, new versions will be downloaded and installed automatically.",
+    "updatingTo": "Updating to v","updateComplete":"Update progress will be completed after closing the app"
   },
   "tips": {
     "boot": "<p class=\"fw-bold\">Why to use “boot a image” instead of “flash image to partition”?</p>“boot a image” only downloads image to RAM, so the third-party recovery image won't replace the original ones."

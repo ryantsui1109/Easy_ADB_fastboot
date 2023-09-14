@@ -501,9 +501,24 @@ const renderUI = () =>
       // console.log(JSON.stringify(text))
     });
 
-    api.handle("updater-status",(e,result)=>{
-      console.log(e)
-      
+    api.handle("updater-status", ([updaterStatus, updateInfo]) => {
+      $("#eaf-updater").empty();
+      switch (updaterStatus) {
+        case "update-not-available":
+          $("#eaf-updater").append(`<p class="h5">${messages.noUpdates}<p>`);
+          break;
+        case "update-available":
+          $("#eaf-updater").append(`<p class="h5">${
+            messages.updatingTo + updateInfo.version
+          }<p><div
+              class="spinner-border spinner-border-sm ms-auto"
+              role="status"
+              aria-hidden="true"
+            ></div>`);
+          break;
+        case "update-downloaded":
+          $("#eaf-updater").append(`<p class="h5">${messages.update.updateComplete}</h5>`);
+      }
     });
     $("html").attr("data-bs-theme", theme);
     if (theme == "dark") {

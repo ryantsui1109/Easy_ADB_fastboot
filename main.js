@@ -164,12 +164,16 @@ const createWindow = () => {
   });
 
   autoUpdater.on("update-not-available", (info) => {
-    win.webContents.send("updater-status", info);
+    win.webContents.send("updater-status", ['update-not-avalable',{}]);
   });
 
   autoUpdater.on("update-available", (info) => {
-    win.webContents.send("updater-status", info);
+    win.webContents.send("updater-status", ['update-available',info]);
   });
+
+  autoUpdater.on("update-downloaded",(info)=>{
+    win.webContents.send('updater-status',['update-downloaded',{}])
+  })
 };
 
 ipcMain.handle("get-platform", async () => {
