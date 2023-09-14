@@ -509,7 +509,7 @@ const renderUI = () =>
           break;
         case "update-available":
           $("#eaf-updater").append(`<p class="h5">${
-            messages.updatingTo + updateInfo.version
+            messages.update.updatingTo + updateInfo.version
           }<p><div
               class="spinner-border spinner-border-sm ms-auto"
               role="status"
