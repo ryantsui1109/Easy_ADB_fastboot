@@ -49,6 +49,9 @@
       "updaterStatus.json",
       "config.json"
     ],
+    "nsis": {
+      "oneClick": false
+    },
     "win": {
       "icon": "./favicon_256.ico",
       "extraFiles": [

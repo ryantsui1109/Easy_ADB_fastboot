@@ -162,6 +162,14 @@ const createWindow = () => {
   ipcMain.on("check-updates", (e) => {
     autoUpdater.checkForUpdates();
   });
+
+  autoUpdater.on("update-not-available", (info) => {
+    win.webContents.send("updater-status", info);
+  });
+
+  autoUpdater.on("update-available", (info) => {
+    win.webContents.send("updater-status", info);
+  });
 };
 
 ipcMain.handle("get-platform", async () => {
@@ -217,12 +225,14 @@ app.on("ready", () => {
 });
 
 app.whenReady().then(() => {
-  const updateInterval = Date.now() - updaterStatus.lastChecked;
+  const updateInterval = Date.now() - updaterStatus.lastUpdateCheck;
+  console.log("updateInterval", updateInterval);
   const updateFrequency = Number(config.updateFrequency) * 24 * 60 * 60 * 1000;
+  console.log("updateFrequency", updateFrequency);
   createWindow();
   if (updateInterval >= updateFrequency) {
     autoUpdater.checkForUpdatesAndNotify();
-    updaterStatus.lastChecked = Date.now();
+    updaterStatus.lastUpdateCheck = Date.now();
     writeFile("updaterStatus.json", JSON.stringify(updaterStatus, null, "  "));
   }
   console.log("starting ADB server");
@@ -270,11 +280,3 @@ function writeFile(file, data) {
     console.log(err);
   }
 }
-
-autoUpdater.on("update-not-available", (info) => {
-  console.log("update-not-available");
-});
-
-autoUpdater.on("update-available", (info) => {
-  console.log("update-available");
-});

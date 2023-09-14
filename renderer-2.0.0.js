@@ -19,7 +19,6 @@ api.invoke("language").then((res) => {
 
 let config;
 let updaterStatus;
-let updateURL;
 let language;
 let theme;
 
@@ -179,87 +178,19 @@ function saveSettings() {
 
 let latestIndex = "";
 
-function downloadingUI(url) {
-  const newIndex = localStorage.getItem("newIndex");
-  if (getPlatform == "linux") {
-    if (alert(messages.alert.windowsOnlyAlert[lang])) {
-      api.send("download-update", [config.channel, newIndex]);
-    }
-  } else {
-    api.send("download-update", [config.channel, newIndex]);
-  }
-
-  const updater = $("#operation-area").find("#eaf-updater");
-  updater.find("#download-update-btn").addClass("disabled");
-}
-
-async function showUpdates(updaterArea, newIndex, updateLocalStorage) {
-  progressBarCreated = false;
-
-  let latestVersion;
-  let changelog;
-
-  if (updateLocalStorage) {
-    latestVersion = await getURL(
-      `${config.updateURL}/${config.channel}/latestVersion`
-    );
-    changelog = await getURL(
-      `${config.updateURL}/${config.channel}/changelog_${language}`
-    );
-    localStorage.setItem("changelog", changelog);
-    localStorage.setItem("newVer", latestVersion);
-  }
-
-  latestVersion = localStorage.getItem("newVer");
-  changelog = localStorage.getItem("changelog");
-
-  let finalURL = `${config.downloadURL}${config.channel}-${newIndex}/`;
-  switch (osType) {
-    case "Windows_NT":
-      finalURL += "setup.exe";
-      break;
-    case "Linux":
-      finalURL += "easy_adb_fastboot-linux.tar.gz";
-  }
-
-  updaterArea.empty();
-  updaelement += "</tbody></table>";
-  terArea.append(`<h5 class="card-title ">${messages.update.updateFound}</h5>`);
-  updaterArea.append(
-    `<h6 class="card-title text-muted">${_version} &rarr; ${latestVersion}</h6>`
-  );
-  updaterArea.append(
-    `<p>
-      <a
-        data-bs-toggle="collapse"
-        href="#full-changelog"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-      >
-        ${messages.update.viewFullChangelog}
-      </a>
-    </p>
-    `
-  );
-  updaterArea.append(
-    `<div class="collapse" id="full-changelog">
-      <div>${changelog}</div>
-    </div>`
-  );
-  updaterArea.append(
-    `
-    <button class="btn btn-info" id="download-update-btn" onclick="downloadingUI('${finalURL}');">
-      ${messages.update.downloadUpdate}
-    </button>
-    `
-  );
-  checkUpdateClicked = false;
-}
-
 async function getURL(url) {
   let response = await fetch(url);
   let text = await response.text();
   return text;
+}
+
+function renderUpdater(opArea) {
+  opArea.append(`
+    <div class="alert alert-info" role="alert">
+      ${messages.update.deprecated}
+    </div>
+    <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn}</button>
+  `);
 }
 
 async function checkUpdatesUI() {
@@ -279,17 +210,8 @@ async function checkUpdatesUI() {
     }
     updaterCreated = true;
   }
-  api.send('check-updates');
+  api.send("check-updates");
   checkUpdateClicked = true;
-}
-
-function renderUpdater(opArea) {
-  opArea.append(`
-    <div class="alert alert-info" role="alert">
-      ${messages.update.deprecated}
-    </div>
-    <button class="btn btn-info mb-2" onclick="checkUpdatesUI();" >${messages.update.updateEafBtn}</button>
-  `);
 }
 
 function clearUpdateCache() {
@@ -495,20 +417,6 @@ function readRadio(name) {
 function readFileSelector(name) {
   return document.getElementById(name).files[0].path;
 }
-function updateProgress(progress) {
-  const updater = $("#operation-area").find("#eaf-updater");
-  updater.find("#download-update-btn").hide();
-  if (!progressBarCreated) {
-    updater.append(
-      `<div class="progress">
-        <div id="download-progress" class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>`
-    );
-    progressBarCreated = true;
-  }
-  updaelement += "</tbody></table>";
-  ter.find("#download-progress").css("width", progress + "%");
-}
 
 function cleanLogs(channel) {
   $(`#${channel}-logs-item`).remove();
@@ -593,22 +501,10 @@ const renderUI = () =>
       // console.log(JSON.stringify(text))
     });
 
-    api.handle("update-progress", (progress) => {
-      console.log(progress);
-      updateProgress(progress);
+    api.handle("updater-status",(e,result)=>{
+      console.log(e)
+      
     });
-
-    api.handle("update-complete", () => {
-      printLogs("main", messages.alert.updateCompleteAlert);
-      console.log("download complete!");
-      $("#close-btn").empty();
-      $("#close-btn")
-        .append(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-      </svg>`);
-    });
-
     $("html").attr("data-bs-theme", theme);
     if (theme == "dark") {
       $("style").append(`.winCtrl-btn {
@@ -713,33 +609,27 @@ const renderUI = () =>
     api.send("resize");
   });
 
-Promise.all([api.invoke("get-config"), api.invoke("get-updater-status")]).then(
-  (resultArr) => {
-    config = resultArr[0];
-    updaterStatus = resultArr[1];
-
-    updateURL = config.updateURL + config.channel + "/";
-    console.log(config.updateURL + config.channel);
-    language = config.language;
-    theme = config.theme;
-    if (config.language === "auto") {
-      switch (navigator.language) {
-        case "zh-TW":
-        case "en-US":
-          language = navigator.language;
-          break;
-        default:
-          language = "en-US";
-      }
+Promise.all([api.invoke("get-config")]).then((resultArr) => {
+  config = resultArr[0];
+  language = config.language;
+  theme = config.theme;
+  if (config.language === "auto") {
+    switch (navigator.language) {
+      case "zh-TW":
+      case "en-US":
+        language = navigator.language;
+        break;
+      default:
+        language = "en-US";
     }
-
-    if (config.theme === "auto") {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        theme = "dark";
-      } else {
-        theme = "light";
-      }
-    }
-    renderUI();
   }
-);
+
+  if (config.theme === "auto") {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      theme = "dark";
+    } else {
+      theme = "light";
+    }
+  }
+  renderUI();
+});
