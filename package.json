@@ -72,7 +72,10 @@
     "linux": {
       "extraFiles": "platform-tools-linux",
       "target": [
-        "tar.xz"
+        {
+          "target": "tar.xz",
+          "arch": "x64"
+        }
       ],
       "publish": [
         "github"
