@@ -25,9 +25,10 @@ jobs:
 
 
       - name: Setup Node.js
-        uses: dcodeIO/setup-node-nvm@master
+        uses: actions/setup-node@v3
         with:
           node-version: lts/*
+          cache: 'npm'
     
       - name: Install dependencies for EAF
         run: npm ci
