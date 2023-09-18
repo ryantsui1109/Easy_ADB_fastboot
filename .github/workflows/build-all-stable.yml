@@ -6,7 +6,7 @@ on:
     branches:
       - 'stable'
     tags:
-      - "v*"
+      - "v*.*.*"
 
 jobs:
   build:
