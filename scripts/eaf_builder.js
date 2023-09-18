@@ -38,11 +38,10 @@ async function main() {
     console.log("-h    Display this message.");
     console.log("");
     console.log("-b    Build with configs.");
-    console.log("-c    Set update channel for this build.");
     console.log("-d    Download platform-tools (Automatically detect OS)");
-    console.log("-i    Set update index for this build.");
+    console.log("-v    Set build variant.")
     console.log("");
-    console.log("Example: node .\\script\\eaf_builder.js -c=beta -i=6");
+    console.log("Example: node .\\script\\eaf_builder.js -d=beta -d");
   } else {
     if (args.d) {
       const downloadPT = new Promise((resolve, reject) => {
@@ -109,19 +108,12 @@ async function main() {
     }
 
     const checkArgs = new Promise((resolve, reject) => {
-      let result = [];
-      let conditions = 0;
-      args.c ? ++conditions : result.push("Update Channel");
-      !isNaN(args.i) ? ++conditions : result.push("Update Index");
-      conditions >= 2
-        ? resolve("Configurations check passed")
-        : reject(`${result} shoud be set`);
+      args.v?resolve("OK"):reject("Build variant must be set.")
     });
     await checkArgs
       .then((result) => {
         console.log(result);
-        appConfig.channel = args.c;
-        appConfig.updateIndex = args.i;
+        appConfig.variant=args.v
         writeFileSync("config.json", JSON.stringify(appConfig, null, "  "));
         writeFileSync(
           "updaterStatus.json",

@@ -11,12 +11,15 @@ const { INSPECT_MAX_BYTES, constants } = require("buffer");
 
 let channel = app.getVersion().split("-")[1];
 
+
 if (!channel) {
   channel = "latest";
 }
 
+
 autoUpdater.channel = channel;
-console.log(autoUpdater.channel);
+console.debug("Welcome to EAF v"+app.getVersion());
+console.debug("The update channel is "+channel)
 
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
@@ -26,8 +29,6 @@ if (isPackaged) {
   config = require("./config.json");
   updaterStatus = require("./updaterStatus.json");
 }
-
-console.log(app.getPath("home"));
 
 let hasDevtools = false;
 let adbPath = "";
@@ -43,7 +44,7 @@ if (platform == "linux") {
   fbPath = "./platform-tools-linux/fastboot";
 }
 
-if (!isPackaged || config.channel == "beta") {
+if (!isPackaged || config.variant == "beta") {
   hasDevtools = true;
 }
 
@@ -85,38 +86,6 @@ const createWindow = () => {
   ipcMain.on("resize", () => {
     win.setSize(1080, 500);
   });
-  ipcMain.on("download-update", async (e, args) => {
-    if (!fs.existsSync(app.getPath("home") + "/.eaf")) {
-      fs.mkdirSync(app.getPath("home") + "/.eaf");
-    }
-    const channel = args[0];
-    const newIndex = args[1];
-    if (platform == "linux") {
-      shell.openExternal(
-        `https://github.com/ryantsui1109/eaf-binary/releases/tag/${channel}-${newIndex}`
-      );
-    } else {
-      const url = `${config.downloadURL}${channel}-${newIndex}/setup.exe`;
-      await download(win, url, {
-        showProgressBar: true,
-        directory: app.getPath("home") + "/.eaf",
-        filename: "update.exe",
-        overwrite: true,
-        onProgress: (progress) =>
-          win.webContents.send(
-            "update-progress",
-            Math.floor(progress.percent * 100)
-          ),
-        onCompleted: () => {
-          win.webContents.send("update-complete");
-          updaterStatus.downloadComplete = true;
-        },
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
-  });
-
   ipcMain.on("run-command", (e, command, params) => {
     const process = child_process.spawn(command, params);
     process.stderr.on("data", (data) => {
