@@ -1,17 +1,15 @@
 name: "Build EAF (all platforms)"
-run-name: ${{github.event.inputs.release_channel}}-${{github.event.inputs.update_index}}
 
 on:
   workflow_dispatch:
     inputs:
-      release_channel:
-        description: Release channel of this build.
+      build_variant:
+        description: Enter build variant here.
         required: true
         default: beta
-      update_index:
-        description: Update index of this build.
-        required: true
-        default: "9999"
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -35,7 +33,7 @@ jobs:
         shell: bash
 
       - name: Configute EAF
-        run: node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d
+        run: node scripts/eaf_builder.js -v=${{github.event.inputs.build_variant}} -d
       
       - name: Build EAF
         run: npm run publish

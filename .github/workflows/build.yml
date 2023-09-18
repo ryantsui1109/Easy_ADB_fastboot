@@ -1,5 +1,4 @@
 name: "Build EAF"
-run-name: ${{github.event.inputs.release_channel}}-${{github.event.inputs.update_index}}
 
 on:
   workflow_dispatch:
@@ -10,14 +9,10 @@ on:
         options:
           - ubuntu-latest
           - windows-latest
-      release_channel:
-        description: Release channel of this build.
+      build_variant:
+        description: Enter build variant here.
         required: true
         default: beta
-      update_index:
-        description: Update index of this build.
-        required: true
-        default: "9999"
 
 jobs:
   build:
@@ -26,20 +21,19 @@ jobs:
       - name: Get the source code.
         uses: actions/checkout@master
 
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
-          cache: 'npm'
-    
+          cache: "npm"
+
       - name: Install dependencies for EAF
         run: npm ci
         shell: bash
 
       - name: Configute EAF
-        run: node scripts/eaf_builder.js -c=${{github.event.inputs.release_channel}} -i=${{github.event.inputs.update_index}} -d
-      
+        run: node scripts/eaf_builder.js -v=${{github.event.inputs.build_variant}} -d
+
       - name: Build EAF
         run: npm run publish
         env:
