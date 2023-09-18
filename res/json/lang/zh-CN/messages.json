@@ -35,12 +35,7 @@
     "updaterTitle": "线上更新",
     "updateEafBtn": "更新 EAF",
     "checkingUpdate": "正在检查更新",
-    "updateFound": "有可用的更新",
-    "viewFullChangelog": "查看完整更新说明",
-    "downloadUpdate": "下载更新",
     "noUpdates": "已经是最新版",
-    "beforeUpdateRemind1": "点击重启按钮后画面可能会无反应，几秒后将自动关闭",
-    "beforeUpdateRemind2": "若更新中提示“Easy ADB and fastoot正在運行”請點擊“確定”以繼續更新",
     "deprecated": "偷偷告诉你，现在可以自动在背景更新啰",
     "updatingTo": "正在更新到 v",
     "updateComplete": "将于关闭APP后完成更新"

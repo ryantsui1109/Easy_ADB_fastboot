@@ -198,6 +198,7 @@ app.on("ready", () => {
 });
 
 app.whenReady().then(() => {
+  
   const updateInterval = Date.now() - updaterStatus.lastUpdateCheck;
   console.log("updateInterval", updateInterval);
   const updateFrequency = Number(config.updateFrequency) * 24 * 60 * 60 * 1000;
@@ -225,19 +226,6 @@ app.whenReady().then(() => {
         console.log(stdout);
       }
     );
-
-    if (updaterStatus.downloadComplete) {
-      console.log("Update found, installing");
-      const cp = child_process.spawn(
-        app.getPath("home") + "/.eaf" + "/update.exe",
-        [],
-        {
-          detached: true,
-          stdio: ["ignore", "ignore", "ignore"],
-        }
-      );
-      cp.unref();
-    }
   });
 });
 app.on("window-all-closed", () => {
