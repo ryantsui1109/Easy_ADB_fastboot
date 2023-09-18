@@ -1,8 +1,10 @@
-name: "Build EAF (all platforms)"
+name: "Build EAF with beta configs (all platforms)"
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      - 'master'
     tags:
       - "v*"
 
@@ -26,13 +28,8 @@ jobs:
         run: npm ci
         shell: bash
 
-      - if: ${GITHUB_REF##*/} == "stable"
-          - name: Stable configs
-            run: node scripts/eaf_builder.js -v=release -d
-
-      - if: ${GITHUB_REF##*/} == "master"
-          - name: Stable configs
-            run: node scripts/eaf_builder.js -v=beta -d
+      - name: Stable configs
+        run: node scripts/eaf_builder.js -v=beta -d
 
       - name: Build EAF
         run: npm run publish
