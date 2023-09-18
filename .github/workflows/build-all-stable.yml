@@ -1,10 +1,10 @@
-name: "Build EAF with beta configs (all platforms)"
+name: "Build EAF with stable configs (all platforms)"
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - 'stable'
     tags:
       - "v*"
 
