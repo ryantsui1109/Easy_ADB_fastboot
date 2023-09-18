@@ -2,39 +2,38 @@ name: "Build EAF (all platforms)"
 
 on:
   workflow_dispatch:
-    inputs:
-      build_variant:
-        description: Enter build variant here.
-        required: true
-        default: beta
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    strategy: 
+    strategy:
       matrix:
-        os: [ubuntu-latest,windows-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Get the source code.
         uses: actions/checkout@master
-
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
-          cache: 'npm'
-    
+          cache: "npm"
+
       - name: Install dependencies for EAF
         run: npm ci
         shell: bash
 
-      - name: Configute EAF
-        run: node scripts/eaf_builder.js -v=${{github.event.inputs.build_variant}} -d
-      
+      - if: ${GITHUB_REF##*/} == "stable"
+          - name: Stable configs
+            run: node scripts/eaf_builder.js -v=release -d
+
+      - if: ${GITHUB_REF##*/} == "master"
+          - name: Stable configs
+            run: node scripts/eaf_builder.js -v=beta -d
+
       - name: Build EAF
         run: npm run publish
         env:
