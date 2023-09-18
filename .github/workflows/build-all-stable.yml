@@ -28,8 +28,8 @@ jobs:
         run: npm ci
         shell: bash
 
-      - name: Configure EAF
-        run: node scripts/eaf_builder.js -v=beta -d
+      - name:  Configure EAF
+        run: node scripts/eaf_builder.js -v=stable -d
 
       - name: Build EAF
         run: npm run publish
