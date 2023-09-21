@@ -57,41 +57,45 @@ function renderNavbar(elements, language) {
   });
 }
 
-function generateTitle(opArea, title, subtitle) {
-  opArea.append(`<h4 id="title">${title}</h4>`);
+function generateTitle(opArea, title, subtitle, keyPath) {
+  const subArea = document.getElementById(`${keyPath}`);
+  $(subArea).append(`<h4 id="${keyPath}-title">${title}</h4>`);
   if (subtitle != undefined) {
-    opArea.append(`<h5 id="subtitle" class="text-muted">${subtitle}</h5>`);
-    $("#operation-area").find("#subtitle").addClass("mb-3");
+    $(subArea).append(
+      `<h5 id="${keyPath}-subtitle" class="text-muted">${subtitle}</h5>`
+    );
+    $("#operation-area").find(`#${keyPath}-subtitle`).addClass("mb-3");
   } else {
-    $("#operation-area").find("#title").addClass("mb-3");
+    $("#operation-area").find(`${keyPath}-title`).addClass("mb-3");
   }
 }
-function generateContents(opArea, operation, operationLang) {
+function generateContents(opArea, operation, operationLang, keyPath) {
   const content = operation.content;
   const contentLang = operationLang.content;
+  const subArea=document.getElementById(`${keyPath}`)
   for (let i in content) {
     switch (content[i][0]) {
       case "radio":
         const radio = `<div class="form-check">
-                        <input class="form-check-input" type="radio" name="${operation.name}" id="${content[i][1]}" value="${content[i][1]}">
+                        <input class="form-check-input" type="radio" name="${operation.name}" id="${keyPath}-${content[i][1]}" value="${content[i][1]}">
                         <label class="form-check-label" for="${content[i][1]}">
                           ${contentLang[i][1]}
                         </label>
                       </div>`;
-        opArea.append(radio);
+        $(subArea).append(radio);
         console.log(content[i]);
         // 若 UI.js 中 content 下第三項爲 checked 則將其設爲“已經勾選”
         if (content[i][2] == "checked") {
-          opArea.find(`#${content[i][1]}`).prop("checked", true);
+          $(subArea).find(`#${keyPath}-${content[i][1]}`).prop("checked", true);
         }
         break;
       case "input":
-        opArea.append(`
-        <input id="${content[i][1]}" class="extra-input mb-3" type="text" placeholder="${contentLang[i][2]}" >
+        $(subArea).append(`
+        <input id="${keyPath}-${content[i][1]}" class="extra-input mb-3" type="text" placeholder="${contentLang[i][2]}" >
         `);
         break;
       case "file":
-        opArea.append(`<div class="mb-3">
+        $(subArea).append(`<div class="mb-3">
           <label class="btn btn-primary" for="file-input">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
             <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
@@ -236,29 +240,32 @@ function renderSettings(opArea) {
 }
 
 function switchOpr(keyPath) {
-  console.log(keyPath);
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
-  opArea.empty();
+  console.log(keyPath)
+  const subArea = document.getElementById(`${keyPath}`);
+  opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
+  
+  console.log(subArea)
 
-  generateTitle(opArea, langTarget.title, langTarget.subtitle);
+  generateTitle(opArea, langTarget.title, langTarget.subtitle, keyPath);
   if (target.needUnlock) {
-    opArea.append(
+    $(subArea).append(
       `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
     );
   } else {
-    opArea.append(`<div style="width:100%"></div>`);
+    $(subArea).append(`<div style="width:100%"></div>`);
   }
   if (keyPath == "fastboot.items.boot") {
-    opArea.append(
+    $(subArea).append(
       `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
     );
   }
-  generateContents(opArea, target, langTarget);
-  opArea.append(`<div></div>`);
+  generateContents(opArea, target, langTarget, keyPath);
+  $(subArea).append(`<div></div>`);
   if (!target.noStartButton) {
-    opArea.append(
+    $(subArea).append(
       `<button
       type="button"
       class="btn btn-primary startAction-btn border-0"
@@ -517,7 +524,9 @@ const renderUI = () =>
             ></div>`);
           break;
         case "update-downloaded":
-          $("#eaf-updater").append(`<p class="h5">${messages.update.updateComplete}</h5>`);
+          $("#eaf-updater").append(
+            `<p class="h5">${messages.update.updateComplete}</h5>`
+          );
       }
     });
     $("html").attr("data-bs-theme", theme);
