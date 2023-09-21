@@ -54,7 +54,7 @@
     },
     "win": {
       "icon": "./favicon_256.ico",
-      "artifactName": "${name}-${os}-${arch}.${ext}",
+      "artifactName": "${productName}-${os}-${arch}.${ext}",
       "extraFiles": [
         "platform-tools-win"
       ],
@@ -72,7 +72,7 @@
     },
     "linux": {
       "extraFiles": "platform-tools-linux",
-      "artifactName": "${name}-${os}-${arch}.${ext}",
+      "artifactName": "${productName}-${os}-${arch}.${ext}",
       "target": [
         {
           "target": "tar.xz",
