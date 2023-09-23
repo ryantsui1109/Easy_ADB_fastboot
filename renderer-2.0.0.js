@@ -26,6 +26,7 @@ let checkUpdateClicked = false;
 let updaterCreated = false;
 let progressBarCreated = false;
 let updatePending = false;
+let curOpr = "";
 
 let dsMode = "adb";
 const selectedADBDevices = new Set();
@@ -57,7 +58,8 @@ function renderNavbar(elements, language) {
   });
 }
 
-function generateTitle(opArea, title, subtitle, keyPath) {
+function generateTitle(opArea, title, subtitle) {
+  keyPath = curOpr;
   const subArea = document.getElementById(`${keyPath}`);
   $(subArea).append(`<h4 id="${keyPath}-title">${title}</h4>`);
   if (subtitle != undefined) {
@@ -69,41 +71,48 @@ function generateTitle(opArea, title, subtitle, keyPath) {
     $("#operation-area").find(`${keyPath}-title`).addClass("mb-3");
   }
 }
-function generateContents(opArea, operation, operationLang, keyPath) {
+function updateFilePath() {
+  document.getElementById(curOpr + "-file-path").innerHTML =
+    document.getElementById(curOpr + "-file-input").files[0].path;
+}
+function generateContents(opArea, operation, operationLang) {
+  keyPath = curOpr;
   const content = operation.content;
   const contentLang = operationLang.content;
-  const subArea=document.getElementById(`${keyPath}`)
+  const subArea = document.getElementById(keyPath);
   for (let i in content) {
     switch (content[i][0]) {
       case "radio":
         const radio = `<div class="form-check">
-                        <input class="form-check-input" type="radio" name="${operation.name}" id="${keyPath}-${content[i][1]}" value="${content[i][1]}">
-                        <label class="form-check-label" for="${content[i][1]}">
+                        <input class="form-check-input ${keyPath}" type="radio" name="${operation.name}" id="${keyPath}-${content[i][1]}" value="${content[i][1]}">
+                        <label class="form-check-label" for="${keyPath}-${content[i][1]}">
                           ${contentLang[i][1]}
                         </label>
                       </div>`;
         $(subArea).append(radio);
-        console.log(content[i]);
+        printLogs("debug", content[i]);
         // 若 UI.js 中 content 下第三項爲 checked 則將其設爲“已經勾選”
         if (content[i][2] == "checked") {
-          $(subArea).find(`#${keyPath}-${content[i][1]}`).prop("checked", true);
+          document
+            .getElementById(`${keyPath}-${content[i][1]}`)
+            .setAttribute("checked", true);
         }
         break;
       case "input":
         $(subArea).append(`
-        <input id="${keyPath}-${content[i][1]}" class="extra-input mb-3" type="text" placeholder="${contentLang[i][2]}" >
+        <input id="${keyPath}-${content[i][1]}" class="extra-input mb-3 ${keyPath}" type="text" placeholder="${contentLang[i][2]}" >
         `);
         break;
       case "file":
         $(subArea).append(`<div class="mb-3">
-          <label class="btn btn-primary" for="file-input">
+          <label class="btn btn-primary" for="${keyPath}-file-input">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
             <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
           </svg>
             ${messages.ui.fileSelectorBtn}
           </label>
-          <input class="d-none file-input" type="file" name="${operation.name}" id="file-input" accept="${content[i][2]}"/>
-          <h5 id="file-path" class="user-select-none">${messages.ui.fileSelectorDefault}</h5>
+          <input class="d-none file-input ${keyPath}" onchange="updateFilePath('${keyPath}')" type="file" name="${operation.name}" id="${keyPath}-file-input" accept="${content[i][2]}"/>
+          <h5 id="${keyPath}-file-path" class="user-select-none ${keyPath}">${messages.ui.fileSelectorDefault}</h5>
         </div>`);
         break;
       default:
@@ -127,7 +136,7 @@ function generateSettings(opArea) {
     const curSet = settings[e];
     switch (curSet.type) {
       case "dropdown":
-        console.log(curSet.name);
+        printLogs("debug", curSet.name);
         opArea.append(`<h6>${messages.settings[curSet.name]}
         <div class="dropdown mb-2 d-inline">
           <button class="btn btn-secondary dropdown-toggle d-inline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -168,7 +177,7 @@ function renderAbouts(opArea) {
 }
 
 function saveSettings() {
-  console.log(JSON.stringify(config, null, "  "));
+  printLogs("debug", JSON.stringify(config, null, "  "));
 
   api.writeFile("./config.json", JSON.stringify(config, null, "  "));
   printLogs("main", messages.alert.restartAlert);
@@ -240,33 +249,37 @@ function renderSettings(opArea) {
 }
 
 function switchOpr(keyPath) {
+  curOpr = keyPath;
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
-  console.log(keyPath)
-  const subArea = document.getElementById(`${keyPath}`);
-  opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
-  
-  console.log(subArea)
+  console.log(keyPath);
+  // const subArea = document.getElementById(keyPath);
 
-  generateTitle(opArea, langTarget.title, langTarget.subtitle, keyPath);
-  if (target.needUnlock) {
-    $(subArea).append(
-      `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
-    );
-  } else {
-    $(subArea).append(`<div style="width:100%"></div>`);
-  }
-  if (keyPath == "fastboot.items.boot") {
-    $(subArea).append(
-      `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
-    );
-  }
-  generateContents(opArea, target, langTarget, keyPath);
-  $(subArea).append(`<div></div>`);
-  if (!target.noStartButton) {
-    $(subArea).append(
-      `<button
+  if (document.getElementById(keyPath) == null) {
+    opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
+
+    const subArea = document.getElementById(keyPath);
+    console.log(subArea, "created");
+    // printLogs('debug',subArea)
+    generateTitle(opArea, langTarget.title, langTarget.subtitle);
+    if (target.needUnlock) {
+      $(subArea).append(
+        `<div class="alert alert-info user-select-none">${messages.ui.unlockAlertMsg}</div>`
+      );
+    } else {
+      $(subArea).append(`<div style="width:100%"></div>`);
+    }
+    if (keyPath == "fastboot.items.boot") {
+      $(subArea).append(
+        `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
+      );
+    }
+    generateContents(opArea, target, langTarget);
+    $(subArea).append(`<div></div>`);
+    if (!target.noStartButton) {
+      $(subArea).append(
+        `<button
       type="button"
       class="btn btn-primary startAction-btn border-0"
       id="${target.name}-btn"
@@ -274,36 +287,41 @@ function switchOpr(keyPath) {
     >
       ${messages.ui.startBtn}
     </button>`
-    );
-  }
-  if (keyPath == "settings.items.settings") {
-    renderSettings(opArea);
-  }
-  if (keyPath == "settings.items.updater") {
-    renderUpdater(opArea);
-  }
-  checkUpdateClicked = false;
-  updaterCreated = false;
-  progressBarCreated = false;
+      );
+    }
+    if (keyPath == "settings.items.settings") {
+      renderSettings(opArea);
+    }
+    if (keyPath == "settings.items.updater") {
+      renderUpdater(opArea);
+    }
+    checkUpdateClicked = false;
+    updaterCreated = false;
+    progressBarCreated = false;
 
-  $("#operation-area")
-    .find("#input")
-    .on("focus", function (e) {
-      e.stopPropagation();
-      console.log(document.querySelector(`input:checked`));
-      $("#other").prop("checked", true);
-    });
-  $("#operation-area")
-    .find("#other")
-    .on("click", function (e) {
-      e.stopPropagation();
-      $("#input").trigger("focus");
-    });
+    $("#operation-area")
+      .find(`[id='${curOpr}-input']`)
+      .on("focus", function (e) {
+        e.stopPropagation();
+
+        $(`[id='${curOpr}-other']`).prop("checked", true);
+      });
+    $("#operation-area")
+      .find(`[id='${curOpr}-other']`)
+      .on("click", function (e) {
+        e.stopPropagation();
+        $(`[id='${curOpr}-input']`).trigger("focus");
+      });
+  }
+  for (let elm of document.getElementsByClassName("operation-box")) {
+    elm.style.display = "none";
+  }
+  document.getElementById(keyPath).style.display = "";
 }
 
 function printLogs(channel, data) {
   const logsOutput = document.getElementById("logs-output");
-  console.log(data);
+  console.log(String(data));
   if (!$(`#${channel}-logs`).length) {
     $("#logs-with-channels")
       .append(`<div class="accordion-item" id="${channel}-logs-item">
@@ -325,7 +343,7 @@ function printLogs(channel, data) {
   </div>
 </div>`);
   }
-  $(`#${channel}-logs-body`).append(data);
+  $(`#${channel}-logs-body`).append(String(data));
 }
 
 function runScript(path, name) {
@@ -412,17 +430,20 @@ function runScript(path, name) {
   }
 }
 function readRadio(name) {
+  console.log(name);
   const checkedRadio = document.querySelector(
     `input[name="${name}"]:checked`
   ).id;
-  if (checkedRadio == "other") {
-    return $("#operation-area").find("#input").val();
+  if (checkedRadio == curOpr + "-other") {
+    return document.getElementById(curOpr + "-input").value;
   } else {
-    return $(`#${checkedRadio}`).val();
+    console.log(document.getElementById(checkedRadio).value);
+    return document.getElementById(checkedRadio).value;
   }
 }
 function readFileSelector(name) {
-  return document.getElementById(name).files[0].path;
+  console.log(name);
+  return document.getElementById(curOpr + "-" + name).files[0].path;
 }
 
 function cleanLogs(channel) {
@@ -583,11 +604,6 @@ const renderUI = () =>
         `calc(100vh - ${$("#winCtrl-bar").height()}px)`
       );
     });
-    $("#operation-area").on("change", "#file-input", function () {
-      const realPath = document.getElementById("file-input").files[0].path;
-      $("#file-path").text(realPath);
-    });
-
     renderNavbar(oprs, language);
     $("#nothing-selected").text(messages.ui.nothingSelected);
     $("#devices-btn").text(messages.ui.deviceSelectorBtn);
@@ -604,14 +620,14 @@ const renderUI = () =>
 
     $("#ds-save-btn").on("click", function (e) {
       e.preventDefault();
-      console.log();
+
       switch (dsMode) {
         case "adb":
           selectedADBDevices.clear();
           $(".select-device-adb:checked").each((index, element) => {
             selectedADBDevices.add(element.id);
           });
-          console.log(selectedADBDevices);
+          printLogs("debug", selectedADBDevices);
           break;
         case "fb":
           selectedFbDevices.clear();
@@ -619,7 +635,7 @@ const renderUI = () =>
             selectedFbDevices.add(element.id);
           });
 
-          console.log(selectedFbDevices);
+          printLogs("debug", selectedFbDevices);
           break;
         default:
           break;
