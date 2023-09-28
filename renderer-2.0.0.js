@@ -90,7 +90,6 @@ function generateContents(opArea, operation, operationLang) {
                         </label>
                       </div>`;
         $(subArea).append(radio);
-        printLogs("debug", content[i]);
         // 若 UI.js 中 content 下第三項爲 checked 則將其設爲“已經勾選”
         if (content[i][2] == "checked") {
           document
@@ -136,7 +135,6 @@ function generateSettings(opArea) {
     const curSet = settings[e];
     switch (curSet.type) {
       case "dropdown":
-        printLogs("debug", curSet.name);
         opArea.append(`<h6>${messages.settings[curSet.name]}
         <div class="dropdown mb-2 d-inline">
           <button class="btn btn-secondary dropdown-toggle d-inline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -177,16 +175,8 @@ function renderAbouts(opArea) {
 }
 
 function saveSettings() {
-  printLogs("debug", JSON.stringify(config, null, "  "));
-
   api.writeFile("./config.json", JSON.stringify(config, null, "  "));
   printLogs("main", messages.alert.restartAlert);
-  // (err) => {
-  //   alert(
-  //     messages.alert.restartAlert[language],
-  //     messages.alert.restartAlertTitle[language]
-  //   );
-  // }
 }
 
 let latestIndex = "";
@@ -254,14 +244,12 @@ function switchOpr(keyPath) {
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
   console.log(keyPath);
-  // const subArea = document.getElementById(keyPath);
 
   if (document.getElementById(keyPath) == null) {
     opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
 
     const subArea = document.getElementById(keyPath);
     console.log(subArea, "created");
-    // printLogs('debug',subArea)
     generateTitle(opArea, langTarget.title, langTarget.subtitle);
     if (target.needUnlock) {
       $(subArea).append(
@@ -526,7 +514,6 @@ const renderUI = () =>
     });
     api.handle("print-log", ([channel, text]) => {
       printLogs(channel, text.replace(/\n/g, "</br>").replace(/ /g, "\u00a0"));
-      // console.log(JSON.stringify(text))
     });
 
     api.handle("updater-status", ([updaterStatus, updateInfo]) => {
@@ -627,7 +614,6 @@ const renderUI = () =>
           $(".select-device-adb:checked").each((index, element) => {
             selectedADBDevices.add(element.id);
           });
-          printLogs("debug", selectedADBDevices);
           break;
         case "fb":
           selectedFbDevices.clear();
@@ -635,7 +621,6 @@ const renderUI = () =>
             selectedFbDevices.add(element.id);
           });
 
-          printLogs("debug", selectedFbDevices);
           break;
         default:
           break;

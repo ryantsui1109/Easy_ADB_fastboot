@@ -57,8 +57,6 @@ const createWindow = () => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      // nodeIntegration: true,
-      // contextIsolation: false,
       devTools: hasDevtools,
       icon: __dirname + "./favicon_256.ico",
     },
@@ -120,7 +118,6 @@ const createWindow = () => {
       default:
         break;
     }
-    // console.log(exec)
     function findDevice() {
       child_process.execFile(exec, ["devices"], (error, stdout, stderr) => {
         win.webContents.send("found-devices", [mode, stdout]);
@@ -198,11 +195,8 @@ app.on("ready", () => {
 });
 
 app.whenReady().then(() => {
-  
   const updateInterval = Date.now() - updaterStatus.lastUpdateCheck;
-  console.log("updateInterval", updateInterval);
   const updateFrequency = Number(config.updateFrequency) * 24 * 60 * 60 * 1000;
-  console.log("updateFrequency", updateFrequency);
   createWindow();
   if (updateInterval >= updateFrequency) {
     autoUpdater.checkForUpdatesAndNotify();
