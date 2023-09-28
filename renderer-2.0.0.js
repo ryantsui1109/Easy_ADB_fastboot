@@ -573,6 +573,13 @@ const renderUI = () =>
   }
     `);
     }
+
+    const deviceSelector = document.getElementById("device-selector");
+    deviceSelector.addEventListener("show.bs.modal",e=>{
+      console.log(curOpr.split('.')[0]);
+      
+    })
+
     $("#close-btn").on("click", (e) => {
       e.preventDefault();
       api.send("close-window");
