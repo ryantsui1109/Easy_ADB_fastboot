@@ -11,15 +11,13 @@ const { INSPECT_MAX_BYTES, constants } = require("buffer");
 
 let channel = app.getVersion().split("-")[1];
 
-
 if (!channel) {
   channel = "latest";
 }
 
-
 autoUpdater.channel = channel;
-console.debug("Welcome to EAF v"+app.getVersion());
-console.debug("The update channel is "+channel)
+console.debug("Welcome to EAF v" + app.getVersion());
+console.debug("The update channel is " + channel);
 
 let config, updaterStatus, lang, messages;
 if (isPackaged) {
@@ -68,6 +66,10 @@ const createWindow = () => {
   win.webContents.openDevTools({ mode: "undocked" });
   win.loadFile("index.html");
 
+  ipcMain.on("restart-app", () => {
+    app.relaunch();
+    app.quit();
+  });
   ipcMain.on("close-window", () => {
     win.close();
   });
@@ -130,16 +132,16 @@ const createWindow = () => {
   });
 
   autoUpdater.on("update-not-available", (info) => {
-    win.webContents.send("updater-status", ['update-not-avalable',{}]);
+    win.webContents.send("updater-status", ["update-not-avalable", {}]);
   });
 
   autoUpdater.on("update-available", (info) => {
-    win.webContents.send("updater-status", ['update-available',info]);
+    win.webContents.send("updater-status", ["update-available", info]);
   });
 
-  autoUpdater.on("update-downloaded",(info)=>{
-    win.webContents.send('updater-status',['update-downloaded',{}])
-  })
+  autoUpdater.on("update-downloaded", (info) => {
+    win.webContents.send("updater-status", ["update-downloaded", {}]);
+  });
 };
 
 ipcMain.handle("get-platform", async () => {

@@ -26,6 +26,7 @@ let checkUpdateClicked = false;
 let updaterCreated = false;
 let progressBarCreated = false;
 let updatePending = false;
+let restartReminded = false;
 let curOpr = "";
 
 let dsMode = "adb";
@@ -128,11 +129,16 @@ function keyPath2obj(path, initial) {
 }
 function updateSettings(name, value) {
   config[name] = value;
+
+  saveSettings();
+  document.getElementById("settings.items.settings").remove();
+  restartReminded = true;
   switchOpr("settings.items.settings");
 }
 function generateSettings(opArea) {
   Object.keys(settings).forEach((e) => {
     const curSet = settings[e];
+    console.log(curSet);
     switch (curSet.type) {
       case "dropdown":
         opArea.append(`<h6>${messages.settings[curSet.name]}
@@ -176,7 +182,9 @@ function renderAbouts(opArea) {
 
 function saveSettings() {
   api.writeFile("./config.json", JSON.stringify(config, null, "  "));
-  printLogs("main", messages.alert.restartAlert);
+  if (!restartReminded) {
+    printLogs("main", messages.alert.restartAlert);
+  }
 }
 
 let latestIndex = "";
@@ -226,14 +234,9 @@ function clearUpdateCache() {
 }
 
 function renderSettings(opArea) {
-  const subArea=document.getElementById(keyPath)
-  
+  const subArea = document.getElementById(keyPath);
   generateSettings($(subArea));
   renderAbouts($(subArea));
-
-  $(subArea).append(`<button class="btn btn-primary" onclick="saveSettings()">
-    ${messages.ui.saveSettingsBtn}
-  </button>`);
 }
 
 function switchOpr(keyPath) {
@@ -277,6 +280,8 @@ function switchOpr(keyPath) {
     }
     if (keyPath == "settings.items.settings") {
       renderSettings(opArea);
+    }else{
+      restartReminded = false;
     }
     if (keyPath == "settings.items.updater") {
       renderUpdater(opArea);
@@ -632,6 +637,9 @@ const renderUI = () =>
     api.send("resize");
   });
 
+function restartApp() {
+  api.send("restart-app");
+}
 Promise.all([api.invoke("get-config")]).then((resultArr) => {
   config = resultArr[0];
   language = config.language;

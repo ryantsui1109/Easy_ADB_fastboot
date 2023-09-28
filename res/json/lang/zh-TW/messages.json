@@ -6,7 +6,7 @@
     "clearCache": "清理更新快取"
   },
   "alert": {
-    "restartAlert": "重啟 APP 以套用變更</br>",
+    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br>",
     "restartAlertTitle": "請重啟 APP",
     "updateFoundAlert1": "有可用的更新：",
     "updateFoundAlert2": "是否更新？",

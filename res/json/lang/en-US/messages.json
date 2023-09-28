@@ -11,7 +11,7 @@
     "updateFoundAlert1": "New updates found: ",
     "updateFoundAlert2": "Do you want to install?",
     "updateStartedAlert": "Update started, to view the download progress, please see at taskbar",
-    "updateCompleteAlert": "Restart the app to apply update</br>",
+    "updateCompleteAlert": "<a href='javascript:restartApp()'>Restart</a> the app to apply update</br>",
     "updateCompleteAlertTitle": "Please restart the app",
     "windowsOnlyAlert": "Downloading updates is only availiable in Windows, now opening release page of EAF in browser"
   },
