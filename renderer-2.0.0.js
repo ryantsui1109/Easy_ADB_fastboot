@@ -188,7 +188,8 @@ async function getURL(url) {
 }
 
 function renderUpdater(opArea) {
-  opArea.append(`
+  const subArea = document.getElementById(keyPath);
+  $(subArea).append(`
     <div class="alert alert-info" role="alert">
       ${messages.update.deprecated}
     </div>
@@ -197,9 +198,10 @@ function renderUpdater(opArea) {
 }
 
 async function checkUpdatesUI() {
+  const subArea = document.getElementById(keyPath);
   if (!checkUpdateClicked) {
     if (!updaterCreated) {
-      $("#operation-area").append(`<div class="card mb-2">
+      $(subArea).append(`<div class="card mb-2">
   <div id="eaf-updater" class="card-body">
   <div class="d-flex align-items-center m-2">
     <p class="mb-0 h5 text-muted">${messages.update.checkingUpdate}</p>
@@ -223,17 +225,13 @@ function clearUpdateCache() {
   localStorage.removeItem("changelog");
 }
 
-function generateClearCacheBtn(opArea) {
-  opArea.append(`
-    <button class="btn btn-secondary mb-2" onclick="clearUpdateCache();">${messages.settings.clearCache}</button>
-  `);
-}
 function renderSettings(opArea) {
-  generateSettings(opArea);
-  generateClearCacheBtn(opArea);
-  renderAbouts(opArea);
+  const subArea=document.getElementById(keyPath)
+  
+  generateSettings($(subArea));
+  renderAbouts($(subArea));
 
-  opArea.append(`<button class="btn btn-primary" onclick="saveSettings()">
+  $(subArea).append(`<button class="btn btn-primary" onclick="saveSettings()">
     ${messages.ui.saveSettingsBtn}
   </button>`);
 }
