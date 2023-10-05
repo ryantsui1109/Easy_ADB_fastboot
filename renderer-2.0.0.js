@@ -280,7 +280,7 @@ function switchOpr(keyPath) {
     }
     if (keyPath == "settings.items.settings") {
       renderSettings(opArea);
-    }else{
+    } else {
       restartReminded = false;
     }
     if (keyPath == "settings.items.updater") {
@@ -456,28 +456,21 @@ const renderUI = () =>
         case "fb":
           console.log(`${text}`);
           devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
-          
+
           if (getPlatform == "linux") {
             devicesUnparsed.splice(-2, 2);
-            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-              if (index % 2) {
-                return [];
-              } else {
-                return element;
-              }
-            });
           }
 
-          if(getPlatform=="win32") {
-            devicesUnparsed.splice(-1,1);
-            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-              if (index % 2) {
-                return [];
-              } else {
-                return element;
-              }
-            });
+          if (getPlatform == "win32") {
+            devicesUnparsed.splice(-1, 1);
           }
+          devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
+            if (index % 2) {
+              return [];
+            } else {
+              return element;
+            }
+          });
           console.log(devicesUnparsed);
           break;
         default:
@@ -587,10 +580,9 @@ const renderUI = () =>
     }
 
     const deviceSelector = document.getElementById("device-selector");
-    deviceSelector.addEventListener("show.bs.modal",e=>{
-      console.log(curOpr.split('.')[0]);
-      
-    })
+    deviceSelector.addEventListener("show.bs.modal", (e) => {
+      console.log(curOpr.split(".")[0]);
+    });
 
     $("#close-btn").on("click", (e) => {
       e.preventDefault();
