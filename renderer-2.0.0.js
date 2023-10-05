@@ -456,8 +456,20 @@ const renderUI = () =>
         case "fb":
           console.log(`${text}`);
           devicesUnparsed = text.replace(/\r\n/, "\n").split("\n");
-          devicesUnparsed.splice(-2, 2);
+          
           if (getPlatform == "linux") {
+            devicesUnparsed.splice(-2, 2);
+            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
+              if (index % 2) {
+                return [];
+              } else {
+                return element;
+              }
+            });
+          }
+
+          if(getPlatform=="win32") {
+            devicesUnparsed.splice(-1,1);
             devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
               if (index % 2) {
                 return [];
