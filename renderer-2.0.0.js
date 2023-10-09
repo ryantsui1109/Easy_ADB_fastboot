@@ -459,18 +459,22 @@ const renderUI = () =>
 
           if (getPlatform == "linux") {
             devicesUnparsed.splice(-2, 2);
+            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
+              if (index % 2) {
+                return [];
+              } else {
+                return element;
+              }
+            });
           }
 
           if (getPlatform == "win32") {
             devicesUnparsed.splice(-1, 1);
-          }
-          devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
-            if (index % 2) {
-              return [];
-            } else {
+            devicesUnparsed = devicesUnparsed.flatMap((element, index) => {
               return element;
-            }
-          });
+            });
+          }
+
           console.log(devicesUnparsed);
           break;
         default:
