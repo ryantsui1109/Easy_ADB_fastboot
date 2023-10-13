@@ -123,6 +123,23 @@
         ],
         "navbar": "刷入鏡像"
       },
+      "flash_remove_verity": {
+        "title": "停用 dm-verity",
+        "name": "flash-menu",
+        "needUnlock": true,
+        "script": [
+          [
+            "fastboot",
+            "flash",
+            "--disable-verity",
+            "--disable-verification",
+            "vbmeta",
+            "$file"
+          ]
+        ],
+        "content": [["file", "file", ".img,.bin,.mbn,.txt,.zip"]],
+        "navbar": "停用 dm-verity"
+      },
       "erase": {
         "title": "擦除分區",
         "name": "erase-menu",

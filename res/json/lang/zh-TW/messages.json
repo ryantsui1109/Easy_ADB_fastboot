@@ -6,7 +6,7 @@
     "clearCache": "清理更新快取"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br>",
+    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>",
     "restartAlertTitle": "請重啟 APP",
     "updateFoundAlert1": "有可用的更新：",
     "updateFoundAlert2": "是否更新？",
@@ -41,7 +41,8 @@
     "updateComplete": "將於關閉APP後完成更新"
   },
   "tips": {
-    "boot": "<p class=\"fw-bold\">為什麼要使用臨時啓動而非刷入鏡像？</p>臨時啓動僅將鏡像下載到記憶體中，對於無獨立 Recovery 分區的 AB 槽位機型而言，可維持原本的 boot 分區不被第三方 Recovery 取代"
+    "boot": "<p class=\"fw-bold\">為什麼要使用臨時啓動而非刷入鏡像？</p>臨時啓動僅將鏡像下載到記憶體中，對於無獨立 Recovery 分區的 AB 槽位機型而言，可維持原本的 boot 分區不被第三方 Recovery 取代。",
+    "flash_remove_verity": "<p class=\"fw-bold\">僅能刷入 vbmeta 分區！</p><p>本功能指定 <span class=\"font-monospace\">--disable-verity</span> 和 <span class=\"font-monospace\">--disable-verification</span> 參數，使用時選擇原版 vbmeta 即可，將會自動轉換成停用驗證的版本。</p><p class=\"fw-bold\">如何還原此操作？</p>在<a href=\"javascript:switchOpr('fastboot.items.flash')\">刷入鏡像</a>中刷入原廠的 vbmeta 即可。"
   },
   "devices": {
     "selectDevices": "選擇裝置",

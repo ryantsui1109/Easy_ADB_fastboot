@@ -100,6 +100,16 @@ const oprs = {
         ],
         navbar: "Flash image to partition",
       },
+      flash_remove_verity: {
+        title: "Disable dm-verity (by flashing modifed vbmeta image)",
+        name: "flash-menu",
+        needUnlock: true,
+        script: [["fastboot", "flash","--disable-verity","--disable-verification", "vbmeta", "$file"]],
+        content: [
+          ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
+        ],
+        navbar: "Disable dm-verity",
+      },
       erase: {
         title: "Erase partition",
         name: "erase-menu",

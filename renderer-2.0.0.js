@@ -263,6 +263,10 @@ function switchOpr(keyPath) {
       $(subArea).append(
         `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
       );
+    }if (keyPath == "fastboot.items.flash_remove_verity") {
+      $(subArea).append(
+        `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
+      );
     }
     generateContents(opArea, target, langTarget);
     $(subArea).append(`<div></div>`);
