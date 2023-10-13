@@ -4,7 +4,6 @@ slot selection in flashing/erasing
 adb uninstall
 adb disable
 adb list installed packages
-flash vbmeta disable verity
 optimize append on startup
 move to offcanvas
 commonly used commands
@@ -12,3 +11,4 @@ android flash tool
 replace for using map
 appimage support
 open correct tab in device manager
+add dtbo partition support
