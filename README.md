@@ -25,7 +25,7 @@ EAF is a graphical manager of ADB (Android Debug Bridge) and fastboot.
 
 ## Supported platforms
 
-Linux and Windows are officially supported, for MacOS users, you can modify it and build it by yourself.
+Linux and Windows are officially supported, ~~for macOS users, you can build it by yourself.~~
 
 ## Install & Update
 
@@ -43,7 +43,7 @@ Extract the tar.xz, and excute `easy_adb_fastboot` which should be inside the fo
 
 #### Windows
 
-If new version is released, open the app, and wait until notification send. Then close the app, the update process will start automatically.
+Updates will be checked every few days, you can set it in the settings page, or you can check it manually
 
 #### Linux
 
