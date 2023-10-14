@@ -3,8 +3,6 @@ name: "Build EAF with stable configs (all platforms)"
 on:
   workflow_dispatch:
   push:
-    branches:
-      - 'stable'
     tags:
       - "v[0-99].[0-99].[0-99]"
 
