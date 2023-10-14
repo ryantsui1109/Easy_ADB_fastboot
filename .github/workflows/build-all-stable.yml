@@ -5,8 +5,10 @@ on:
   push:
     branches:
       - 'stable'
+    tags-ignore:
+      - "v*beta"
     tags:
-      - "v*(?!-beta)"
+      - "v*"
 
 jobs:
   build:
