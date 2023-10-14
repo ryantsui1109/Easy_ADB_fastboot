@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "v[0-99].[0-99].[0-99]"
+      - "v*"
 
 jobs:
   build:
