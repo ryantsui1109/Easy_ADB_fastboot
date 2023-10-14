@@ -6,7 +6,7 @@ on:
     branches:
       - 'stable'
     tags:
-      - "v[0-99].[0-99].[0-99]"
+      - "v*(?!-beta)"
 
 jobs:
   build:
