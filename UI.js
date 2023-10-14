@@ -87,6 +87,7 @@ const oprs = {
           ["radio", "boot", "checked"],
           ["radio", "bootloader"],
           ["radio", "init_boot"],
+          ["radio", "dtbo"],
           ["radio", "vbmeta"],
           ["radio", "recovery"],
           ["radio", "radio"],
@@ -104,10 +105,17 @@ const oprs = {
         title: "Disable dm-verity (by flashing modifed vbmeta image)",
         name: "flash-menu",
         needUnlock: true,
-        script: [["fastboot", "flash","--disable-verity","--disable-verification", "vbmeta", "$file"]],
-        content: [
-          ["file", "file", ".img,.bin,.mbn,.txt,.zip"],
+        script: [
+          [
+            "fastboot",
+            "flash",
+            "--disable-verity",
+            "--disable-verification",
+            "vbmeta",
+            "$file",
+          ],
         ],
+        content: [["file", "file", ".img,.bin,.mbn,.txt,.zip"]],
         navbar: "Disable dm-verity",
       },
       erase: {
@@ -118,6 +126,7 @@ const oprs = {
         content: [
           ["radio", "boot", "checked"],
           ["radio", "init_boot"],
+          ["radio", "dtbo"],
           ["radio", "vbmeta"],
           ["radio", "recovery"],
           ["radio", "super"],
@@ -233,7 +242,7 @@ const oprs = {
   },
 };
 
-const availableLanguages = ["zh-TW", "zh-CN","en-US"];
+const availableLanguages = ["zh-TW", "zh-CN", "en-US"];
 const settings = {
   language: {
     title: "Language:",
