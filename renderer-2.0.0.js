@@ -536,7 +536,7 @@ const renderUI = () =>
       $("#eaf-updater").empty();
       switch (updaterStatus) {
         case "update-not-available":
-          $("#eaf-updater").append(`<p class="h5">${messages.noUpdates}<p>`);
+          $("#eaf-updater").append(`<p class="h5">${messages.update.noUpdates}<p>`);
           break;
         case "update-available":
           $("#eaf-updater").append(`<p class="h5">${
@@ -552,7 +552,7 @@ const renderUI = () =>
             `<p class="h5">${messages.update.updateComplete}</h5>`
           );
       }
-    });
+    });ou
     $("html").attr("data-bs-theme", theme);
     if (theme == "dark") {
       $("style").append(`.winCtrl-btn {
