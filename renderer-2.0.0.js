@@ -552,7 +552,7 @@ const renderUI = () =>
             `<p class="h5">${messages.update.updateComplete}</h5>`
           );
       }
-    });ou
+    });
     $("html").attr("data-bs-theme", theme);
     if (theme == "dark") {
       $("style").append(`.winCtrl-btn {
