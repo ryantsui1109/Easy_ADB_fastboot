@@ -553,7 +553,7 @@ const renderUI = () =>
           );
       }
     });
-    $("html").attr("data-bs-theme", theme);
+    $("body").attr("data-bs-theme", theme);
     if (theme == "dark") {
       $("style").append(`.winCtrl-btn {
       background-color: rgba(255, 255, 255, 0);
@@ -572,7 +572,7 @@ const renderUI = () =>
     } else {
       $("style").append(`
     .winCtrl-btn {
-    background-color: white;
+    background-color: unset;
   }
   #close-btn:hover {
     background-color: red;

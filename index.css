@@ -1,6 +1,8 @@
 body {
   height: 100vh;
   overflow: hidden;
+  /* for acrylic window */
+  /* background-color: unset; */
 }
 
 #sidebar {

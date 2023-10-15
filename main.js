@@ -1,13 +1,14 @@
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
+// const { BrowserWindow } = require("electron-acrylic-window");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
-const { download } = require("electron-dl");
 const child_process = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
+const { connected } = require("process");
 
 let channel = app.getVersion().split("-")[1];
 
@@ -49,6 +50,7 @@ if (!isPackaged || config.variant == "beta") {
 let indexFile;
 const createWindow = () => {
   const win = new BrowserWindow({
+    // transparent: true,
     width: 1080,
     height: 501,
     minWidth: 1080,
@@ -57,6 +59,13 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
       devTools: hasDevtools,
       icon: __dirname + "./favicon_256.ico",
+    },
+    vibrancy: {
+      theme: config.theme,
+      effect: "acrylic",
+      useCustomWindowRefreshMethod: true,
+      disableOnBlur: true,
+      debug: hasDevtools,
     },
   });
 
