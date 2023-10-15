@@ -1,3 +1,5 @@
+中文版請[點我](./README-zh.md)
+
 # Easy ADB and fastboot (EAF)
 
 #### Note: Settings > Online Updates is still in progress, in order to update the app, see the instructions below
@@ -48,6 +50,10 @@ Updates will be checked every few days, you can set it in the settings page, or 
 #### Linux
 
 Currently not supported, download manually from the links above.
+
+### Changelog
+
+See what I've done recently [here](./更新說明).
 
 ## Building from source (For both platforms)
 
