@@ -53,7 +53,7 @@ Currently not supported, download manually from the links above.
 
 ### Changelog
 
-See what I've done recently [here](./更新說明).
+See what I've done recently [here](./更新說明.md).
 
 ## Building from source (For both platforms)
 

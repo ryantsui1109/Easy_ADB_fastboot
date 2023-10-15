@@ -19,9 +19,9 @@ EAF 是一個圖形化的 ADB 和 fastboot 管理器
 
 ## 截圖
 
-![fastboot getvar function](../readme-imgs/fastboot_get_var.png)
-![device manager](../readme-imgs/devices.png)
-![output by groups](../readme-imgs/multiple_devices.png)
+![fastboot getvar function](./readme-imgs/fastboot_get_var.png)
+![device manager](./readme-imgs/devices.png)
+![output by groups](./readme-imgs/multiple_devices.png)
 
 ## 支援的平台
 
@@ -50,6 +50,10 @@ EAF 是一個圖形化的 ADB 和 fastboot 管理器
 #### Linux
 
 目前不支援，請自行下載新版
+
+### Changelog
+
+[點我](./更新說明.md)看看最近我都做了些啥
 
 ## 從原始碼構建
 
