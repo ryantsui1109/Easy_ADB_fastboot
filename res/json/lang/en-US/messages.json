@@ -42,7 +42,7 @@
   },
   "tips": {
     "boot": "<p class=\"fw-bold\">Why to use “boot a image” instead of “flash image to partition”?</p>“boot a image” only downloads image to RAM, so the third-party recovery image won't replace the original ones.",
-    "flash_remove_verity": "<p class=\"fw-bold\">Only flash to vbmeta partition!</p><p>This function uses <span class=\"font-monospace\">--disable-verity</span> and <span class=\"font-monospace\">--disable-verification</span> arguments, you can just select the original vbmeta image, and will be patched automatically.</p><p class=\"fw-bold\">How to restore vbmeta partition?</p>Flash the original vbmeta image from <a href=\"javascript:switchOpr('fastboot.items.flash')\">flash a image</a> is only needed. "
+    "flash_remove_verity": "<p class=\"fw-bold\">Only flash to vbmeta partition!</p><p>This function uses <span class=\"font-monospace\">--disable-verity</span> and <span class=\"font-monospace\">--disable-verification</span> arguments, you can just select the original vbmeta image, and will be patched automatically.</p><p class=\"fw-bold\">How to restore vbmeta partition?</p>Flash the original vbmeta image from <a href=\"javascript:switchOpr('fastboot.items.flash')\">flash image to partition</a> is only needed. "
   },
   "devices": {
     "selectDevices": "Select Device(s)",
