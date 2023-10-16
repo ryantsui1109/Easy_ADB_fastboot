@@ -263,7 +263,8 @@ function switchOpr(keyPath) {
       $(subArea).append(
         `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
       );
-    }if (keyPath == "fastboot.items.flash_remove_verity") {
+    }
+    if (keyPath == "fastboot.items.flash_remove_verity") {
       $(subArea).append(
         `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
       );
@@ -312,6 +313,7 @@ function switchOpr(keyPath) {
     elm.style.display = "none";
   }
   document.getElementById(keyPath).style.display = "";
+  document.getElementsByClassName("do-not-hide")[0].style.display = "";
 }
 
 function printLogs(channel, data) {
@@ -536,7 +538,9 @@ const renderUI = () =>
       $("#eaf-updater").empty();
       switch (updaterStatus) {
         case "update-not-available":
-          $("#eaf-updater").append(`<p class="h5">${messages.update.noUpdates}<p>`);
+          $("#eaf-updater").append(
+            `<p class="h5">${messages.update.noUpdates}<p>`
+          );
           break;
         case "update-available":
           $("#eaf-updater").append(`<p class="h5">${

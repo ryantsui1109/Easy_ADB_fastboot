@@ -1,6 +1,11 @@
 body {
   height: 100vh;
   overflow: hidden;
+  background-color: unset;
+}
+
+#operation-area,#log-box{
+  background-color: var(--bs-body-bg);
 }
 
 #sidebar {

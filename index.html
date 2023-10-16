@@ -1,160 +1,270 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline' ; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;connect-src *;"
+    />
+    <style></style>
+    <script src="./UI.js"></script>
+    <!-- <script src="./lang.js"></script> -->
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="renderer-2.0.0.js"></script>
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <title>Easy ADB and fastboot</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self' 'unsafe-inline' ; script-src 'unsafe-eval' 'self' 'unsafe-inline';img-src  data: ;connect-src *;" />
-  <style></style>
-  <script src="./UI.js"></script>
-  <!-- <script src="./lang.js"></script> -->
-  <script src="node_modules/jquery/dist/jquery.js"></script>
-  <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="renderer-2.0.0.js"></script>
-  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="index.css" />
-  <title>Easy ADB and fastboot</title>
-</head>
-
-<body>
-  <div id="winCtrl-bar" class="d-flex flex-row-reverse">
-    <button id="close-btn" class="winCtrl-btn border-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
-        viewBox="0 0 16 16">
-        <path
-          d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-      </svg>
-    </button>
-    <button id="max-btn" class="winCtrl-btn border-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app"
-        viewBox="0 0 16 16">
-        <path
-          d="M11 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h6zM5 1a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4H5z" />
-      </svg>
-    </button>
-    <button id="min-btn" class="winCtrl-btn border-0">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg"
-        viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z" />
-      </svg>
-    </button>
-    <button class="btn btn-sm btn-primary py-1 m-1" id="devices-btn" data-bs-toggle="modal"
-      data-bs-target="#device-selector">
-      <h6 class="mb-0">Devices</h6>
-    </button>
-    <div class="m-1 flex-fill align-middle" style="margin-left: 0.5rem">
-      Easy ADB and Fastboot
-    </div>
-  </div>
-  <div id="main-content" class="d-flex flex-row">
-    <div id="sidebar">
-      <div class="container">
-        <nav id="navbar" class="nav flex-column"></nav>
+  <body>
+    <div id="winCtrl-bar" class="d-flex flex-row-reverse">
+      <button id="close-btn" class="winCtrl-btn border-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-x-lg"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+          />
+        </svg>
+      </button>
+      <button id="max-btn" class="winCtrl-btn border-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-app"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h6zM5 1a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4H5z"
+          />
+        </svg>
+      </button>
+      <button id="min-btn" class="winCtrl-btn border-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-dash-lg"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"
+          />
+        </svg>
+      </button>
+      <button
+        class="btn btn-sm btn-primary py-1 m-1"
+        id="devices-btn"
+        data-bs-toggle="modal"
+        data-bs-target="#device-selector"
+      >
+        <h6 class="mb-0">Devices</h6>
+      </button>
+      <div class="m-1 flex-fill align-middle" style="margin-left: 0.5rem">
+        Easy ADB and Fastboot
       </div>
     </div>
-    <div id="operation-area" class="container overflow-auto">
-      <div class="operation-box">
-        <h4 id="nothing-selected" class="text-muted">
-          Select any of the operations from the left to start.
-        </h4>
+    <div id="main-content" class="d-flex flex-row">
+      <div id="sidebar">
+        <div class="container">
+          <nav id="navbar" class="nav flex-column"></nav>
+        </div>
+      </div>
+      <div
+        id="operation-area"
+        class="container overflow-auto rounded-top rounded-end-0"
+      >
+        <p class="do-not-hide"></p>
+        <div class="operation-box">
+          <h4 id="nothing-selected" class="text-muted">
+            Select any of the operations from the left to start.
+          </h4>
+        </div>
+      </div>
+      <div id="log-box">
+        <div class="accordion" id="logs-with-channels">
+          <div class="accordion-item" id="main-logs-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#main-logs"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                main
+              </button>
+            </h2>
+            <div id="main-logs" class="accordion-collapse collapse show">
+              <div class="accordion-body logs-body">
+                <p id="main-logs-body" class="font-monospace"></p>
+                <button
+                  class="btn btn-primary float-end"
+                  onclick="$('#main-logs-body').empty()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-trash3"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="log-box">
-      <div class="accordion" id="logs-with-channels">
-        <div class="accordion-item" id="main-logs-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#main-logs"
-              aria-expanded="true" aria-controls="collapseOne">
-              main
-            </button>
-          </h2>
-          <div id="main-logs" class="accordion-collapse collapse show">
-            <div class="accordion-body logs-body">
-              <p id="main-logs-body" class="font-monospace"></p>
-              <button class="btn btn-primary float-end" onclick="$('#main-logs-body').empty()"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
-                  viewBox="0 0 16 16">
+
+    <div
+      class="modal fade"
+      id="device-selector"
+      tabindex="-1"
+      aria-labelledby="ds-title"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ds-title">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex">
+              <ul
+                class="nav nav-underline"
+                style="margin-right: auto"
+                role="tablist"
+              >
+                <li class="nav-item">
+                  <button
+                    class="nav-link active"
+                    id="ds-adb-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#ds-adb"
+                    type="button"
+                    role="tab"
+                    aria-controls="ds-adb"
+                    aria-selected="true"
+                  >
+                    ADB
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button
+                    class="nav-link"
+                    id="ds-fb-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#ds-fb"
+                    type="button"
+                    role="tab"
+                    aria-controls="ds-fb"
+                    aria-selected="true"
+                  >
+                    Fastboot
+                  </button>
+                </li>
+              </ul>
+              <button id="reload-devices" class="btn btn-info">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-arrow-clockwise"
+                  viewBox="0 0 16 16"
+                >
                   <path
-                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                </svg></button>
+                    fill-rule="evenodd"
+                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
+                  />
+                  <path
+                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
+                  />
+                </svg>
+              </button>
             </div>
+            <div class="tab-content" id="ds-device-type">
+              <div
+                class="tab-pane fade show active"
+                id="ds-adb"
+                role="tabpanel"
+                aria-labelledby="ds-adb-tab"
+                tabindex="0"
+              >
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">S/N</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Check</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ds-adb-tbody"></tbody>
+                </table>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="ds-fb"
+                role="tabpanel"
+                aria-labelledby="ds-fb-tab"
+                tabindex="0"
+              >
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">S/N</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Check</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ds-fb-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="ds-close-btn"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="ds-save-btn">
+              Save changes
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="modal fade" id="device-selector" tabindex="-1" aria-labelledby="ds-title" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="ds-title">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="d-flex">
-            <ul class="nav nav-underline " style="margin-right: auto;" role="tablist">
-              <li class="nav-item">
-                <button class="nav-link active" id="ds-adb-tab" data-bs-toggle="pill" data-bs-target="#ds-adb"
-                  type="button" role="tab" aria-controls="ds-adb" aria-selected="true">
-                  ADB
-                </button>
-              </li>
-              <li class="nav-item">
-                <button class="nav-link" id="ds-fb-tab" data-bs-toggle="pill" data-bs-target="#ds-fb" type="button"
-                  role="tab" aria-controls="ds-fb" aria-selected="true">
-                  Fastboot
-                </button>
-              </li>
-            </ul><button id="reload-devices" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-                <path
-                  d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-              </svg></button>
-          </div>
-          <div class="tab-content" id="ds-device-type">
-            <div class="tab-pane fade show active" id="ds-adb" role="tabpanel" aria-labelledby="ds-adb-tab"
-              tabindex="0">
-              <table class=table>
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">S/N</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Check</th>
-                  </tr>
-                </thead>
-                <tbody id="ds-adb-tbody"></tbody>
-              </table>
-            </div>
-            <div class="tab-pane fade" id="ds-fb" role="tabpanel" aria-labelledby="ds-fb-tab" tabindex="0">
-              <table class=table>
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">S/N</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Check</th>
-                  </tr>
-                </thead>
-                <tbody id="ds-fb-tbody"></tbody>
-              </table>
-            </div>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="ds-close-btn" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" id="ds-save-btn">
-            Save changes
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>

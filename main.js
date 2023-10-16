@@ -1,4 +1,11 @@
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const {
+  PARAMS,
+  VALUE,
+  MicaBrowserWindow,
+  IS_WINDOWS_11,
+  WIN10,
+} = require("mica-electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
 const child_process = require("child_process");
@@ -48,18 +55,48 @@ if (!isPackaged || config.variant == "beta") {
 
 let indexFile;
 const createWindow = () => {
-  const win = new BrowserWindow({
-    // transparent: true,
-    width: 1080,
-    height: 501,
-    minWidth: 1080,
-    frame: false,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      devTools: hasDevtools,
-      icon: __dirname + "./favicon_256.ico",
+  let win = {};
+  console.log("OS Version", os.version());
+  if (os.platform == "win32") {
+    win = new MicaBrowserWindow({
+      // transparent: true,
+      width: 1080,
+      height: 501,
+      minWidth: 1080,
+      frame: false,
+      webPreferences: {
+        preload: path.join(__dirname, "preload.js"),
+        devTools: hasDevtools,
+        icon: __dirname + "./favicon_256.ico",
+      },
+    });
+    if (os.version().split(".")[2] >= 22000) {
+      console.log("Win11 detected.");
+      win.setMicaAcrylicEffect();
+      if(config.theme=='dark'){
+        win.setLightTheme();
+      }else{
+        win.setLightTheme();
+      }
+    } else {
+      win.setAcrylic();
     }
-  });
+  } else {
+    win = new BrowserWindow({
+      // transparent: true,
+      width: 1080,
+      height: 501,
+      minWidth: 1080,
+      frame: false,
+      webPreferences: {
+        preload: path.join(__dirname, "preload.js"),
+        devTools: hasDevtools,
+        icon: __dirname + "./favicon_256.ico",
+      },
+    });
+  }
+
+  // if (os.platform) win.setCustomEffect(WIN10.ACRYLIC, "#34ebc0", 0.4); // Acrylic
 
   if (isPackaged) {
     win.setMenu(null);
