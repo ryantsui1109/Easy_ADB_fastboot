@@ -15,7 +15,6 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.1",
-    "electron-acrylic-window": "^0.5.11",
     "electron-dl": "^3.5.0",
     "electron-is-packaged": "^1.0.2",
     "electron-updater": "^6.1.4",

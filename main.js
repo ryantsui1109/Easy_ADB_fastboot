@@ -1,5 +1,4 @@
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
-// const { BrowserWindow } = require("electron-acrylic-window");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
 const child_process = require("child_process");
