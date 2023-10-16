@@ -59,7 +59,8 @@ const createWindow = () => {
   console.log("OS Version", os.release());
   if (os.platform == "win32") {
     win = new MicaBrowserWindow({
-      // transparent: true,
+      show:false,
+      autoHideMenuBar:true,
       width: 1080,
       height: 501,
       minWidth: 1080,
@@ -71,7 +72,7 @@ const createWindow = () => {
       },
     });
 
-    if ((Number(os.release().split(".")[2])) >= 22000) {
+    if (IS_WINDOWS_11) {
       console.log("Win11 detected.");
       console.log(config.theme);
      
@@ -185,6 +186,9 @@ const createWindow = () => {
   autoUpdater.on("update-downloaded", (info) => {
     win.webContents.send("updater-status", ["update-downloaded", {}]);
   });
+  if(os.platform()=="win32"){
+    win.show()
+  }
 };
 
 ipcMain.handle("get-platform", async () => {
