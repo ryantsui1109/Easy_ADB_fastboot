@@ -58,14 +58,7 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
       devTools: hasDevtools,
       icon: __dirname + "./favicon_256.ico",
-    },
-    vibrancy: {
-      theme: config.theme,
-      effect: "acrylic",
-      useCustomWindowRefreshMethod: true,
-      disableOnBlur: true,
-      debug: hasDevtools,
-    },
+    }
   });
 
   if (isPackaged) {
