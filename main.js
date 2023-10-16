@@ -56,7 +56,7 @@ if (!isPackaged || config.variant == "beta") {
 let indexFile;
 const createWindow = () => {
   let win = {};
-  console.log("OS Version", os.version());
+  console.log("OS Version", os.release());
   if (os.platform == "win32") {
     win = new MicaBrowserWindow({
       // transparent: true,
@@ -70,14 +70,19 @@ const createWindow = () => {
         icon: __dirname + "./favicon_256.ico",
       },
     });
-    if (os.version().split(".")[2] >= 22000) {
+
+    if ((Number(os.release().split(".")[2])) >= 22000) {
       console.log("Win11 detected.");
-      win.setMicaAcrylicEffect();
-      if(config.theme=='dark'){
-        win.setLightTheme();
-      }else{
+      console.log(config.theme);
+     
+      if (config.theme == "dark") {
+        console.log("dark");
+        win.setDarkTheme();
+      } else {
+        console.log("light");
         win.setLightTheme();
       }
+       win.setMicaEffect();
     } else {
       win.setAcrylic();
     }
