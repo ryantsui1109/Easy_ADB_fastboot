@@ -6,24 +6,15 @@
     "clearCache": "清理更新快取"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>",
-    "restartAlertTitle": "请重启应用",
-    "updateFoundAlert1": "发现更新：",
-    "updateFoundAlert2": "是否更新？？",
-    "updateStartedAlert": "已经开始下载更新，查看进度请见工作列的进度条",
-    "updateCompleteAlert": "请点击右上角的重启按钮以完成更新</br>",
-    "updateCompleteAlertTitle": "请重启应用",
-    "windowsOnlyAlert": "当前仅限 Windows 支持自动更新，将开启 release 页面"
+    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>"
   },
   "ui": {
     "deviceSelectorBtn": "装置",
     "fileSelectorBtn": "选择档案",
     "fileSelectorDefault": "请选择档案",
-    "saveSettingsBtn": "储存设置",
     "nothingSelected": "从侧栏选取功能以开始",
     "unlockAlertMsg": "需先解锁 BL",
-    "startBtn": "开始",
-    "todo": "敬请期待</br>"
+    "startBtn": "开始"
   },
   "info": {
     "appVersion": "版本：",
@@ -32,7 +23,6 @@
     "osVersion": "系统版本："
   },
   "update": {
-    "updaterTitle": "线上更新",
     "updateEafBtn": "更新 EAF",
     "checkingUpdate": "正在检查更新",
     "noUpdates": "已经是最新版",

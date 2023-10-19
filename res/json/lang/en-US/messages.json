@@ -6,24 +6,15 @@
     "clearCache": "Clear Update Cache"
   },
   "alert": {
-    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>",
-    "restartAlertTitle": "Please restart the app",
-    "updateFoundAlert1": "New updates found: ",
-    "updateFoundAlert2": "Do you want to install?",
-    "updateStartedAlert": "Update started, to view the download progress, please see at taskbar",
-    "updateCompleteAlert": "<a href='javascript:restartApp()'>Restart</a> the app to apply update</br>",
-    "updateCompleteAlertTitle": "Please restart the app",
-    "windowsOnlyAlert": "Downloading updates is only availiable in Windows, now opening release page of EAF in browser"
+    "restartAlert": "<a href='javascript:restartApp()'>重啟</a> APP 以套用變更</br><a href='javascript:restartApp()'>重启</a>应用以套用变更</br><a href='javascript:restartApp()'>Restart</a> the app to take effect</br>"
   },
   "ui": {
     "deviceSelectorBtn": "Devices",
     "fileSelectorBtn": "Select a file",
     "fileSelectorDefault": "Nothing selected...",
-    "saveSettingsBtn": "Save settings",
     "nothingSelected": "Select any of the operations from the left to start.",
     "unlockAlertMsg": "This operation needs bootloader to be unlocked first.",
-    "startBtn": "Start",
-    "todo": "Working in progress…</br>"
+    "startBtn": "Start"
   },
   "info": {
     "appVersion": "Version: ",
@@ -32,7 +23,6 @@
     "osVersion": "OS Version: "
   },
   "update": {
-    "updaterTitle": "Online Updates",
     "updateEafBtn": "Update EAF",
     "checkingUpdate": "Checking for updates…",
     "noUpdates": "You are at the latest version",
