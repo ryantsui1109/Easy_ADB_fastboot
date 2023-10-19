@@ -178,7 +178,7 @@ const createWindow = () => {
   });
 
   autoUpdater.on("update-not-available", (info) => {
-    win.webContents.send("updater-status", ["update-not-avalable", {}]);
+    win.webContents.send("updater-status", ["update-not-available", {}]);
   });
 
   autoUpdater.on("update-available", (info) => {
