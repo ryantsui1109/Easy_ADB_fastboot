@@ -58,7 +58,7 @@ let indexFile;
 const createWindow = () => {
   let win = {};
   console.log("OS Version", os.release());
-  if (os.platform == "win32") {
+  if (false) {
     win = new MicaBrowserWindow({
       show:false,
       autoHideMenuBar:true,
@@ -91,6 +91,7 @@ const createWindow = () => {
   } else {
     win = new BrowserWindow({
       // transparent: true,
+      show:false,
       width: 1080,
       height: 501,
       minWidth: 1080,
@@ -187,9 +188,7 @@ const createWindow = () => {
   autoUpdater.on("update-downloaded", (info) => {
     win.webContents.send("updater-status", ["update-downloaded", {}]);
   });
-  if(os.platform()=="win32"){
-    win.show()
-  }
+  win.show();
 };
 
 ipcMain.handle("get-platform", async () => {

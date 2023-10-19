@@ -1,7 +1,7 @@
 body {
   height: 100vh;
   overflow: hidden;
-  background-color: unset;
+  /* background-color: unset; */
 }
 
 #operation-area,#log-box{
