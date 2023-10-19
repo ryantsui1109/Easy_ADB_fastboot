@@ -138,7 +138,6 @@ function updateSettings(name, value) {
 function generateSettings(opArea) {
   Object.keys(settings).forEach((e) => {
     const curSet = settings[e];
-    console.log(curSet);
     switch (curSet.type) {
       case "dropdown":
         opArea.append(`<h6>${messages.settings[curSet.name]}
@@ -244,13 +243,11 @@ function switchOpr(keyPath) {
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
-  console.log(keyPath);
 
   if (document.getElementById(keyPath) == null) {
     opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
 
     const subArea = document.getElementById(keyPath);
-    console.log(subArea, "created");
     generateTitle(opArea, langTarget.title, langTarget.subtitle);
     if (target.needUnlock) {
       $(subArea).append(
@@ -427,14 +424,12 @@ function runScript(path, name) {
   }
 }
 function readRadio(name) {
-  console.log(name);
   const checkedRadio = document.querySelector(
     `input[name="${name}"]:checked`
   ).id;
   if (checkedRadio == curOpr + "-other") {
     return document.getElementById(curOpr + "-input").value;
   } else {
-    console.log(document.getElementById(checkedRadio).value);
     return document.getElementById(checkedRadio).value;
   }
 }
