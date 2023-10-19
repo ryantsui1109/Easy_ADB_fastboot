@@ -23,6 +23,7 @@ if (!channel) {
 }
 
 autoUpdater.channel = channel;
+autoUpdater.fullChangelog=true;
 console.debug("Welcome to EAF v" + app.getVersion());
 console.debug("The update channel is " + channel);
 
