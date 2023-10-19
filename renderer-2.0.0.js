@@ -337,7 +337,7 @@ function printLogs(channel, data) {
   </div>
 </div>`);
   }
-  $(`#${channel}-logs-body`).append(String(data));
+  $(`#${channel}-logs-body`).append(`${data}`);
 }
 
 function runScript(path, name) {
