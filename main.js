@@ -1,13 +1,20 @@
 const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const {
+  PARAMS,
+  VALUE,
+  MicaBrowserWindow,
+  IS_WINDOWS_11,
+  WIN10,
+} = require("mica-electron");
 const path = require("path");
 const isPackaged = require("electron-is-packaged").isPackaged;
-const { download } = require("electron-dl");
 const child_process = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const platform = os.platform();
 const { autoUpdater } = require("electron-updater");
 const { INSPECT_MAX_BYTES, constants } = require("buffer");
+const { connected } = require("process");
 
 let channel = app.getVersion().split("-")[1];
 
@@ -16,6 +23,7 @@ if (!channel) {
 }
 
 autoUpdater.channel = channel;
+autoUpdater.fullChangelog=true;
 console.debug("Welcome to EAF v" + app.getVersion());
 console.debug("The update channel is " + channel);
 
@@ -48,17 +56,55 @@ if (!isPackaged || config.variant == "beta") {
 
 let indexFile;
 const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 1080,
-    height: 501,
-    minWidth: 1080,
-    frame: false,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      devTools: hasDevtools,
-      icon: __dirname + "./favicon_256.ico",
-    },
-  });
+  let win = {};
+  console.log("OS Version", os.release());
+  if (false) {
+    win = new MicaBrowserWindow({
+      show:false,
+      autoHideMenuBar:true,
+      width: 1080,
+      height: 501,
+      minWidth: 1080,
+      frame: false,
+      webPreferences: {
+        preload: path.join(__dirname, "preload.js"),
+        devTools: hasDevtools,
+        icon: __dirname + "./favicon_256.ico",
+      },
+    });
+
+    if (IS_WINDOWS_11) {
+      console.log("Win11 detected.");
+      console.log(config.theme);
+     
+      if (config.theme == "dark") {
+        console.log("dark");
+        win.setDarkTheme();
+      } else {
+        console.log("light");
+        win.setLightTheme();
+      }
+       win.setMicaEffect();
+    } else {
+      win.setAcrylic();
+    }
+  } else {
+    win = new BrowserWindow({
+      // transparent: true,
+      show:false,
+      width: 1080,
+      height: 501,
+      minWidth: 1080,
+      frame: false,
+      webPreferences: {
+        preload: path.join(__dirname, "preload.js"),
+        devTools: hasDevtools,
+        icon: __dirname + "./favicon_256.ico",
+      },
+    });
+  }
+
+  // if (os.platform) win.setCustomEffect(WIN10.ACRYLIC, "#34ebc0", 0.4); // Acrylic
 
   if (isPackaged) {
     win.setMenu(null);
@@ -132,7 +178,7 @@ const createWindow = () => {
   });
 
   autoUpdater.on("update-not-available", (info) => {
-    win.webContents.send("updater-status", ["update-not-avalable", {}]);
+    win.webContents.send("updater-status", ["update-not-available", {}]);
   });
 
   autoUpdater.on("update-available", (info) => {
@@ -142,6 +188,7 @@ const createWindow = () => {
   autoUpdater.on("update-downloaded", (info) => {
     win.webContents.send("updater-status", ["update-downloaded", {}]);
   });
+  win.show();
 };
 
 ipcMain.handle("get-platform", async () => {

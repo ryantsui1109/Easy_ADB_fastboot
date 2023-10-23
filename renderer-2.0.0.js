@@ -138,7 +138,6 @@ function updateSettings(name, value) {
 function generateSettings(opArea) {
   Object.keys(settings).forEach((e) => {
     const curSet = settings[e];
-    console.log(curSet);
     switch (curSet.type) {
       case "dropdown":
         opArea.append(`<h6>${messages.settings[curSet.name]}
@@ -244,13 +243,11 @@ function switchOpr(keyPath) {
   const target = keyPath2obj(keyPath, oprs);
   const langTarget = keyPath2obj(keyPath, lang);
   const opArea = $("#operation-area");
-  console.log(keyPath);
 
   if (document.getElementById(keyPath) == null) {
     opArea.append(`<div id="${keyPath}" class="operation-box"></div>`);
 
     const subArea = document.getElementById(keyPath);
-    console.log(subArea, "created");
     generateTitle(opArea, langTarget.title, langTarget.subtitle);
     if (target.needUnlock) {
       $(subArea).append(
@@ -263,7 +260,8 @@ function switchOpr(keyPath) {
       $(subArea).append(
         `<div class="alert alert-info" role="alert">${messages.tips.boot}</div>`
       );
-    }if (keyPath == "fastboot.items.flash_remove_verity") {
+    }
+    if (keyPath == "fastboot.items.flash_remove_verity") {
       $(subArea).append(
         `<div class="alert alert-info" role="alert">${messages.tips.flash_remove_verity}</div>`
       );
@@ -312,6 +310,7 @@ function switchOpr(keyPath) {
     elm.style.display = "none";
   }
   document.getElementById(keyPath).style.display = "";
+  document.getElementsByClassName("do-not-hide")[0].style.display = "";
 }
 
 function printLogs(channel, data) {
@@ -338,7 +337,7 @@ function printLogs(channel, data) {
   </div>
 </div>`);
   }
-  $(`#${channel}-logs-body`).append(String(data));
+  $(`#${channel}-logs-body`).append(`${data}`);
 }
 
 function runScript(path, name) {
@@ -425,14 +424,12 @@ function runScript(path, name) {
   }
 }
 function readRadio(name) {
-  console.log(name);
   const checkedRadio = document.querySelector(
     `input[name="${name}"]:checked`
   ).id;
   if (checkedRadio == curOpr + "-other") {
     return document.getElementById(curOpr + "-input").value;
   } else {
-    console.log(document.getElementById(checkedRadio).value);
     return document.getElementById(checkedRadio).value;
   }
 }
@@ -536,7 +533,9 @@ const renderUI = () =>
       $("#eaf-updater").empty();
       switch (updaterStatus) {
         case "update-not-available":
-          $("#eaf-updater").append(`<p class="h5">${messages.noUpdates}<p>`);
+          $("#eaf-updater").append(
+            `<p class="h5">${messages.update.noUpdates}<p>`
+          );
           break;
         case "update-available":
           $("#eaf-updater").append(`<p class="h5">${
@@ -553,7 +552,7 @@ const renderUI = () =>
           );
       }
     });
-    $("html").attr("data-bs-theme", theme);
+    $("body").attr("data-bs-theme", theme);
     if (theme == "dark") {
       $("style").append(`.winCtrl-btn {
       background-color: rgba(255, 255, 255, 0);
@@ -572,7 +571,7 @@ const renderUI = () =>
     } else {
       $("style").append(`
     .winCtrl-btn {
-    background-color: white;
+    background-color: unset;
   }
   #close-btn:hover {
     background-color: red;

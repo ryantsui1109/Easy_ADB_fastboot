@@ -11,4 +11,4 @@ android flash tool
 replace for using map
 appimage support
 open correct tab in device manager
-add dtbo partition support
+windouws-ui.github.io ?

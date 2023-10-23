@@ -107,6 +107,7 @@
           ["radio", "boot", "checked"],
           ["radio", "bootloader"],
           ["radio", "init_boot"],
+          ["radio", "dtbo"],
           ["radio", "vbmeta"],
           ["radio", "recovery"],
           ["radio", "radio"],
@@ -148,6 +149,7 @@
         "content": [
           ["radio", "boot", "checked"],
           ["radio", "init_boot"],
+          ["radio", "dtbo"],
           ["radio", "vbmeta"],
           ["radio", "recovery"],
           ["radio", "super"],
