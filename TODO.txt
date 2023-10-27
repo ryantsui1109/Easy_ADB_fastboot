@@ -12,3 +12,4 @@ replace for using map
 appimage support
 open correct tab in device manager
 windouws-ui.github.io ?
+adb shell getprop
