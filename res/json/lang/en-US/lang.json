@@ -43,6 +43,28 @@
           ["br", ""]
         ],
         "navbar": "Install apk file"
+      },
+      "getprop": {
+        "title": "Get system properties",
+        "name": "getprop-menu",
+        "script": [["adb", "shell", "getprop", "$radio"]],
+        "content": [
+          ["radio", "current slot (ro.boot.slot_suffix)", "checked"],
+          ["radio", "ro.apex.updatable"],
+          ["radio", "ro.build.fingerprint"],
+          ["radio", "Android version (ro.build.version.release)"],
+          ["radio", "Security patch level (ro.build.version.security_patch)"],
+          ["radio", "ro.product.board"],
+          ["radio", "ro.product.brand"],
+          ["radio", "ro.product.model"],
+          ["radio", "ro.secure"],
+          ["radio", "ro.adb.secure"],
+          ["radio", "sys.usb.config"],
+          ["radio", "All properties"],
+          ["radio", "Not listed"],
+          ["input", "input", "Other property"]
+        ],
+        "navbar": "Get system properties"
       }
     }
   },

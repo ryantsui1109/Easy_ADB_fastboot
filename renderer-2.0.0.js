@@ -408,6 +408,7 @@ function runScript(path, name) {
         } else {
           api.runCommand(execFile, params);
         }
+        break;
       case "fastboot":
         if (selectedFbDevices.size) {
           printLogs(
@@ -420,6 +421,9 @@ function runScript(path, name) {
         } else {
           api.runCommand(execFile, params);
         }
+        break;
+      default:
+        break;
     }
   }
 }

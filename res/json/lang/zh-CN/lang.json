@@ -43,6 +43,28 @@
           ["br", ""]
         ],
         "navbar": "安装 APK"
+      },
+      "getprop": {
+        "title": "查看系统属性",
+        "name": "getprop-menu",
+        "script": [["adb", "shell", "getprop", "$radio"]],
+        "content": [
+          ["radio", "查看当前槽位（ro.boot.slot_suffix）", "checked"],
+          ["radio", "查看apex可否更新（並不是Apex 英雄）"],
+          ["radio", "ro.build.fingerprint"],
+          ["radio", "查看安卓版本（ro.build.version.release）"],
+          ["radio", "查看安全补丁级别（ro.build.version.security_patch）"],
+          ["radio", "查看开发代号（ro.product.board）"],
+          ["radio", "查看品牌（ro.product.brand）"],
+          ["radio", "查看型号（ro.product.model）"],
+          ["radio", "查看安全设置（ro.secure）"],
+          ["radio", "查看adb安全设置（ro.adb.secure）"],
+          ["radio", "查看USB接口设置（sys.usb.config）"],
+          ["radio", "所有属性"],
+          ["radio", "其他"],
+          ["input", "input", "其他属性"]
+        ],
+        "navbar": "查看系统属性"
       }
     }
   },
