@@ -17,6 +17,8 @@ on:
 jobs:
   build:
     runs-on: ${{github.event.inputs.chosen_os}}
+    permissions: 
+      contents: write
     steps:
       - name: Get the source code.
         uses: actions/checkout@master
