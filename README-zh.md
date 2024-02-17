@@ -1,5 +1,7 @@
 For English version, please [click me](./README.md)
 
+# 已經搬移至[Platron](https://github.com/platron-pt/platron)，不會再 commit 到此 repo!
+
 # Easy ADB and fastboot (EAF)
 
 ## EAF 是什麼
