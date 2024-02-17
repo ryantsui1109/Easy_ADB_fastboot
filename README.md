@@ -1,5 +1,7 @@
 中文版請[點我](./README-zh.md)
 
+# We have moved to [Platron](https://github.com/platron-pt/platron), this repository will not have any new commits!
+
 # Easy ADB and fastboot (EAF)
 
 #### Note: Settings > Online Updates is still in progress, in order to update the app, see the instructions below
